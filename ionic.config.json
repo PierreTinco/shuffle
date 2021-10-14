@@ -1,0 +1,8 @@
+{
+  "name": "shuffle",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "b750cd2b"
+}
