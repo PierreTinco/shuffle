@@ -12,4 +12,9 @@ getAllEvents(){
   return this.http.get("http://localhost:3000/shuffle/event")
 }
 
+
+addEvents(data :any){
+  return this.http.post("http://localhost:3000/shuffle/event/insert",data)
+}
+
 }
