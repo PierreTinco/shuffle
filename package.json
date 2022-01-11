@@ -28,6 +28,8 @@
     "ng2-search-filter": "^0.5.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
+    "web3": "^1.6.1",
+    "web3modal": "^1.9.5",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
