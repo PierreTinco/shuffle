@@ -8,10 +8,22 @@
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar>
+    <ion-toolbar >
       <ion-title size="large">Tab 2</ion-title>
     </ion-toolbar>
   </ion-header>
-
+  
   <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-searchbar [(ngModel)]="searchText" showCancelButton="always"></ion-searchbar> piste :  {{searchText}}
+  <ion-list>
+
+    <ion-item-sliding *ngFor="let item of events_array | filter : searchText">
+      <ion-item>
+        <ion-label>{{item.nom}}</ion-label>
+          <ion-label class="ion-margin-left">{{item.date_debut}} : {{item.date_fin}}</ion-label>
+
+      </ion-item>
+   
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
