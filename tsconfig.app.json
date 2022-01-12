@@ -9,6 +9,8 @@
     "src/main.ts",
     "src/polyfills.ts"
   ],
+  "types": [
+    "node"],
   "include": [
     "src/**/*.d.ts"
   ]
