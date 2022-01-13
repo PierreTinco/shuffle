@@ -7,16 +7,55 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-<ion-button *ngIf="!isAddingMode"  (click)="isAddingModeHandler()">add </ion-button>
 
+<ion-col></ion-col>
+<ion-button *ngIf="!isAddingMode"  (click)="isAddingModeHandler()">Add an event </ion-button>
+<ion-button *ngIf="!isVewingMode"  (click)="isVewingModeHandler()">Vew your precedent creation </ion-button>
 
 <ion-row *ngIf="isAddingMode">
+  <ion-col>
+    <ion-item>
+      <ion-label>Event Name</ion-label>
+      <ion-input placeholder="Projet Shuffle"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Start Date</ion-label>
+      <ion-datetime placeholder="04/20/2000">  </ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Start Time</ion-label>
+      <ion-datetime placeholder="04:20 AM"displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Ends</ion-label>
+      <ion-datetime placeholder="04/21/2000 ">  </ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Expected number of participants</ion-label>
+      <ion-input placeholder="Expected participant"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Age minimum</ion-label>
+      <ion-input placeholder="18"></ion-input>
+    </ion-item> 
+    <ion-item>
+      <ion-label>Privacy</ion-label>
+      <ion-checkbox  checked="true">Private </ion-checkbox>
+      <ion-checkbox  checked="false">Public </ion-checkbox> 
+    </ion-item>    
+  </ion-col>
+</ion-row>
+
+<ion-row *ngIf="isVewingMode">
   <ion-col>
     <ion-input placeholder="Event Name"></ion-input>
     <ion-datetime placeholder="Starting ">  </ion-datetime>
     <ion-datetime placeholder="Finising ">  </ion-datetime>
   </ion-col>
 </ion-row>
-
 
 </ion-content>

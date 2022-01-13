@@ -20,7 +20,8 @@
     <ion-item-sliding *ngFor="let item of events_array | filter : searchText">
       <ion-item>
         <ion-label>{{item.nom}}</ion-label>
-          <ion-label class="ion-margin-left">{{item.date_debut}} : {{item.date_fin}}</ion-label>
+        <ion-label class="ion-margin-left">{{item.date_debut}} : {{item.date_fin}}</ion-label>
+        <ion-label class="ion-margin-left">{{item.payant}} : {{item.publique}}</ion-label>
 
       </ion-item>
    
