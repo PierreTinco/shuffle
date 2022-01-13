@@ -18,14 +18,11 @@ event = {
   constructor() {}
 
 
-  add(){
-
-  }
-
-
   isAddingModeHandler(){
 
     this.isAddingMode = true
   }
- 
+  async ngOnInit(){
+    
+    }
 }
