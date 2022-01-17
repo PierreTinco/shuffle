@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import Web3 from 'web3';
+//import detectEthereumProvider from '@metamask/detect-provider';
 
 declare let window: any;
 @Component({
@@ -9,6 +10,7 @@ declare let window: any;
 })
 export class Tab1Page {
   text = 'initial text';
+  account: any
   // web3 = new Web3('HTTP://127.0.0.1:7545')
 
   // balance1 = this.web3.eth.getBalance('0x0bBDE21F24DBFdd67db8718dCFf373f7e6c07DaE')
@@ -22,9 +24,7 @@ export class Tab1Page {
     if (window.ethereum)
     {
       window.ethereum.request({method: 'eth_requestAccounts', params: []})
-      // .then((res)=>console.log(res))
-      
-      
+      .then((res)=>this.account=res)
     }
   }
 
@@ -32,18 +32,27 @@ export class Tab1Page {
 
   changeText()  {
     this.text = 'changed';
-
+    console.log(this.account);
+    
   }
-  // sendTr() {
-  //   this.web3.eth.sendTransaction({
-  //     from: "0xB0F069cc1811E9bfb0516bbCE1dA4f0a669D884e",
-  //     gasPrice: "20000000000",
-  //     gas: "21000",
-  //     to: '0xEB65d6bC2239Ba9FB6563Ca4Fd78056fbcC864b7',
-  //     value: "1000000000000000000",
-  //     data: ""
-  // },).then(console.log);
-  // }
+   sendTr() {
+    if(window.ethereum){    
+    window.ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: 0x0bBDE21F24DBFdd67db8718dCFf373f7e6c07DaE,
+          to: '0x4967A396e284a074Cf779c758A9F8F77Bb2cC01B',
+          value: '0x00',
+          gasPrice: '0x09184e72a000',
+          gas: '0x2710',
+        },
+      ],
+    })
+    .then((txHash) => console.log(txHash))
+    .catch((_error: any) => console.error);}
+
+}
   constructor() {
 
   }
