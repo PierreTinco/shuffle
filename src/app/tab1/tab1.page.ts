@@ -10,7 +10,11 @@ declare let window: any;
 })
 export class Tab1Page {
   text = 'initial text';
-  account: any
+  account: string;
+  test: {
+    name: any,
+    surname: any,
+  };
   // web3 = new Web3('HTTP://127.0.0.1:7545')
 
   // balance1 = this.web3.eth.getBalance('0x0bBDE21F24DBFdd67db8718dCFf373f7e6c07DaE')
@@ -33,6 +37,8 @@ export class Tab1Page {
   changeText()  {
     this.text = 'changed';
     console.log(this.account);
+    console.log('0x0bBDE21F24DBFdd67db8718dCFf373f7e6c07DaE');
+    
     
   }
    sendTr() {
@@ -41,11 +47,9 @@ export class Tab1Page {
       method: 'eth_sendTransaction',
       params: [
         {
-          from: 0x0bBDE21F24DBFdd67db8718dCFf373f7e6c07DaE,
+          from: '0x0bBDE21F24DBFdd67db8718dCFf373f7e6c07DaE',
           to: '0x4967A396e284a074Cf779c758A9F8F77Bb2cC01B',
-          value: '0x00',
-          gasPrice: '0x09184e72a000',
-          gas: '0x2710',
+          value: '1000000000000000',
         },
       ],
     })
