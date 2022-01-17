@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 //import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
-declare let window: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -18,6 +18,8 @@ export class AppComponent implements OnInit{
   //   await window.web3.currentProvider.enable();
   //   this.web3 = new Web3(window.web3.currentProvider)
   // }
+
+
   constructor() {
     // console.log('ok');
 
@@ -28,13 +30,13 @@ export class AppComponent implements OnInit{
       // if (typeof window.ethereum !== 'undefined') {
       //   console.log('MetaMask is installed!');
       // }
-      if (window.ethereum)
-      {
-        window.ethereum.request({method: 'eth_requestAccounts', params: []})
-        // .then((res)=>console.log(res))
+      // if (window.ethereum)
+      // {
+      //   window.ethereum.request({method: 'eth_requestAccounts', params: []})
+      //   // .then((res)=>console.log(res))
         
         
-      }
+      // }
    
   }
 
