@@ -26,11 +26,11 @@ export class Tab3Page {
   payant = false
 
   async ngOnInit(){
-    this.event = await this.api.getAllEvents().toPromise()
+
     }
 
   async addEvent( ){
-    this.payant==true ? this.event["payant"] = 1 : this.event["payant"] =0
+    this.payant==true ? this.event["payant"] = 1 : this.event["payant"] = 0 
     this.public == true ? this.event["public"] = 1 : this.event["public"] = 0
     this.event.prix==null ? delete this.event.prix : null
     await this.api.addEvents(this.event).subscribe((res)=>{

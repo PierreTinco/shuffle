@@ -10,6 +10,7 @@ declare let window: any;
 })
 export class Tab2Page implements OnInit{
   details:any
+  events :any
   // details =
   //   {
   //     id: "",
@@ -25,7 +26,7 @@ export class Tab2Page implements OnInit{
   //     public: false,
   //     payant: false 
   // }
-  
+  clicked = false
   constructor(private api : ApiService) {
 
   }
@@ -41,7 +42,9 @@ export class Tab2Page implements OnInit{
       .then((res)=>this.account=res)
     }
   }
-
+ return(){
+   this.clicked=false
+ }
   sendTr() {
     if(window.ethereum){    
     window.ethereum.request({
@@ -58,19 +61,21 @@ export class Tab2Page implements OnInit{
     .catch((_error: any) => console.error);}
 
 }
-
+viewMore(id :any){
+console.log(id,"id de levent que lon veut ouvrir")
+this.clicked=!this.clicked
+this.details = this.events.filter((event)=>event.id==id)
+console.log(this.details,"this.details ")
+}
   filterEvent(str : any){
     console.log(str.target.value)
 
-    this.details = this.details.filter((event)=>event.nom.includes(str.target.value))
+    this.events = this.events.filter((event)=>event.nom.includes(str.target.value))
   }
 
-  // getEventId(eventId: string){
-  //   return ...this.events_array.find(this.event)
-  // }
 
   async ngOnInit(){
-  this.details = await this.api.getAllEvents().toPromise()
+  this.events = await this.api.getAllEvents().toPromise()
   console.log(this.details);
   
   }

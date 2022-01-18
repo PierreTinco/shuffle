@@ -17,14 +17,18 @@
   
   <app-explore-container name="Tab 2 page"></app-explore-container>
   <ion-searchbar [(ngModel)]="searchText" showCancelButton="always"></ion-searchbar> 
-  <ion-list>
+  <ion-card *ngIf="clicked">
+    <ion-icon (click)="return()" name="arrow"></ion-icon>
+    <ion-title>{{details[0].nom}}</ion-title>
+  </ion-card>
+  <ion-list *ngIf="!clicked">
 
-    <ion-item-sliding *ngFor="let item of details | filter : searchText">
-      <ion-item>
+    <ion-item-sliding *ngFor="let item of events | filter : searchText">
+      <ion-item (click) = "viewMore(item.id)">
         <ion-label>{{item.nom}}</ion-label>
         <ion-label >starting: {{item.date_debut}}</ion-label>
         <ion-label  *ngIf="item.payant==1">payant</ion-label>
-        
+        <ion-icon name="add"></ion-icon>
       </ion-item>
    
     </ion-item-sliding>
