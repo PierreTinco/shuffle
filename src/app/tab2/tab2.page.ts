@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import {Event} from './tab2.model';
 declare let window: any;
 
 @Component({
@@ -8,11 +9,27 @@ declare let window: any;
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit{
-
+  details:any
+  // details =
+  //   {
+  //     id: "",
+  //     nom: "",
+  //     description : "",
+  //     date_debut :"",
+  //     heure_debut: "",
+  //     prix : null,
+  //     date_fin:"",
+  //     max_participant	:null,
+  //     age_min : "",
+  //     note : "",
+  //     public: false,
+  //     payant: false 
+  // }
+  
   constructor(private api : ApiService) {
 
   }
-  events_array :any = []
+  
   account = [];
   searchText = ""
 
@@ -45,7 +62,7 @@ export class Tab2Page implements OnInit{
   filterEvent(str : any){
     console.log(str.target.value)
 
-    this.events_array = this.events_array.filter((event)=>event.nom.includes(str.target.value))
+    this.details = this.details.filter((event)=>event.nom.includes(str.target.value))
   }
 
   // getEventId(eventId: string){
@@ -53,6 +70,8 @@ export class Tab2Page implements OnInit{
   // }
 
   async ngOnInit(){
-  this.events_array = await this.api.getAllEvents().toPromise()
+  this.details = await this.api.getAllEvents().toPromise()
+  console.log(this.details);
+  
   }
 }

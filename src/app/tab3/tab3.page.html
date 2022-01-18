@@ -13,61 +13,113 @@
 <ion-button *ngIf="!isViewingMode"  (click)="isViewingModeHandler()">View your precedent creation </ion-button>
 
 <ion-row *ngIf="isAddingMode">
-  <ion-col>
+  <ion-col  >
     <ion-item>
       <ion-label>Event Name</ion-label>
-      <ion-input [(ngmodel)]="event.nom"  placeholder="Projet Shuffle"></ion-input>
+      <ion-input type="text " [(ngModel)]="event.nom"  placeholder="Projet Shuffle"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Description</ion-label>
-      <ion-input [(ngmodel)]="event.description"  placeholder="...."></ion-input>
+      <ion-input class="ion-margin-left" [(ngModel)]="event.description"  placeholder="...."></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Start Date</ion-label>
-      <ion-datetime  [(ngmodel)]="event.date_debut"placeholder="04/20/2000">  </ion-datetime>
+      <ion-datetime  [(ngModel)]="event.date_debut"placeholder="04/20/2000">  </ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label>Start Time</ion-label>
-      <ion-datetime  [(ngmodel)]="event.heure_debut" placeholder="04:20 AM"displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
+      <ion-datetime  [(ngModel)]="event.heure_debut" placeholder="04:20 AM"displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label>Ends</ion-label>
-      <ion-datetime  [(ngmodel)]="event.date_fin" placeholder="04/21/2000 ">  </ion-datetime>
+      <ion-datetime  [(ngModel)]="event.date_fin" placeholder="04/21/2000 ">  </ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label>Expected number of participants</ion-label>
-      <ion-input [(ngmodel)]="event.max_participant"  placeholder="Expected participant"></ion-input>
+      <ion-input [(ngModel)]="event.max_participant"  placeholder="Expected participant"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Age minimum</ion-label>
-      <ion-input  [(ngmodel)]="event.age_min" placeholder="18"></ion-input>
+      <ion-input  [(ngModel)]="event.age_min" placeholder="18"></ion-input>
     </ion-item> 
     <ion-item>
       <ion-label>Private</ion-label>
-      <ion-checkbox  [(ngmodel)]="event.public" checked="false">Private </ion-checkbox>
+      <ion-checkbox  [(ngModel)]="public" checked="false">Private </ion-checkbox>
     </ion-item> 
+
     <ion-item>
       <ion-label>Payant</ion-label>
-      <ion-checkbox   *ngIf="!isPayingMode"  (click)="isPayingModeHandler()" [(ngmodel)]="event.payant" checked="false">Payant </ion-checkbox>
+      <ion-checkbox   *ngIf="!isPayingMode"  (click)="isPayingModeHandler()" [(ngModel)]="payant" checked="false">Payant </ion-checkbox>
       <ion-row *ngIf="isPayingMode">
         <ion-col>
-          <ion-input [(ngmodel)]="event.price"  placeholder="22$"></ion-input>
+          <ion-input  [(ngModel)]="event.prix"  placeholder="22$"></ion-input>
         </ion-col>
       </ion-row>
-
     </ion-item>       
 
-    <ion-button >Confirmer </ion-button>
+    <ion-button block (click)="addEvent()" >Confirm</ion-button>
   </ion-col>
 </ion-row>
 
-<ion-row *ngIf="isViewingMode">
-  <ion-col>
-    <ion-input placeholder="Event Name"></ion-input>
+<ion-row *ngIf="isViewingMode" >
+  <ion-searchbar [(ngModel)]="searchText"></ion-searchbar> piste :  {{searchText}}
+  <ion-col >
+    <ion-item>
+      <ion-label>Event Name {{event.nom}}</ion-label>
+      <ion-button block (click)="deleteEvent()" >Delete </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Description {{event.description}}</ion-label>
+      <ion-button block (click)="updateEvent()" >Modify </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Start Date {{event.date_debut}}</ion-label>
+      <ion-button block (click)="updateEvent()" >Modify </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Start Time {{event.heure_debut}}</ion-label>
+      <ion-button block (click)="updateEvent()" >Modify </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Ends {{event.date_fin}}</ion-label>
+      <ion-button block (click)="updateEvent()" >Modify </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Expected number of participants{{event.max_participant}}</ion-label>
+      <ion-button block (click)="updateEvent()" >Modify </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Age minimum{{event.age_min }}</ion-label>
+      <ion-button block (click)="updateEvent()" >Modify </ion-button>
+    </ion-item> 
+
+    <ion-item>
+      <ion-label>Private{{public }}</ion-label>
+      <ion-button block (click)="updateEvent()" >Modify </ion-button>
+    </ion-item> 
+
+    <ion-item>
+      <ion-label>Payant{{payant }}</ion-label>
+      <ion-button block (click)="updateEvent()" >Modify </ion-button>
+    </ion-item>    
     
+    <ion-item>
+      <ion-col>
+        <ion-label>Prix{{event.prix }}</ion-label>
+        <ion-button block (click)="updateEvent()" >Modify </ion-button>
+      </ion-col>
+    </ion-item>    
+
+     
   </ion-col>
 </ion-row>
 

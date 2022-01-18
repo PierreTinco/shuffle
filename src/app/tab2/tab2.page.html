@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Event Search
+      Event 
     </ion-title>
     <ion-button  (click) = "connectWallet()">connect wallet</ion-button>
     <ion-button  (click) = "sendTr()">send transaction</ion-button>
@@ -16,14 +16,14 @@
   </ion-header>
   
   <app-explore-container name="Tab 2 page"></app-explore-container>
-  <ion-searchbar [(ngModel)]="searchText" showCancelButton="always"></ion-searchbar> piste :  {{searchText}}
+  <ion-searchbar [(ngModel)]="searchText" showCancelButton="always"></ion-searchbar> 
   <ion-list>
 
-    <ion-item-sliding *ngFor="let item of events_array | filter : searchText">
+    <ion-item-sliding *ngFor="let item of details | filter : searchText">
       <ion-item>
         <ion-label>{{item.nom}}</ion-label>
         <ion-label >starting: {{item.date_debut}}</ion-label>
-        <ion-label  *ngIf="item.payant">payant</ion-label>
+        <ion-label  *ngIf="item.payant==1">payant</ion-label>
         
       </ion-item>
    

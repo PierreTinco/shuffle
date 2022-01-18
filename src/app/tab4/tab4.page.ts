@@ -6,7 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tab4.page.scss'],
 })
 export class Tab4Page implements OnInit {
-
+  user = {
+    nom : "",
+    prenom : "",
+    age :"",
+    mail: "",
+    mdp : "",
+    wallet : "",
+    phone_number : ""
+  }
   constructor() { }
 
   ngOnInit() {
