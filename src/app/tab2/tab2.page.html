@@ -3,6 +3,8 @@
     <ion-title>
       Event Search
     </ion-title>
+    <ion-button  (click) = "connectWallet()">connect wallet</ion-button>
+    <ion-button  (click) = "sendTr()">send transaction</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -20,9 +22,9 @@
     <ion-item-sliding *ngFor="let item of events_array | filter : searchText">
       <ion-item>
         <ion-label>{{item.nom}}</ion-label>
-        <ion-label class="ion-margin-left">{{item.date_debut}} : {{item.date_fin}}</ion-label>
-        <ion-label class="ion-margin-left">{{item.payant}} : {{item.publique}}</ion-label>
-
+        <ion-label >starting: {{item.date_debut}}</ion-label>
+        <ion-label  *ngIf="item.payant">payant</ion-label>
+        
       </ion-item>
    
     </ion-item-sliding>

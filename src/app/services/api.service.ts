@@ -9,7 +9,7 @@ export class ApiService {
   constructor(private http : HttpClient) { }
 
 getAllEvents(){
-  return this.http.get("http://localhost:3000/shuffle/event")
+  return this.http.post<any>("http://localhost:3000/shuffle/event",{})
 }
 
 addEvents(data :any){
