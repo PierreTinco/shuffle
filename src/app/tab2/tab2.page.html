@@ -3,28 +3,38 @@
     <ion-title>
       Event 
     </ion-title>
-    <ion-button  (click) = "connectWallet()">connect wallet</ion-button>
-    <ion-button  (click) = "sendTr()">send transaction</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar >
-      <ion-title size="large">Tab 2</ion-title>
+  <ion-header  style="display: flex;flex-direction: row;" collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Events</ion-title>
     </ion-toolbar>
+    <ion-toolbar>
+    <ion-button *ngIf="!connected" (click) = "connectWallet()">connect wallet</ion-button>
+  </ion-toolbar>
   </ion-header>
   
   <app-explore-container name="Tab 2 page"></app-explore-container>
   <ion-searchbar [(ngModel)]="searchText" showCancelButton="always"></ion-searchbar> 
-  <ion-card *ngIf="clicked">
-    <ion-icon (click)="return()" name="arrow"></ion-icon>
-    <ion-title>{{details[0].nom}}</ion-title>
+  <ion-card  *ngIf="clicked">
+    <ion-car-header>
+    <ion-icon (click)="return()" name="arrow-back" ></ion-icon>
+    <ion-card-title>{{details[0].nom}}</ion-card-title>
+  </ion-car-header>
+  <ion-card-content>{{details[0].description}}</ion-card-content>
+  <ion-card-content>start: {{details[0].heure_debut}} </ion-card-content>
+  <ion-card-content>minimum age: {{details[0].max_participant}}</ion-card-content>
+  <ion-card-content>price: {{details[0].prix}} $</ion-card-content>
+  <ion-card-content>minimum age: {{details[0].age_min}}</ion-card-content>
+  <ion-button  (click) = "sendTr()">send transaction</ion-button>
   </ion-card>
   <ion-list *ngIf="!clicked">
 
     <ion-item-sliding *ngFor="let item of events | filter : searchText">
       <ion-item (click) = "viewMore(item.id)">
+        <ion-icon name="camera-sharp"></ion-icon>
         <ion-label>{{item.nom}}</ion-label>
         <ion-label >starting: {{item.date_debut}}</ion-label>
         <ion-label  *ngIf="item.payant==1">payant</ion-label>

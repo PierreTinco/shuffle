@@ -27,6 +27,7 @@ export class Tab2Page implements OnInit{
   //     payant: false 
   // }
   clicked = false
+  connected = false 
   constructor(private api : ApiService) {
 
   }
@@ -35,11 +36,14 @@ export class Tab2Page implements OnInit{
   searchText = ""
 
 
+
   connectWallet (){
     if (window.ethereum)
     {
       window.ethereum.request({method: 'eth_requestAccounts', params: []})
       .then((res)=>this.account=res)
+      if (this.account != null)
+        this.connected = true;
     }
   }
  return(){
@@ -61,22 +65,20 @@ export class Tab2Page implements OnInit{
     .catch((_error: any) => console.error);}
 
 }
-viewMore(id :any){
-console.log(id,"id de levent que lon veut ouvrir")
-this.clicked=!this.clicked
-this.details = this.events.filter((event)=>event.id==id)
-console.log(this.details,"this.details ")
-}
+  viewMore(id :any){
+    console.log(id,"id de levent que lon veut ouvrir")
+    this.clicked=!this.clicked
+    this.details = this.events.filter((event)=>event.id==id)
+    console.log(this.details,"this.details")
+  }
   filterEvent(str : any){
     console.log(str.target.value)
-
     this.events = this.events.filter((event)=>event.nom.includes(str.target.value))
   }
 
 
   async ngOnInit(){
-  this.events = await this.api.getAllEvents().toPromise()
-  console.log(this.details);
-  
+    this.events = await this.api.getAllEvents().toPromise()
+    console.log(this.details);
   }
 }
