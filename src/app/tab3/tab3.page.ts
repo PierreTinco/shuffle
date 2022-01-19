@@ -11,7 +11,7 @@ export class Tab3Page {
   isViewingMode = false
   isPayingMode = false
  
- 
+ user_event :any
   event :any = {
     name: "",
     description : "",
