@@ -11,28 +11,30 @@ export class Tab3Page {
   isViewingMode = false
   isPayingMode = false
  
+ 
   event :any = {
-    nom: "",
+    name: "",
     description : "",
-    date_debut :"",
-    heure_debut: "",
-    prix : null,
-    date_fin:"",
+    location: "",
+    date_start :"",
+    time_start: "",
+    price : null,
+    date_end:"",
     max_participant	:null,
     age_min : "",
     note : ""
   } 
   public = false
-  payant = false
+  free = true
 
   async ngOnInit(){
 
     }
 
   async addEvent( ){
-    this.payant==true ? this.event["payant"] = 1 : this.event["payant"] = 0 
-    this.public == true ? this.event["public"] = 1 : this.event["public"] = 0
-    this.event.prix==null ? delete this.event.prix : null
+    this.free== true ? this.event["free"] = 1 : this.event["free"] = 0 
+    this.public == false ? this.event["public"] = 1 : this.event["public"] = 0
+    this.event.price==null ? delete this.event.price : null
     await this.api.addEvents(this.event).subscribe((res)=>{
           alert("Event ajouté à l'application")
     },err=>{
@@ -57,6 +59,7 @@ export class Tab3Page {
   
 // }
 
+
   constructor(private api : ApiService) {}
   searchText = ""
   
@@ -73,9 +76,13 @@ export class Tab3Page {
     this.isViewingMode = true
   }
   isPayingModeHandler(){
-    this.isPayingMode = true
+    this.isPayingMode =! this.isPayingMode
   }
   
+  return(){
+    this.isViewingMode = false
+  }
+
   filterEvent(str : any){
     console.log(str.target.value)
     
