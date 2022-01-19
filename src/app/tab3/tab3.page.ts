@@ -22,7 +22,8 @@ export class Tab3Page {
     date_end:"",
     max_participant	:null,
     age_min : "",
-    note : ""
+    note : "",
+    wallet : ""
   } 
   public = false
   free = true

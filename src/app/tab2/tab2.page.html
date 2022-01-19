@@ -5,8 +5,12 @@
     </ion-title>
   </ion-toolbar>
   <ion-toolbar>
+    <!-- <ion-button (click) = "print()"></ion-button> -->
+
+  </ion-toolbar>
+  <ion-toolbar>
     <ion-button *ngIf="!connected" (click) = "connectWallet()">connect wallet</ion-button>
-    <ion-content *ngIf="connected">{{curentAccount}}</ion-content>
+    <ion-content  *ngIf="connected">{{curentAccount}}</ion-content>
   </ion-toolbar>
 </ion-header>
 
@@ -23,16 +27,19 @@
   <ion-card-content>{{details[0].description}}</ion-card-content>
   <ion-card-content>start: {{details[0].time_start}} </ion-card-content>
   <ion-card-content>minimum age: {{details[0].max_participant}}</ion-card-content>
-  <ion-card-content>price: {{details[0].price}} $</ion-card-content>
+  <ion-card-content>price: {{details[0].price}} eth</ion-card-content>
   <ion-card-content>minimum age: {{details[0].age_min}}</ion-card-content>
-  <ion-button  (click) = "participate()">participate</ion-button>
-  </ion-card>
+  <ion-button *ngIf="free" (click) = "participateFree()">join</ion-button>
+  <ion-button *ngIf="!free" (click) = "sendTr(details[0].wallet)">join</ion-button>
+
+</ion-card>
   <ion-list *ngIf="!clicked">
 
     <ion-item-sliding *ngFor="let item of events | filter : searchText">
       <ion-item (click) = "viewMore(item.id)">
         <ion-icon name="camera-sharp"></ion-icon>
         <ion-label>{{item.name}}</ion-label>
+        <ion-label>{{item.location}}</ion-label>
         <ion-label >starting: {{item.date_start}}</ion-label>
         <ion-label  *ngIf="item.free==0">payant</ion-label>
         <ion-label  *ngIf="item.free==1">gratuit</ion-label>
