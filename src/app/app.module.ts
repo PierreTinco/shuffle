@@ -7,8 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+//import { initializeApp } from "firebase/app";
+//import { getAnalytics } from "firebase/analytics";
 // import { AngularFireModule } from "@angular/fire";
 // import { AngularFireAuthModule } from "@angular/fire/auth";
 
