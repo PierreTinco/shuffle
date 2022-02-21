@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import detectEthereumProvider from '@metamask/detect-provider';
+//import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
 declare let window: any;
 
@@ -25,37 +25,37 @@ export class Tab2Page implements OnInit{
   }
 
   async ngOnInit(){
-    const provider = await detectEthereumProvider()
-    console.log(window.ethereum.selectedAdress);
-    console.log(window.ethereum.networkVersion);
+    //const provider = await detectEthereumProvider()
+    //console.log(window.ethereum.selectedAdress);
+    //console.log(window.ethereum.networkVersion);
     
     
-    if (provider) {
+    // if (provider) {
  
-      console.log('Ethereum successfully detected!')
+    //   console.log('Ethereum successfully detected!')
      
-      // From now on, this should always be true:
-      // provider === window.ethereum 
+    //   // From now on, this should always be true:
+    //   // provider === window.ethereum 
 
-      // Access the decentralized web!
-      //this.connectWallet();
-      // Legacy providers may only have ethereum.sendAsync
-      // const chainId = await provider.request({
-      //   method: 'eth_chainId'
-      // })
-    } else {
+    //   // Access the decentralized web!
+    //   //this.connectWallet();
+    //   // Legacy providers may only have ethereum.sendAsync
+    //   // const chainId = await provider.request({
+    //   //   method: 'eth_chainId'
+    //   // })
+    // } else {
      
-      // if the provider is not detected, detectEthereumProvider resolves to null
-      console.error('Please install MetaMask!', Error)
-    }
+    //   // if the provider is not detected, detectEthereumProvider resolves to null
+    //   console.error('Please install MetaMask!', Error)
+    // }
     this.events = await this.api.getAllEvents().toPromise()
     
-    if(window.ethereum.selectedAdress == window.ethereum)
-    {
-      console.log('test');
+    // if(window.ethereum.selectedAdress == window.ethereum)
+    // {
+    //   console.log('test');
       
-      this.connected = true;
-    }
+    //   this.connected = true;
+    // }
   }
 
   async print() {
