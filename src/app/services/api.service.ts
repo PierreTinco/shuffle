@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +10,24 @@ export class ApiService {
   constructor(private http : HttpClient) { }
 
 getAllEvents(){
-  return this.http.post<any>("http://localhost:3000/shuffle/event",{})
+  const body = 
+  {
+    "where" : {
+        "id": 26
+    }
+}
+  ;
+  return this.http.post<any>(`${environment.apiUrl}/event`,{})
+  // return this.http.get<any>("https://restcountries.com/v2/all",{})
+
 }
 
 addEvents(data :any){
-  return this.http.post("http://localhost:3000/shuffle/event/insert",data)
+  return this.http.post(`${environment.apiUrl}/insert`,data)
 }
 
 deleteEvents(data :any){
-  return this.http.delete("http://localhost:3000/shuffle/event/delete",data)
+  return this.http.delete(`${environment.apiUrl}/delete`,data)
 }
 
 }

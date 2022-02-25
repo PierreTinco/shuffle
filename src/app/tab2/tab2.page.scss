@@ -22,5 +22,9 @@ ion-list{
 }
 
 ion-button{
-    margin-left: 5px;
+  //  margin-left: 10px;
+}
+
+::ng-deep .connect-wallet .header-ios ion-toolbar:last-of-type{
+    --border-width: 0 !important;
 }
