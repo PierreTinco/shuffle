@@ -27,30 +27,8 @@ export class acceuilPage implements OnInit {
 
   async ngOnInit() {
     console.log('on init acceuil');
-    
-    //const provider = await detectEthereumProvider()
     this.events = await this.api.getAllEvents().toPromise();
     console.log(this.events);
-    //console.log(window.ethereum.networkVersion);
-
-    // if (provider) {
-
-    //   console.log('Ethereum successfully detected!')
-
-    //   // From now on, this should always be true:
-    //   // provider === window.ethereum
-
-    //   // Access the decentralized web!
-    //   //this.connectWallet();
-    //   // Legacy providers may only have ethereum.sendAsync
-    //   // const chainId = await provider.request({
-    //   //   method: 'eth_chainId'
-    //   // })
-    // } else {
-
-    //   // if the provider is not detected, detectEthereumProvider resolves to null
-    //   console.error('Please install MetaMask!', Error)
-    // }
 
     if (window.ethereum.selectedAdress == window.ethereum) {
       console.log('test');
@@ -60,11 +38,6 @@ export class acceuilPage implements OnInit {
   }
 
   async print() {
-    // console.log(window.ethereum.selectedAdress);
-    // console.log(this.connected);
-    // console.log(this.curentAccount);
-    // this.balance1 = await this.web3.eth.getBalance('0x0bBDE21F24DBFdd67db8718dCFf373f7e6c07DaE')
-    // console.log(this.balance1);
     console.log(this.events, 'events');
     this.events = await this.api.getAllEvents().toPromise();
   }
