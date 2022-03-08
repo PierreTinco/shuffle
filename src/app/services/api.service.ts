@@ -17,7 +17,7 @@ getAllEvents(){
     }
 }
   ;
-  return this.http.post<any>(`${environment.apiUrl}/event`,{})
+  return this.http.post(`${environment.apiUrl}/event`,{responseType: 'text'})
   // return this.http.get<any>("https://restcountries.com/v2/all",{})
 
 }

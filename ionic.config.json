@@ -4,5 +4,11 @@
     "capacitor": {}
   },
   "type": "angular",
-  "id": "b750cd2b"
+  "id": "b750cd2b",
+  "proxies": [
+    {
+      "path": "/localhost",
+      "proxyUrl": "http://localhost:3000"
+    }
+  ]
 }
