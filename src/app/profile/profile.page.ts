@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+  buttonValue = 'grid';
+  buttonEvents: any[] = [];
   user = {
     gender: null,
     name: "",
@@ -19,6 +21,15 @@ export class ProfilePage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.buttonEvents = [
+      {value: 'grid', icon:'grid'},
+      {value: 'reels', icon:'shuffle'}
+    ]
+  }
+
+  editProfil(){
+    
   }
 
 }
+
