@@ -18,6 +18,8 @@ export class ProfilePage implements OnInit {
     wallet : "",
     phone_number : ""
   }
+
+  clicked = false
   constructor() { }
 
   ngOnInit() {
@@ -29,6 +31,10 @@ export class ProfilePage implements OnInit {
 
   editProfil(){
     
+  }
+
+  buttonsChanged() {
+
   }
 
 }
