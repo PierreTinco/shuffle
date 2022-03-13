@@ -17,7 +17,11 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },  {
+    path: 'profile-edition',
+    loadChildren: () => import('./profile-edition/profile-edition.module').then( m => m.ProfileEditionPageModule)
   },
+
 
 ];
 @NgModule({
