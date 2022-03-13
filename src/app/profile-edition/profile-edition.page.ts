@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile-edition.page.scss'],
 })
 export class ProfileEditionPage implements OnInit {
+  photo = 'https://i.pravatar.cc/150';
 
   constructor() { }
 
   ngOnInit() {
   }
+  openOptionSelection()
+  {}
+  editProfil()
+  {
+}
 
 }
