@@ -1,9 +1,103 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>profile-edition</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profile Edition</ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content [fullscreen]="true" >
+  <div class="container">
+    <div class="outer" [ngStyle]="{'background-image': 'url(' + photo + ')'}">
+        <div class="inner" (click)="openOptionSelection()">
+           <ion-icon name="camera" class="camera-icon"></ion-icon>
+        </div>
+     </div>
+  </div>
+  <ion-footer class="container">
+    <h3 class="title">Profile pic</h3>
+    <ion-grid class="ion-padding-top">
+      <ion-row>
+        <ion-col size="3" class="ion-text-center">
+          <div class="removePhoto"> 
+            <ion-icon name="trash" class="icon"></ion-icon>Remove
+          </div>
+        </ion-col>
 
-<ion-content>
+        <ion-col size="3" class="ion-text-center" (click)="startCapture('Photos')">
+         <div class="galleryPhoto">
+            <ion-icon name="images" class="icon"></ion-icon>Gallery
+         </div>
+        
+       </ion-col>
 
+       <ion-col size="3" class="ion-text-center"   (click)="startCapture('Camera')">
+         <div class="cameraPhoto">
+           <ion-icon name="camera" class="icon"></ion-icon>Camera
+         </div>
+       </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </ion-footer>
+  <form>
+    <ion-item >
+      <ion-label position="floating">First name</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Last name</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Pseudo</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Birthdate</ion-label>
+      <ion-input type="date" required></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Gender</ion-label>
+      <ion-select placeholder="Select One" required>
+        <ion-select-option value="f">Female</ion-select-option>
+        <ion-select-option value="m">Male</ion-select-option>
+        <ion-select-option value="nod" >Gender no defind</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating"></ion-label>
+      <ion-input type="phone_number" required>Phone number</ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating"></ion-label>
+      <ion-input type="text" required>Addresse</ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating"></ion-label>
+      <ion-input type="text" required>Wallet</ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">New Password</ion-label>
+      <ion-input type="password" required></ion-input>
+    </ion-item>
+   
+    <ion-item >
+      <ion-label position="floating">Verify your old password</ion-label>
+      <ion-input type="password" required></ion-input>
+    </ion-item>
+  
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="primary" expand="block" (click))="editProfil()">Edit</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
 </ion-content>
+
+
+
