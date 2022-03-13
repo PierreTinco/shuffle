@@ -1,9 +1,55 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>registration</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <form>
+    <ion-item >
+      <ion-label position="floating">First name</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Last name</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Birthdate</ion-label>
+      <ion-input type="date" required></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Gender</ion-label>
+      <ion-select placeholder="Select One" required>
+        <ion-select-option value="f">Female</ion-select-option>
+        <ion-select-option value="m">Male</ion-select-option>
+        <ion-select-option value="nod">Gender no defind</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="text" required></ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating"></ion-label>
+      <ion-input type="phone_number" required>Phone number</ion-input>
+    </ion-item>
+    <ion-item >
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" required></ion-input>
+    </ion-item>
+   
+    <ion-item >
+      <ion-label position="floating">Verify your password</ion-label>
+      <ion-input type="password" required></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="primary" expand="block">Sign Up</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
 </ion-content>
+
