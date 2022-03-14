@@ -3,10 +3,10 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { acceuilPage } from './acceuil.page';
+import { accueilPage } from './accueil.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { acceuilPageRoutingModule } from './acceuil-routing.module';
+import { accueilPageRoutingModule } from './accueil-routing.module';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { acceuilPageRoutingModule } from './acceuil-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    acceuilPageRoutingModule,Ng2SearchPipeModule
+    accueilPageRoutingModule,Ng2SearchPipeModule
   ],
-  declarations: [acceuilPage]
+  declarations: [accueilPage]
 })
-export class acceuilPageModule {}
+export class accueilPageModule {}

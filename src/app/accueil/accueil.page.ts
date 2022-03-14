@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
-import { Event } from './acceuil.model';
+import { Event } from './accueil.model';
 declare let window: any;
 
 @Component({
-  selector: 'app-acceuil',
-  templateUrl: 'acceuil.page.html',
-  styleUrls: ['acceuil.page.scss'],
+  selector: 'app-accueil',
+  templateUrl: 'accueil.page.html',
+  styleUrls: ['accueil.page.scss'],
 })
-export class acceuilPage implements OnInit {
+export class accueilPage implements OnInit {
   details: Event;
   events: any;
   provider: any;
   clicked = false;
   connected = false;
-    curentAccount: any;
+  curentAccount: any;
+  eventImg = '..\..\event.png'
   searchText = '';
   web3 = new Web3(
     'https://ropsten.infura.io/v3/2d0c4c5065844f828e66b7b2f543a119'
@@ -26,7 +26,7 @@ export class acceuilPage implements OnInit {
   constructor(private api: ApiService) {}
 
   async ngOnInit() {
-    console.log('on init acceuil');
+    console.log('on init accueil');
     this.events = await this.api.getAllEvents().toPromise();
     console.log(this.events);
 

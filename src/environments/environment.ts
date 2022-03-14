@@ -4,7 +4,16 @@
 
 export const environment = {
   apiUrl: 'http://localhost:3000/api/shuffle',
-  production: false
+  production: false,
+  firebaseConfig: {
+    apiKey: "AIzaSyAo6XIb8NRSkOmnkTs6eWUH4kEBAe8jHT0",
+    authDomain: "shuffle-de86f.firebaseapp.com",
+    projectId: "shuffle-de86f",
+    storageBucket: "shuffle-de86f.appspot.com",
+    messagingSenderId: "327216688543",
+    appId: "1:327216688543:web:c6f7580e76f5c98feba1aa",
+    measurementId: "G-D5Q9MNK8YC"
+  }
 };
 
 /*

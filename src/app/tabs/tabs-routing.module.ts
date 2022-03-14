@@ -8,8 +8,8 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'acceuil',
-        loadChildren: () => import('../acceuil/acceuil.module').then(m => m.acceuilPageModule)
+        path: 'accueil',
+        loadChildren: () => import('../accueil/accueil.module').then(m => m.accueilPageModule)
       },
       {
         path: 'createEvent',
@@ -21,14 +21,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/acceuil',
+        redirectTo: '/tabs/accueil',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/acceuil',
+    redirectTo: '/tabs/accueil',
     pathMatch: 'full'
   }
 ];

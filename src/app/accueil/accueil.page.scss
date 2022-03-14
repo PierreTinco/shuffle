@@ -1,0 +1,51 @@
+ion-icon {
+    font-size: 180%;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+// .background {
+//     background-image: url("..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg") no-repeat 100% 100%;
+//     background-attachment: fixed;
+//     position: absolute;
+// }
+.background{
+    --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) 0 0/100% 100% no-repeat;
+}
+
+ion-label{
+    margin-left: 10px;
+}
+
+ion-card-title{
+    margin-left: 10px;
+    text-align: center;
+}
+
+ion-card{
+    height: 229px;
+    border-radius: 31.5025px;
+    display: flex; 
+    flex-direction: row;
+}
+
+ion-img{
+    margin-top: 5%;
+    margin-left: 5%;
+    width: 170px;
+    height: 200px;
+    border-radius: 31.5px;
+}
+
+::ng-deep .header-ios ion-toolbar:last-of-type{
+    --border-width: 0 !important;
+}
+
+
+::ng-deep ion-list:last-of-type{
+    background: none !important;
+}
+
+::ng-deep ion-card:last-of-type{
+    opacity: 0.9;
+}
