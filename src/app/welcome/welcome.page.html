@@ -1,9 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>welcome</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
-
+<ion-content [fullscreen]="true" >
+   <ion-grid class="connectivity" >
+    <ion-row>
+      <ion-col>
+        <ion-button [routerLink]="['/registration']" expand="block" color="primary">Register</ion-button>
+        <span class="already">or Already a user?</span>
+        <ion-button [routerLink]="['/login']" expand="block" color="primary">Sign In</ion-button>
+        <a  [routerLink]="['/tabs']" class="small-text" >Continue as guest</a>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

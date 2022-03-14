@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import{ Router } from '@angular/router'
+import { initializeApp } from 'firebase/app';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit{
 
-  constructor() {
- 
+  constructor(private router:Router) {
+    this.initializeApp();  
   }
   async ngOnInit() {
    
   }
+  initializeApp(){
+    this.router.navigateByUrl('loading')
+  }
+  
 
 
 
