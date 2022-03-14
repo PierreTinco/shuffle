@@ -10,22 +10,22 @@
   <form>
     <ion-item >
       <ion-label position="floating">First name</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
 
     <ion-item >
       <ion-label position="floating">Last name</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-input type="text" [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
 
     <ion-item >
       <ion-label position="floating">Birthdate</ion-label>
-      <ion-input type="date" required></ion-input>
+      <ion-input type="date" [(ngModel)]="user.birth_date" [ngModelOptions]="{standalone: true}"required></ion-input>
     </ion-item>
 
     <ion-item >
       <ion-label position="floating">Gender</ion-label>
-      <ion-select placeholder="Select One" required>
+      <ion-select placeholder="Select One" [(ngModel)]="user.gender" [ngModelOptions]="{standalone: true}"required>
         <ion-select-option value="f">Female</ion-select-option>
         <ion-select-option value="m">Male</ion-select-option>
         <ion-select-option value="nod">Gender no defind</ion-select-option>
@@ -34,22 +34,22 @@
 
     <ion-item >
       <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-input type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
 
     <ion-item >
       <ion-label position="floating"></ion-label>
-      <ion-input type="phone_number" required>Phone number</ion-input>
+      <ion-input type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}"required>Phone number</ion-input>
     </ion-item>
 
     <ion-item >
       <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password"  ></ion-input> required></ion-input>
+      <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
    
     <ion-item >
       <ion-label position="floating">Verify your password</ion-label>
-      <ion-input type="password" required></ion-input>
+      <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
 
     <ion-row>
