@@ -28,10 +28,12 @@ export class RegistrationPage implements OnInit {
   password: any;
   constructor() { }
 
-  ngOnInit() {this.app = initializeApp(environment.firebaseConfig);
+  ngOnInit() {
+    this.app = initializeApp(environment.firebaseConfig);
     this.analytics = getAnalytics(this.app);
     this.auth = getAuth()
   }
+
   register(email: any, password: any) {
     createUserWithEmailAndPassword(this.auth, email, password)
     .then((userCredential) => {
