@@ -17,5 +17,7 @@ export class ProfileEditionPage implements OnInit {
   editProfil()
   {
 }
-
+startCapture() {
+  
+}
 }
