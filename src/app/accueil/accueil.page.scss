@@ -29,11 +29,12 @@ ion-card{
     flex-direction: row;
 }
 
-ion-img{
-    margin-top: 5%;
-    margin-left: 5%;
+.ion-card-img{
+    background: url(https://i.pravatar.cc/150) 0 0/100% 100% no-repeat;
+    margin-top: 20px;
+    margin-left: 20px;
     width: 170px;
-    height: 200px;
+    height: 180px;
     border-radius: 31.5px;
 }
 
