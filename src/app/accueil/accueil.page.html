@@ -17,8 +17,22 @@
 
 
   <app-explore-container name="Tab 2 page"></app-explore-container>
-  <ion-searchbar [(ngModel)]="searchText"></ion-searchbar>
-  <ion-list class="bg-transparent">
+    <ion-card *ngIf="clicked">
+    <ion-card-header>
+      <ion-icon (click)="return()" name="arrow-back"></ion-icon>
+      <ion-card-title>{{details[0].name}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>{{details[0].description}}</ion-card-content>
+    <ion-card-content>start: {{details[0].time_start}} </ion-card-content>
+    <ion-card-content>minimum age: {{details[0].max_participant}}</ion-card-content>
+    <ion-card-content>price: {{details[0].price}} eth</ion-card-content>
+    <ion-card-content>minimum age: {{details[0].age_min}}</ion-card-content>
+    <ion-button *ngIf="free" (click)="participateFree()">join</ion-button>
+    <ion-button *ngIf="!free" (click)="sendTr(details[0].wallet)">join</ion-button>
+
+  </ion-card>
+  <ion-searchbar *ngIf="!clicked" [(ngModel)]="searchText"></ion-searchbar>
+  <ion-list *ngIf="!clicked" class="bg-transparent">
     <ion-item-sliding  *ngFor="let item of events | filter : searchText">
       <ion-card (click)="viewMore(item.id)">
         <ion-img [src]="eventImg"></ion-img>
