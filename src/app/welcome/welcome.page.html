@@ -5,5 +5,15 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-grid class="connectivity" >
+    <ion-row>
+      <ion-col align-self-center>
+        <ion-button [routerLink]="['/registration']" expand="block" color="primary">Register</ion-button>
+        <span class="divider line one-line">or</span>
+        <span class="already">Already a user?</span>
+        <ion-button [routerLink]="['/login']" expand="block" color="primary">Sign In</ion-button>
+        <a  class="small-text" >Continue as guest</a>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

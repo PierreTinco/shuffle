@@ -4,11 +4,6 @@ ion-icon {
     margin-left: 5px;
 }
 
-// .background {
-//     background-image: url("..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg") no-repeat 100% 100%;
-//     background-attachment: fixed;
-//     position: absolute;
-// }
 .background{
     --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) 0 0/100% 100% no-repeat;
 }
@@ -38,6 +33,10 @@ ion-card{
     border-radius: 31.5px;
 }
 
+ion-card-content{
+    width: 150px;
+}
+
 ::ng-deep .header-ios ion-toolbar:last-of-type{
     --border-width: 0 !important;
 }
@@ -48,5 +47,12 @@ ion-card{
 }
 
 ::ng-deep ion-card:last-of-type{
-    opacity: 0.9;
+    opacity: 0.99;
+}
+
+::ng-deep ion-item-sliding:last-of-type{
+    height: 230px !important;
+    display: block !important;
+    block-size: auto !important;
+    overflow: none !important;
 }
