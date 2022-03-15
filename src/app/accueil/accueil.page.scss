@@ -20,7 +20,7 @@ ion-card-title{
 ion-card{
     height: 229px;
     border-radius: 31.5025px;
-    display: flex; 
+    display: flex;
     flex-direction: row;
 }
 
@@ -48,11 +48,4 @@ ion-card-content{
 
 ::ng-deep ion-card:last-of-type{
     opacity: 0.99;
-}
-
-::ng-deep ion-item-sliding:last-of-type{
-    height: 230px !important;
-    display: block !important;
-    block-size: auto !important;
-    overflow: none !important;
 }
