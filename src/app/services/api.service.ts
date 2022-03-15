@@ -10,24 +10,19 @@ export class ApiService {
   constructor(private http : HttpClient) { }
 
 getAllEvents(){
-  const body = 
-  {
-    "where" : {
-        "id": 26
-    }
-}
-  ;
   return this.http.post(`${environment.apiUrl}/event`,{responseType: 'text'})
-  // return this.http.get<any>("https://restcountries.com/v2/all",{})
-
 }
 
 addEvents(data :any){
-  return this.http.post(`${environment.apiUrl}/insert`,data)
+  return this.http.post(`${environment.apiUrl}/event/insert`,data)
 }
 
 deleteEvents(data :any){
-  return this.http.delete(`${environment.apiUrl}/delete`,data)
+  return this.http.delete(`${environment.apiUrl}/event/delete`,data)
+}
+
+addUser(data: any) {
+  return this.http.post(`${environment.apiUrl}/user/insert`,data)
 }
 
 }

@@ -5,6 +5,8 @@ import { getAnalytics } from "firebase/analytics";
 import '@firebase/auth'
 import { environment } from 'src/environments/environment';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { ApiService } from '../services/api.service';
+import { LoginPage } from '../login/login.page';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
@@ -18,15 +20,15 @@ export class RegistrationPage implements OnInit {
     name: "",
     surname : "",
     birth_date :"",
-    email: "",
-    password : "",
     wallet : "",
-    phone_number : ""
+    phone_number : "",
+    token : ""
   }
   auth: any
   email:any;
   password: any;
-  constructor() { }
+
+  constructor(private api: ApiService) {}
 
   ngOnInit() {
     this.app = initializeApp(environment.firebaseConfig);
@@ -34,11 +36,12 @@ export class RegistrationPage implements OnInit {
     this.auth = getAuth()
   }
 
-  register(email: any, password: any) {
+  async register(email: any, password: any) {
     createUserWithEmailAndPassword(this.auth, email, password)
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
+      this.addUserToDb(user.uid)
       console.log(user);
       
       // ...
@@ -52,6 +55,20 @@ export class RegistrationPage implements OnInit {
       
       // ..
     });
+  }
+
+  async addUserToDb(token: any) {
+    this.user.token = token
+    console.log(this.user);
+    
+    await this.api.addUser(this.user).subscribe(
+      (res) => {
+        alert("vos avez bien créé votre compte");
+      },
+      (err) => {
+        alert('Il y a eu une erreur');
+      }
+    );
   }
 
 }
