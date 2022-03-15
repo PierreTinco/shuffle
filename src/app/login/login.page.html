@@ -9,12 +9,12 @@
 <ion-content>
   <form>
     <ion-item >
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-label position="floating"><ion-icon name="mail-outline"></ion-icon>Email</ion-label>
+      <ion-input placeholder="Email" type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
-      <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" required></ion-input>
+      <ion-label position="floating"><ion-icon name="lock-closed-outline"></ion-icon>Password</ion-label>
+        <ion-input placeholder="Password" type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"required></ion-input>
       <!-- rendre visible ou non le pasword -->
     </ion-item>
     <ion-row>
