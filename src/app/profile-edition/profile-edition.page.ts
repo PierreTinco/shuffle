@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-profile-edition',
   templateUrl: './profile-edition.page.html',
@@ -14,10 +15,11 @@ export class ProfileEditionPage implements OnInit {
   }
   openOptionSelection()
   {}
+
   editProfil()
-  {
-}
-startCapture() {
+  {}
   
-}
+  startCapture() {
+  
+  }
 }
