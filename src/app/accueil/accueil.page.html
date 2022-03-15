@@ -1,9 +1,9 @@
 <ion-header style="display: flex;flex-direction: row;" collapse="condense">
   <ion-toolbar>
-    <ion-button [routerLink]="['/createEvent']">add Event
+    <ion-button [routerLink]="['/createEvent']" *ngIf="!clicked">add Event
       <ion-icon name="add"></ion-icon>
     </ion-button>
-    <ion-button [routerLink]="['/profile']">
+    <ion-button [routerLink]="['/profile']" *ngIf="!clicked">
       <ion-icon name="person-circle"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -14,7 +14,7 @@
   <app-explore-container name="Tab 2 page"></app-explore-container>
   <ion-content *ngIf="clicked" class="event-details">
     <div class="event-img"></div>
-    <ion-card>
+    <ion-card class="card-details">
       <ion-card-header>
         <ion-icon (click)="return()" name="arrow-back"></ion-icon>
         <ion-card-title>{{details[0].name}}</ion-card-title>
@@ -33,7 +33,7 @@
   <ion-searchbar *ngIf="!clicked" [(ngModel)]="searchText"></ion-searchbar>
   <ion-list *ngIf="!clicked" class="bg-transparent">
     <ion-item-sliding *ngFor="let item of events | filter : searchText">
-      <ion-card (click)="viewMore(item.id)">
+      <ion-card (click)="viewMore(item.id)" class="events">
         <div class="event-img"></div>
         <ion-card-content style="display: flex;flex-direction: column;">
           <ion-label>starting: {{item.date_start}}</ion-label>
