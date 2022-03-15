@@ -4,6 +4,15 @@ ion-icon {
     margin-left: 5px;
 }
 
+ion-card .event-details .event-img{
+    width: max-content;
+    height: max-content;
+}
+
+::ng-deep .card-details .ios .hydrated ion-card:last-of-type{
+    height: 600px !important;
+}
+
 .background{
     --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) 0 0/100% 100% no-repeat;
 }
@@ -17,14 +26,14 @@ ion-card-title{
     text-align: center;
 }
 
-ion-card{
+.events{
     height: 229px;
     border-radius: 31.5025px;
     display: flex;
     flex-direction: row;
 }
 
-.ion-card-img{
+.event-img{
     background: url(https://i.pravatar.cc/150) 0 0/100% 100% no-repeat;
     margin-top: 20px;
     margin-left: 20px;
