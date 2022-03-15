@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as firebase from 'firebase/app';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import '@firebase/auth'
@@ -25,11 +26,11 @@ export class ProfilePage implements OnInit {
     wallet : "",
     phone_number : ""
   }
-  email:any;
-  password: any;
+ 
 
 
   clicked = false
+  constructor() { }
 
   ngOnInit() {
     this.app = initializeApp(environment.firebaseConfig);
@@ -41,33 +42,12 @@ export class ProfilePage implements OnInit {
     ]
   }
 
-  editProfil(){
-    
-  }
-
+  
   buttonsChanged() {
 
   }
 
-  register(email: any, password: any) {
-    createUserWithEmailAndPassword(this.auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      console.log(user);
-      
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode);
-      console.log(errorMessage);
-      
-      
-      // ..
-    });
-  }
+
 
 }
 
