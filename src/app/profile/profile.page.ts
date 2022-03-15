@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as firebase from 'firebase/app';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import '@firebase/auth'
