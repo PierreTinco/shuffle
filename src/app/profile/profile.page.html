@@ -3,19 +3,19 @@
     <ion-title>Profil</ion-title>
     <!-- mettre le nom de l'utilisteur a la place 
     peut etre devoir rajouter un pseudo a la bdd-->
-    <ion-buttons slot="start" >
+    <ion-buttons slot="start">
       <ion-button [routerLink]="['/accueil']" color="primary">
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-      
-    <ion-buttons slot="end" >
+
+    <ion-buttons slot="end">
       <ion-button fill="clear" color="dark">
-        <ion-icon  name="add-circle-outline"></ion-icon>
+        <ion-icon name="add-circle-outline"></ion-icon>
       </ion-button>
 
-      <ion-button fill="clear" color="dark" >
-        <ion-icon  name="menu-outline"></ion-icon>
+      <ion-button fill="clear" color="dark">
+        <ion-icon name="menu-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -60,7 +60,7 @@
       .................Biographie...........
     </ion-row>
     <ion-row>
-      <ion-col > 
+      <ion-col>
         <ion-button size="big" fill="outline" expand="block" [routerLink]="['/profile-edition']">
           <ion-text>Edit profil</ion-text>
         </ion-button>
@@ -79,11 +79,4 @@
       </ion-segment>
     </ion-row>
   </ion-grid>
-<!-- 
-  <div [ngSwitch]="buttonValue">
-    <ion-list *ngSwitchCase="grid" class="event-grid">
-       affichage des cards event
-    </ion-list>
-  </div> -->
-
 </ion-content>

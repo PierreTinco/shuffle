@@ -16,7 +16,7 @@ export class accueilPage implements OnInit {
   clicked = false;
   connected = false;
   curentAccount: any;
-  eventImg: any
+  eventImg: any;
   searchText = '';
   web3 = new Web3(
     'https://ropsten.infura.io/v3/2d0c4c5065844f828e66b7b2f543a119'
@@ -26,7 +26,7 @@ export class accueilPage implements OnInit {
   constructor(private api: ApiService) {}
 
   async ngOnInit() {
-    this.eventImg = '..\..\event.png'
+    this.eventImg = '....event.png';
     console.log('on init accueil');
     this.events = await this.api.getAllEvents().toPromise();
     console.log(this.events);
@@ -45,7 +45,7 @@ export class accueilPage implements OnInit {
 
   participateFree() {}
 
-  purchase(){}
+  purchase() {}
 
   participate(walletAdress: any) {
     this.sendTr(walletAdress);
