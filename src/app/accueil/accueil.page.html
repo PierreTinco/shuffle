@@ -3,6 +3,13 @@
     <ion-title size="large">
       Shuffle
     </ion-title>
+    <ion-button [routerLink]="['/createEvent']" color="primary">add Event
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
+    
+    <ion-button [routerLink]="['/profile']" color="primary">
+      <ion-icon name="person-circle"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 
   <ion-toolbar>
@@ -16,29 +23,31 @@
 
 <ion-content [fullscreen]="true" class="background">
   <app-explore-container name="Tab 2 page"></app-explore-container>
-    <ion-card *ngIf="clicked">
+  <ion-card *ngIf="clicked">
     <ion-card-header>
       <ion-icon (click)="return()" name="arrow-back"></ion-icon>
-      <ion-card-title>{{details[0].name}}</ion-card-title>
+      <div class="ion-card-img"></div>
+      <ion-card-title>Event name:{{details[0].name}}</ion-card-title>
     </ion-card-header>
-    <ion-card-content>{{details[0].description}}</ion-card-content>
+    <ion-card-content>description:{{details[0].description}}</ion-card-content>
     <ion-card-content>start: {{details[0].time_start}} </ion-card-content>
-    <ion-card-content>minimum age: {{details[0].max_participant}}</ion-card-content>
-    <ion-card-content>price: {{details[0].price}} eth</ion-card-content>
+    <ion-card-content>maximum particpants: {{details[0].max_participant}}</ion-card-content>
     <ion-card-content>minimum age: {{details[0].age_min}}</ion-card-content>
+    <ion-card-content>price: {{details[0].price}} eth</ion-card-content>
     <ion-button *ngIf="free" (click)="participateFree()">join</ion-button>
     <ion-button *ngIf="!free" (click)="sendTr(details[0].wallet)">join</ion-button>
-
+    <ion-button color="primary" (click)="purchase()">Purchase</ion-button>
   </ion-card>
+
   <ion-searchbar *ngIf="!clicked" [(ngModel)]="searchText"></ion-searchbar>
   <ion-list *ngIf="!clicked" class="bg-transparent">
     <ion-item-sliding  *ngFor="let item of events | filter : searchText">
       <ion-card (click)="viewMore(item.id)">
         <div class="ion-card-img"></div>
         <ion-card-content style="display: flex;flex-direction: column;">
+          <ion-label>starting: {{item.date_start}}</ion-label>
           <ion-label>{{item.name}}</ion-label>
           <ion-label>{{item.location}}</ion-label>
-          <!-- <ion-label>starting: {{item.date_start}}</ion-label> -->
           <ion-label *ngIf="item.free==0">payant</ion-label>
           <ion-label *ngIf="item.free==1">gratuit</ion-label>
           <!-- <ion-icon name="add"></ion-icon> -->
