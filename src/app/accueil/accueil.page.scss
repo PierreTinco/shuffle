@@ -4,6 +4,10 @@ ion-icon {
     margin-left: 5px;
 }
 
+ion-card .event-details {
+
+}
+
 .background{
     --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) 0 0/100% 100% no-repeat;
 }
@@ -24,7 +28,7 @@ ion-card{
     flex-direction: row;
 }
 
-.ion-card-img{
+.event-img{
     background: url(https://i.pravatar.cc/150) 0 0/100% 100% no-repeat;
     margin-top: 20px;
     margin-left: 20px;
