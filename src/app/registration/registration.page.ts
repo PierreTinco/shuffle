@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import * as firebase from 'firebase/app';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import '@firebase/auth'
 import { environment } from 'src/environments/environment';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { ApiService } from '../services/api.service';
-import { LoginPage } from '../login/login.page';
+import{ Router } from '@angular/router'
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
@@ -28,7 +27,7 @@ export class RegistrationPage implements OnInit {
   email:any;
   password: any;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private router:Router) {}
 
   ngOnInit() {
     this.app = initializeApp(environment.firebaseConfig);
@@ -37,12 +36,12 @@ export class RegistrationPage implements OnInit {
   }
 
   async register(email: any, password: any) {
-    createUserWithEmailAndPassword(this.auth, email, password)
+    await createUserWithEmailAndPassword(this.auth, email, password)
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
       this.addUserToDb(user.uid)
-      console.log(user);
+      this.router.navigateByUrl('accueil')
       
       // ...
     })

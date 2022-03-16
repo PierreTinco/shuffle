@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import{ Router } from '@angular/router'
-import { initializeApp } from 'firebase/app';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +18,4 @@ export class AppComponent implements OnInit{
     this.router.navigateByUrl('loading')
   }
   
-
-
-
 }
