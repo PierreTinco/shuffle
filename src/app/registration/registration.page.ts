@@ -40,7 +40,7 @@ export class RegistrationPage implements OnInit {
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
-      this.addUserToDb(user.uid)
+      this.addUserToDb(user.getIdToken)
       this.router.navigateByUrl('accueil')
       
       // ...

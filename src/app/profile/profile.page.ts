@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import * as firebase from 'firebase/app';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import '@firebase/auth'
 import { environment } from 'src/environments/environment';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -12,22 +11,21 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 })
 export class ProfilePage implements OnInit {
   app: any
+  user: any
   analytics: any
   auth: any
   buttonValue = 'grid';
   buttonEvents: any[] = [];
-  user = {
-    gender: null,
-    name: "",
-    surname : "",
-    age :"",
-    mail: "",
-    mdp : "",
-    wallet : "",
-    phone_number : ""
-  }
- 
-
+  // user = {
+  //   gender: null,
+  //   name: "",
+  //   surname : "",
+  //   age :"",
+  //   mail: "",
+  //   mdp : "",
+  //   wallet : "",
+  //   phone_number : ""
+  // }
 
   clicked = false
   constructor() { }
@@ -36,6 +34,7 @@ export class ProfilePage implements OnInit {
     this.app = initializeApp(environment.firebaseConfig);
     this.analytics = getAnalytics(this.app);
     this.auth = getAuth()
+    this.user = this.auth.user
     this.buttonEvents = [
       {value: 'grid', icon:'grid'},
       {value: 'reels', icon:'shuffle'}
@@ -45,6 +44,18 @@ export class ProfilePage implements OnInit {
   
   buttonsChanged() {
 
+  }
+
+  getUser() {
+    if (this.user !== null) {
+      this.user.providerData.forEach((profile) => {
+        console.log("Sign-in provider: " + profile.providerId);
+        console.log("  Provider-specific UID: " + profile.uid);
+        console.log("  Name: " + profile.displayName);
+        console.log("  Email: " + profile.email);
+        console.log("  Photo URL: " + profile.photoURL);
+      });
+    }
   }
 
 
