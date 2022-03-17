@@ -69,6 +69,11 @@
           <ion-icon name="person-add-outline"></ion-icon>
         </ion-button>
       </ion-col>
+      <ion-col>
+        <ion-button (click)="getUser()">
+          get user 
+        </ion-button>
+      </ion-col>
     </ion-row>
     <ion-row class="card" (ionChange)="buttonsChanged()">
       <ion-segment mode="md" [value]="buttonValue">
