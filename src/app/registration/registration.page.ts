@@ -30,8 +30,8 @@ export class RegistrationPage implements OnInit {
   constructor(private api: ApiService, private router:Router) {}
 
   ngOnInit() {
-    this.app = initializeApp(environment.firebaseConfig);
-    this.analytics = getAnalytics(this.app);
+    // this.app = initializeApp(environment.firebaseConfig);
+    // this.analytics = getAnalytics(this.app);
     this.auth = getAuth()
   }
 

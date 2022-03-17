@@ -17,11 +17,12 @@ export class LoginPage implements OnInit {
   auth: any
   email:any;
   password: any;
+  user: any
   constructor(private router:Router) { }
 
   ngOnInit() {
-    this.app = initializeApp(environment.firebaseConfig);
-    this.analytics = getAnalytics(this.app);
+    // this.app = initializeApp(environment.firebaseConfig);
+    // this.analytics = getAnalytics(this.app);
     this.auth = getAuth();
   }
 
@@ -29,7 +30,8 @@ export class LoginPage implements OnInit {
     signInWithEmailAndPassword(this.auth, email, password)
     .then((userCredential) => {
       // Signed in 
-      const user = userCredential.user;
+      this.user = userCredential.user;
+      alert("connexion ok")
       this.router.navigateByUrl('accueil')
       // ...
     })
@@ -40,5 +42,11 @@ export class LoginPage implements OnInit {
     });
   }
 
+  getUser() {
+    if (this.user !== null) {
+      console.log(this.user);
+      
+    }
+  }
 
 }
