@@ -14,8 +14,10 @@
     </ion-item>
     <ion-item >
       <ion-label position="floating"><ion-icon name="lock-closed-outline"></ion-icon>Password</ion-label>
-        <ion-input placeholder="Password" type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"required></ion-input>
-      <!-- rendre visible ou non le pasword -->
+      <app-show-hide-password >
+        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password' " [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
+        <ion-icon slot="end" [name]="passwordToggleIcon" (click)="togglePassword()" ></ion-icon>
+      </app-show-hide-password>
     </ion-item>
     <ion-row>
       <ion-col>

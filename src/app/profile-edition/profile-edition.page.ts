@@ -7,6 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile-edition.page.scss'],
 })
 export class ProfileEditionPage implements OnInit {
+    user = {
+    token: "",
+    gender: null,
+    name: "",
+    surname : "",
+    pseudo : "",
+    birth_date :"",
+    email: "",
+    password : "",
+    wallet: "",
+    phone_number : ""
+  }
+
   photo = 'https://i.pravatar.cc/150';
 
   constructor() { }
@@ -18,7 +31,7 @@ export class ProfileEditionPage implements OnInit {
 
   editProfil()
   {}
-  
+
   startCapture() {
   
   }

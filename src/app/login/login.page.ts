@@ -12,6 +12,8 @@ import { environment } from 'src/environments/environment';
 })
 
 export class LoginPage implements OnInit {
+  showPassword = false;
+  passwordToggleIcon = "eye";
   app: any;
   analytics: any
   auth: any
@@ -40,6 +42,18 @@ export class LoginPage implements OnInit {
       const errorMessage = error.message;
       alert("erreur")
     });
+  
+  }
+
+  togglePassword():void{
+    this.showPassword = !this.showPassword;
+
+    if(this.passwordToggleIcon == 'eye'){
+      this.passwordToggleIcon = 'eye-off';
+    }else {
+      this.passwordToggleIcon = 'eye';
+    }
+
   }
 
   getUser() {
