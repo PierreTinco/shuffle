@@ -24,14 +24,14 @@
           </div>
         </ion-col>
 
-        <ion-col size="3" class="ion-text-center" (click)="startCapture()">
+        <ion-col size="3" class="ion-text-center" (click)="startCapture('Photos')">
          <div class="galleryPhoto">
             <ion-icon name="images" class="icon"></ion-icon>Gallery
          </div>
         
        </ion-col>
 
-       <ion-col size="3" class="ion-text-center"   (click)="startCapture()">
+       <ion-col size="3" class="ion-text-center"   (click)="startCapture('Camera')">
          <div class="cameraPhoto">
            <ion-icon name="camera" class="icon"></ion-icon>Camera
          </div>
@@ -41,25 +41,26 @@
     </ion-grid>
   </ion-footer>
   <form>
+
     <ion-item >
       <ion-label position="floating">First name</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">Last name</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-input type="text"  [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">Pseudo</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-input type="text" [(ngModel)]="user.pseudo" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
-      <ion-label >Birthdate</ion-label>
-      <ion-input type="date" required></ion-input>
+      <ion-label position="floating">Birthdate</ion-label>
+      <ion-input type="date" [(ngModel)]="user.birth_date" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">Gender</ion-label>
-      <ion-select placeholder="Select One" required>
+      <ion-select placeholder="Select One" [(ngModel)]="user.gender" [ngModelOptions]="{standalone: true}" required>
         <ion-select-option value="f">Female</ion-select-option>
         <ion-select-option value="m">Male</ion-select-option>
         <ion-select-option value="nod" >Gender no defind</ion-select-option>
@@ -67,11 +68,11 @@
     </ion-item>
     <ion-item >
       <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-input type="text"  placeholder="Email" type="text" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating"></ion-label>
-      <ion-input type="phone_number" required>Phone number</ion-input>
+      <ion-input type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}" required>Phone number</ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating"></ion-label>
@@ -79,7 +80,7 @@
     </ion-item>
     <ion-item >
       <ion-label position="floating"></ion-label>
-      <ion-input type="text" required>Wallet</ion-input>
+      <ion-input type="text" [(ngModel)]="user.wallet" [ngModelOptions]="{standalone: true}" required>Wallet</ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">New Password</ion-label>
