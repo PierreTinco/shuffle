@@ -36,9 +36,10 @@ export class accueilPage implements OnInit {
     }
   }
 
-  participateFree() {}
+  participateFree() {
+    
+  }
 
-  purchase() {}
 
   participate(walletAdress: any) {
     this.sendTr(walletAdress);

@@ -24,9 +24,8 @@
       <ion-card-content>maximum particpants: {{details[0].max_participant}}</ion-card-content>
       <ion-card-content>minimum age: {{details[0].age_min}}</ion-card-content>
       <ion-card-content>price: {{details[0].price}} eth</ion-card-content>
-      <ion-button *ngIf="free" (click)="participateFree()">join</ion-button>
-      <ion-button *ngIf="!free" (click)="sendTr(details[0].wallet)">join</ion-button>
-      <ion-button color="primary" (click)="purchase()">Purchase</ion-button>
+      <ion-button *ngIf="free" color="primary" (click)="participateFree()">Purchase for free</ion-button>
+      <ion-button *ngIf="!free" (click)="sendTr(details[0].wallet)">Purchase</ion-button>
     </ion-card>
   </ion-content>
 
