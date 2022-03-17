@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import '@firebase/auth'
 import { environment } from 'src/environments/environment';
 import { getAuth } from "firebase/auth";
@@ -32,10 +30,8 @@ export class ProfilePage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.app = initializeApp(environment.firebaseConfig);
-    this.analytics = getAnalytics(this.app);
     this.auth = getAuth()
-    this.user = this.auth.user
+    this.user = this.auth.currentUser
     this.buttonEvents = [
       {value: 'grid', icon:'grid'},
       {value: 'reels', icon:'shuffle'}
@@ -49,13 +45,8 @@ export class ProfilePage implements OnInit {
 
   getUser() {
     if (this.user !== null) {
-      this.user.providerData.forEach((profile) => {
-        console.log("Sign-in provider: " + profile.providerId);
-        console.log("  Provider-specific UID: " + profile.uid);
-        console.log("  Name: " + profile.displayName);
-        console.log("  Email: " + profile.email);
-        console.log("  Photo URL: " + profile.photoURL);
-      });
+      console.log(this.user);
+      
     }
   }
 
