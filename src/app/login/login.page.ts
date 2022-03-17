@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import{ Router } from '@angular/router'
 import { environment } from 'src/environments/environment';
@@ -23,8 +21,6 @@ export class LoginPage implements OnInit {
   constructor(private router:Router) { }
 
   ngOnInit() {
-    // this.app = initializeApp(environment.firebaseConfig);
-    // this.analytics = getAnalytics(this.app);
     this.auth = getAuth();
   }
 
@@ -33,7 +29,6 @@ export class LoginPage implements OnInit {
     .then((userCredential) => {
       // Signed in 
       this.user = userCredential.user;
-      alert("connexion ok")
       this.router.navigateByUrl('accueil')
       // ...
     })
@@ -41,6 +36,9 @@ export class LoginPage implements OnInit {
       const errorCode = error.code;
       const errorMessage = error.message;
       alert("erreur")
+      console.log(error.code);
+      console.log(error.message);
+      
     });
   
   }

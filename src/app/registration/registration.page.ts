@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import '@firebase/auth'
 import { environment } from 'src/environments/environment';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -30,8 +28,6 @@ export class RegistrationPage implements OnInit {
   constructor(private api: ApiService, private router:Router) {}
 
   ngOnInit() {
-    // this.app = initializeApp(environment.firebaseConfig);
-    // this.analytics = getAnalytics(this.app);
     this.auth = getAuth()
   }
 
