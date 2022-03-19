@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import{ Router } from '@angular/router'
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +21,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.auth = getAuth();
+    this.user = this.auth.currentUser
   }
 
   async signIn(email: any, password: any) {
@@ -55,10 +55,10 @@ export class LoginPage implements OnInit {
   }
 
   getUser() {
-    if (this.user !== null) {
+
       console.log(this.user);
       
-    }
+
   }
 
 }

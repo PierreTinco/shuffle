@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import '@firebase/auth'
-import { environment } from 'src/environments/environment';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import{ Router } from '@angular/router'
