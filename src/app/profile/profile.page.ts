@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import '@firebase/auth'
 import { environment } from 'src/environments/environment';
 import { getAuth } from "firebase/auth";
+import { User } from './profile.model';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -49,7 +50,8 @@ export class ProfilePage implements OnInit {
     }
   }
 
-
+  // log0ut() {
+  // }
 
 }
 
