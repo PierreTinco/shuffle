@@ -1,6 +1,6 @@
 {
-	"appId": "io.shuffle",
-	"appName": "shuffle",
-	"webDir": "www",
-	"bundledWebRuntime": false
+  "appId": "io.shuffle",
+  "appName": "shuffle",
+  "webDir": "www",
+  "bundledWebRuntime": false
 }

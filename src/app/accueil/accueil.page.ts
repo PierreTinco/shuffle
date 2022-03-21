@@ -20,6 +20,7 @@ export class accueilPage implements OnInit {
   clicked = false;
   connected = false;
   curentAccount: any;
+  ticketQuantity = null;
   searchText = '';
   web3 = new Web3(
     'https://ropsten.infura.io/v3/2d0c4c5065844f828e66b7b2f543a119'
@@ -45,13 +46,19 @@ export class accueilPage implements OnInit {
   }
 
   participateFree() {
-    
+
   }
 
 
   participate(walletAdress: any) {
     this.sendTr(walletAdress);
   }
+
+  add(){
+
+  }
+
+  remove(){}
 
   connectWallet() {
     if (window.ethereum) {

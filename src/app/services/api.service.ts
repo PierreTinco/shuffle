@@ -25,8 +25,14 @@ addUser(data: any) {
   return this.http.post(`${environment.apiUrl}/user/insert`,data)
 }
 
+
 getUser() {
   return this.http.post(`${environment.apiUrl}/user`, {responseType: 'text'})
 }
+
+// getImages() {
+//   return this.http.get<ApiImage[]>('${this.url}/image')
+// }
+
 
 }
