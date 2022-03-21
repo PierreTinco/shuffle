@@ -17,27 +17,29 @@
 
   <ion-footer class="container">
     <h3 class="title">Profile pic</h3>
+
     <ion-grid class="ion-padding-top">
       <ion-row>
-        <ion-col size="3" class="ion-text-center">
+        <ion-col size="2" class="ion-text-center">
           <div class="removePhoto"> 
             <ion-icon name="trash" class="icon"></ion-icon>Remove
           </div>
         </ion-col>
 
-        <ion-col size="3" class="ion-text-center" (click)="startCapture('Photos')">
+        <ion-col size="2" class="ion-text-center" (click)="startCapture('Photos')">
          <div class="galleryPhoto">
             <ion-icon name="images" class="icon"></ion-icon>Gallery
          </div>
         
        </ion-col>
 
-       <ion-col size="3" class="ion-text-center"   (click)="startCapture('Camera')">
+       <ion-col size="2" vertical="bottom" horizontal="center" slot fixed>
          <div class="cameraPhoto">
-           <ion-icon name="camera" class="icon"></ion-icon>Camera
+           <ion-icon name="camera" class="icon" (click)="takePicture()"></ion-icon>
          </div>
        </ion-col>
-
+       
+       
       </ion-row>
     </ion-grid>
   </ion-footer>
