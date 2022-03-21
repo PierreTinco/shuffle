@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import Web3 from 'web3';
 import { Event } from './accueil.model';
+import { getAuth } from "firebase/auth";
+
 declare let window: any;
 
 @Component({
@@ -12,6 +14,8 @@ declare let window: any;
 export class accueilPage implements OnInit {
   details: Event;
   events: any;
+  user: any
+  auth: any
   provider: any;
   clicked = false;
   connected = false;
@@ -28,7 +32,11 @@ export class accueilPage implements OnInit {
     console.log('on init accueil');
     this.events = await this.api.getAllEvents().toPromise();
     console.log(this.events);
-
+    this.auth = getAuth()
+    this.user = this.auth.currentUser
+    if(this.user != null)
+      console.log(this.user);
+    
     if (window.ethereum.selectedAdress == window.ethereum) {
       console.log('test');
 

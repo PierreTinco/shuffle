@@ -36,14 +36,14 @@ export class LoginPage implements OnInit {
       const errorCode = error.code;
       const errorMessage = error.message;
       alert("erreur")
-      console.log(error.code);
-      console.log(error.message);
+      console.log(errorCode);
+      console.log(errorMessage);
       
     });
   
   }
 
-  togglePassword():void{
+  togglePassword():void {
     this.showPassword = !this.showPassword;
 
     if(this.passwordToggleIcon == 'eye'){

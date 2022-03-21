@@ -1,8 +1,6 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Profil</ion-title>
-    <!-- mettre le nom de l'utilisteur a la place 
-    peut etre devoir rajouter un pseudo a la bdd-->
     <ion-buttons slot="start">
       <ion-back-button [routerLink]="['/accueil']">Back</ion-back-button>
     </ion-buttons>
@@ -56,9 +54,6 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      .................Biographie...........
-    </ion-row>
-    <ion-row>
       <ion-col>
         <ion-button size="big" fill="outline" expand="block" [routerLink]="['/profile-edition']">
           <ion-text>Edit profil</ion-text>
@@ -72,6 +67,15 @@
       <ion-col>
         <ion-button (click)="getUser()">
           get user 
+        </ion-button>
+        <ion-button *ngIf="connected" (click)="logOut()">
+          log out 
+        </ion-button>
+        <ion-button *ngIf="!connected" [routerLink]="['/welcome']">
+          connect
+        </ion-button>
+        <ion-button *ngIf="connected" (click)="filterUser()">
+          get token
         </ion-button>
       </ion-col>
     </ion-row>

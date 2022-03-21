@@ -25,4 +25,8 @@ addUser(data: any) {
   return this.http.post(`${environment.apiUrl}/user/insert`,data)
 }
 
+getUser() {
+  return this.http.post(`${environment.apiUrl}/user`, {responseType: 'text'})
+}
+
 }
