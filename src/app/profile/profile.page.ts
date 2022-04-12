@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import { AlertController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
@@ -31,7 +31,8 @@ export class ProfilePage implements OnInit {
     this.user = this.auth.currentUser
     this.users = await this.api.getUser().toPromise()
     console.log(this.users);
-    
+    this.filterUser()
+    console.log("current user ", this.currentUser[0].name);
     if (this.user != null )
     {
       this.connected = true
@@ -123,6 +124,7 @@ export class ProfilePage implements OnInit {
 
     signOut(this.auth).then(() => {
       // Sign-out successful.
+      this.connected = false
       alert('deconnexion')
     }).catch((error) => {
       // An error happened.
@@ -130,15 +132,11 @@ export class ProfilePage implements OnInit {
     });
   }
 
-    async filterUser() {
-    const token = await this.user.uid
-    console.log(token);
-    
-    const userEmail = this.user.email
-    this.currentUser = this.users.filter((users) =>
-      users.email = userEmail
+  filterUser() {
+    const userToken = this.user.uid  
+    this.currentUser = this.users.filter(users =>
+      users.token == userToken
     );
-    console.log(userEmail);
     console.log("current user ", this.currentUser);
   }
   public async showMenuSheet() {

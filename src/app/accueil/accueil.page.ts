@@ -3,6 +3,7 @@ import { ApiService } from '../services/api.service';
 import Web3 from 'web3';
 import { Event } from './accueil.model';
 import { getAuth } from "firebase/auth";
+import { format, parseISO } from 'date-fns';
 import { Geolocation } from '@capacitor/geolocation';
 import { GoogleMapsModule } from '@angular/google-maps';
 
@@ -24,7 +25,10 @@ export class accueilPage implements OnInit {
   curentAccount: any;
   ticketQuantity = null;
   searchText = '';
+  date: string
   ticket_qty = null;
+  viewMap = null;
+
   map:google.maps.Map;
 
 
@@ -40,6 +44,7 @@ export class accueilPage implements OnInit {
     console.log('on init accueil');
     this.events = await this.api.getAllEvents().toPromise();
     console.log(this.events);
+    console.log(format(parseISO(this.events[1].date_start), 'MMM dd yyyy'))
     this.auth = getAuth()
     this.user = this.auth.currentUser
     if(this.user != null)
@@ -114,7 +119,7 @@ export class accueilPage implements OnInit {
             {
               from: this.curentAccount[0],
               to: hostAccount,
-              value: '1000000000000000',
+              value: this.details[0].price,
             },
           ],
         })
@@ -132,6 +137,10 @@ export class accueilPage implements OnInit {
     else this.free = false;
   }
 
+  viewMapfct(){
+    this.viewMap = !this.viewMap;
+  }
+
   filterEvent(str: any) {
     console.log(str.target.value);
     this.events = this.events.filter((event) =>
@@ -139,11 +148,12 @@ export class accueilPage implements OnInit {
     );
   }
 
-   async printCurrentPosition() {
-     const coordinates = await Geolocation.getCurrentPosition();
+  async printCurrentPosition() {
+    const coordinates = await Geolocation.getCurrentPosition();
 
-     console.log('Current position:', coordinates);
-   }
+    console.log('Current position:', coordinates);
+  }
+
 
   initMap(){
     const directionsRenderer = new google.maps.DirectionsRenderer();
@@ -161,4 +171,4 @@ export class accueilPage implements OnInit {
    }
 
 
- }
+}
