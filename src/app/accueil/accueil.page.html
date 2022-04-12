@@ -10,7 +10,15 @@
 </ion-header>
 
 
-<ion-content [fullscreen]="true" class="background">
+<ion-content [fullscreen]="true" >
+  
+ <div id="map"></div>
+ <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly"
+    async>
+  </script>
+  
+ 
   <app-explore-container name="Tab 2 page"></app-explore-container>
   <ion-content *ngIf="clicked" class="event-details">
     <div class="event-img"></div>
@@ -37,7 +45,7 @@
       <ion-button *ngIf="!free" (click)="sendTr(details[0].wallet)">Purchase</ion-button>
     </ion-card>
   </ion-content>
-
+ 
   <ion-searchbar *ngIf="!clicked" [(ngModel)]="searchText"></ion-searchbar>
   <ion-list *ngIf="!clicked" class="bg-transparent">
     <ion-item-sliding *ngFor="let item of events | filter : searchText">
@@ -54,5 +62,5 @@
         </ion-card-content>
       </ion-card>
     </ion-item-sliding>
-  </ion-list>
+  </ion-list> 
 </ion-content>

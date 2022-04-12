@@ -58,3 +58,12 @@ ion-card-content{
 ::ng-deep ion-card:last-of-type{
     opacity: 0.99;
 }
+
+#map{
+    width:100%;
+    height: 50vh;
+    margin: 20px;
+    padding: 0;
+    border: 1px solid black;
+}
+

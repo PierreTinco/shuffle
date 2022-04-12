@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import Web3 from 'web3';
 import { Event } from './accueil.model';
 import { getAuth } from "firebase/auth";
+import { Geolocation } from '@capacitor/geolocation';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 declare let window: any;
 
@@ -22,13 +24,18 @@ export class accueilPage implements OnInit {
   curentAccount: any;
   ticketQuantity = null;
   searchText = '';
+  ticket_qty = null;
+
+
+
+
   web3 = new Web3(
     'https://ropsten.infura.io/v3/2d0c4c5065844f828e66b7b2f543a119'
   );
   balance1: any;
   free = false;
   constructor(private api: ApiService) {}
-
+  // @ViewChild('map') mapView: ElementRef;
   async ngOnInit() {
     console.log('on init accueil');
     this.events = await this.api.getAllEvents().toPromise();
@@ -37,7 +44,7 @@ export class accueilPage implements OnInit {
     this.user = this.auth.currentUser
     if(this.user != null)
       console.log(this.user);
-    
+
     if (window.ethereum.selectedAdress == window.ethereum) {
       console.log('test');
 
@@ -55,10 +62,19 @@ export class accueilPage implements OnInit {
   }
 
   add(){
-
+    this.ticket_qty += 1;
+    console.log(this.ticket_qty + 1);
   }
 
-  remove(){}
+  remove(){
+    if(this.ticket_qty-1 < 1){
+      this.ticket_qty = 1;
+      console.log('ticket_1->' + this.ticket_qty)
+  }
+  else{
+    this.ticket_qty -= 1;
+    console.log('ticket_2->' +this.ticket_qty);
+  }}
 
   connectWallet() {
     if (window.ethereum) {
@@ -106,7 +122,7 @@ export class accueilPage implements OnInit {
         .catch((_error: any) => console.error);
     }
   }
-  
+
   viewMore(id: any) {
     console.log(id, 'id de levent que lon veut ouvrir');
     this.clicked = !this.clicked;
@@ -122,4 +138,27 @@ export class accueilPage implements OnInit {
       event.nom.includes(str.target.value)
     );
   }
-}
+
+   async printCurrentPosition() {
+     const coordinates = await Geolocation.getCurrentPosition();
+
+     console.log('Current position:', coordinates);
+   }
+
+  initMap():void {
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const directionsService = new google.maps.DirectionsService();
+    const center= {lat: 30, lng: -110};
+ 
+    const map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
+      center:center,
+      zoom: 8,
+     });
+     const marker = new google.maps.Marker({
+       position: center,
+       map: map,
+     });
+   }
+
+
+ }
