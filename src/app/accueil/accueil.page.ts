@@ -25,7 +25,7 @@ export class accueilPage implements OnInit {
   ticketQuantity = null;
   searchText = '';
   ticket_qty = null;
-
+  map:google.maps.Map;
 
 
 
@@ -145,18 +145,18 @@ export class accueilPage implements OnInit {
      console.log('Current position:', coordinates);
    }
 
-  initMap():void {
+  initMap(){
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const directionsService = new google.maps.DirectionsService();
     const center= {lat: 30, lng: -110};
  
-    const map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
+     this.map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
       center:center,
       zoom: 8,
      });
      const marker = new google.maps.Marker({
        position: center,
-       map: map,
+       map: this.map,
      });
    }
 

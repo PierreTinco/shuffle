@@ -11,13 +11,13 @@
 
 
 <ion-content [fullscreen]="true" >
-  
- <div id="map"></div>
- <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly"
-    async>
-  </script>
-  
+  <div onload="initMap()">
+    <div id="map"></div>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly"
+      >
+    </script>
+  </div>
  
   <app-explore-container name="Tab 2 page"></app-explore-container>
   <ion-content *ngIf="clicked" class="event-details">
