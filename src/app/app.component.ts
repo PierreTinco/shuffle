@@ -27,8 +27,10 @@ export class AppComponent implements OnInit{
   initializeApp(){
     this.app = initializeApp(environment.firebaseConfig);
     this.analytics = getAnalytics(this.app); 
-    this.auth = getAuth(this.app);
+    this.auth = getAuth();
+    this.user = this.auth.currentUser
     console.log(this.auth);
+    console.log("user: ", this.user );
     
   
     this.router.navigateByUrl('loading')

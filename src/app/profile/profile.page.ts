@@ -30,6 +30,8 @@ export class ProfilePage implements OnInit {
     this.auth = getAuth()
     this.user = this.auth.currentUser
     this.users = await this.api.getUser().toPromise()
+    console.log(this.users);
+    
     if (this.user != null )
     {
       this.connected = true
@@ -46,9 +48,7 @@ export class ProfilePage implements OnInit {
   }
 
   getUser() {
-
       console.log(this.user);
-      
   }
   async openAlertLogOut(){
     const alert = await this.alertController.create({
@@ -127,18 +127,19 @@ export class ProfilePage implements OnInit {
     }).catch((error) => {
       // An error happened.
       alert('erreur')
-
     });
   }
 
-  filterUser() {
-    const userToken = this.user.getIdToken()
-    this.currentUser = this.users.filter((users) =>
-      users.token.includes(userToken)
-    );
-    console.log(userToken);
-    console.log(this.currentUser);
+    async filterUser() {
+    const token = await this.user.uid
+    console.log(token);
     
+    const userEmail = this.user.email
+    this.currentUser = this.users.filter((users) =>
+      users.email = userEmail
+    );
+    console.log(userEmail);
+    console.log("current user ", this.currentUser);
   }
   public async showMenuSheet() {
     const actionSheet = await this.actionSheetController.create({

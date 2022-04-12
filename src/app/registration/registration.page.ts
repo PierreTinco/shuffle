@@ -34,7 +34,7 @@ export class RegistrationPage implements OnInit {
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
-      this.addUserToDb(user.getIdToken)
+      this.addUserToDb(user.uid)
       this.router.navigateByUrl('accueil')
       
       // ...
