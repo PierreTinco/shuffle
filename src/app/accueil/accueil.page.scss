@@ -24,6 +24,7 @@ ion-label{
 ion-card-title{
     margin-left: 10px;
     text-align: center;
+    font-weight: 100;
 }
 
 .events{
@@ -33,11 +34,11 @@ ion-card-title{
     flex-direction: row;
 }
 
-.event-img{
+::ng-deep .event-img:last-of-type{
     background: url(https://i.pravatar.cc/150) 0 0/100% 100% no-repeat;
     margin-top: 20px;
     margin-left: 20px;
-    width: 170px;
+    width: 170px !important;
     height: 180px;
     border-radius: 31.5px;
 }
@@ -57,4 +58,15 @@ ion-card-content{
 
 ::ng-deep ion-card:last-of-type{
     opacity: 0.99;
+}
+
+
+ion-card-subtitle{
+    display: flex;
+    flex-direction: column;
+}
+
+
+ion-card-content{
+    width: auto;
 }

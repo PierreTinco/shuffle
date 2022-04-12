@@ -1,13 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Profil of:
-       <ion-label>{{user.email}}</ion-label>
-      <ion-label>{{user.displayName}}</ion-label>
+    <ion-title *ngIf="connected" >
+       <ion-label>{{currentUser[0].name}}  </ion-label>
+      <ion-label>{{currentUser[0].surname}}</ion-label>
     </ion-title>
-    <!-- mettre le nom de l'utilisteur a la place 
-    peut etre devoir rajouter un pseudo a la bdd-->
-    
-
+    <ion-title *ngIf="!connected" >Guest
+   </ion-title>
     <ion-buttons slot="start">
       <ion-back-button [routerLink]="['/accueil']">Back</ion-back-button>
     </ion-buttons>
@@ -72,17 +70,11 @@
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="getUser()">
-          get user 
-        </ion-button>
         <ion-button *ngIf="connected" (click)="logOut()">
           log out 
         </ion-button>
         <ion-button *ngIf="!connected" [routerLink]="['/welcome']">
           connect
-        </ion-button>
-        <ion-button *ngIf="connected" (click)="filterUser()">
-          get token
         </ion-button>
       </ion-col>
     </ion-row>

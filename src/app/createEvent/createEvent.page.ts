@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ApiService } from '../services/api.service';
-
+import { format, parseISO } from 'date-fns';
 @Component({
   selector: 'app-createEvent',
   templateUrl: 'createEvent.page.html',
@@ -11,7 +10,7 @@ export class createEventPage {
   isAddingMode = false;
   isViewingMode = false;
   isPayingMode = false;
-
+  searchText = '';
   user_event: any;
   event: any = {
     name: '',
@@ -34,6 +33,8 @@ export class createEventPage {
   async ngOnInit() {}
 
   async addEvent() {
+    this.event.date_start = format(parseISO(this.event.date_start), 'MMM dd yyyy')
+    this.event.date_end = this.formatDate(this.event.date_end)
     this.free == true ? (this.event['free'] = 1) : (this.event['free'] = 0);
     this.public == false
       ? (this.event['public'] = 1)
@@ -67,7 +68,7 @@ export class createEventPage {
     );
   }
 
-  searchText = '';
+
 
   isAddingModeHandler() {
     this.isAddingMode = true;
@@ -90,4 +91,8 @@ export class createEventPage {
       event.nom.includes(str.target.value)
     );
   }
+
+  formatDate(value: string) {
+    return format(parseISO(value), 'MMM dd yyyy');
+}
 }

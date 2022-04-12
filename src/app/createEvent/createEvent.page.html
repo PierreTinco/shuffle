@@ -32,17 +32,17 @@
     </ion-item>
     <ion-item>
       <ion-label>Start Date:</ion-label>
-      <ion-datetime  [(ngModel)]="event.date_start"placeholder="04/20/2000">  </ion-datetime>
+      <ion-datetime  [(ngModel)]="event.date_start" max="2050-12-09" value="2022-09-02">  </ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label>Start Time:</ion-label>
-      <ion-datetime  [(ngModel)]="event.time_start" placeholder="04:20 AM"displayFormat="h:mm A" pickerFormat="h mm A" ></ion-datetime>
+      <ion-datetime  [(ngModel)]="event.time_start" placeholder="04:20 AM" displayFormat="HH:mm" pickerFormat="HH:mm" ></ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label>Ends:</ion-label>
-      <ion-datetime  [(ngModel)]="event.date_end" placeholder="04/21/2000 ">  </ion-datetime>
+      <ion-datetime  [(ngModel)]="event.date_end" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">  </ion-datetime>
     </ion-item>
 
     <ion-item>
