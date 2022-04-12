@@ -17,10 +17,13 @@
 
 
 <ion-content [fullscreen]="true" >
-  
-
-
-  
+  <div onload="initMap()">
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly"
+      >
+    </script>
+      <div id="map" *ngIf="viewMap"></div>
+  </div>
  
   <app-explore-container name="accueil"></app-explore-container>
   <ion-content *ngIf="clicked"  class="event-details">
@@ -49,7 +52,7 @@
     </ion-card>
   </ion-content>
 
-  <div id="map" *ngIf="viewMap"></div>
+
 
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
   <ion-list *ngIf="!clicked && !viewMap" class="bg-transparent">

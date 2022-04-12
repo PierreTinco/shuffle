@@ -29,6 +29,7 @@ export class accueilPage implements OnInit {
   ticket_qty = null;
   viewMap = null;
 
+  map:google.maps.Map;
 
 
 
@@ -153,24 +154,21 @@ export class accueilPage implements OnInit {
     console.log('Current position:', coordinates);
   }
 
- initMap():void {
-   const directionsRenderer = new google.maps.DirectionsRenderer();
-   const directionsService = new google.maps.DirectionsService();
-   const center= {lat: 30, lng: -110};
 
-   const map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
-     center:center,
-     zoom: 8,
-    });
-    const marker = new google.maps.Marker({
-      position: center,
-      map: map,
-    });
-  }
+  initMap(){
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const directionsService = new google.maps.DirectionsService();
+    const center= {lat: 30, lng: -110};
+ 
+     this.map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
+      center:center,
+      zoom: 8,
+     });
+     const marker = new google.maps.Marker({
+       position: center,
+       map: this.map,
+     });
+   }
 
 
 }
-
-
-
- 
