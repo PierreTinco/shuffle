@@ -1,0 +1,6 @@
+{
+	"appId": "io.shuffle",
+	"appName": "shuffle",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

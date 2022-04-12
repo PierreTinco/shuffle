@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import{ Router } from '@angular/router'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { getAuth } from "firebase/auth";
+
+
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -15,6 +18,7 @@ export class AppComponent implements OnInit{
   auth: any;
   user: any;
   constructor(private router:Router) {
+
   }
   async ngOnInit() {
     this.initializeApp();  
@@ -31,5 +35,6 @@ export class AppComponent implements OnInit{
   
     this.router.navigateByUrl('loading')
   }
+
   
 }
