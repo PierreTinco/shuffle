@@ -45,6 +45,7 @@
     "metamask-extension-provider": "^3.0.0",
     "ng2-search-filter": "^0.5.1",
     "npm": "^8.5.5",
+    "rxfire": "^6.0.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "web3": "^1.6.1",
