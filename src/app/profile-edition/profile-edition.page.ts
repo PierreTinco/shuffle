@@ -36,13 +36,6 @@ export class ProfileEditionPage implements OnInit {
   async ngOnInit() {
     await this.api.loadSaved();
   }
-  openOptionSelection(){}
-
-  editProfil(){}
-    
-  addPhotoToGallery() {
-      this.api.choosePicture();
-    }
 
   public async showActionSheet(photo: UserPhoto, position: number) {
     const actionSheet = await this.actionSheetController.create({
