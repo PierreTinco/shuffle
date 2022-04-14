@@ -44,7 +44,6 @@ export class accueilPage implements OnInit {
     console.log('on init accueil');
     this.events = await this.api.getAllEvents().toPromise();
     console.log(this.events);
-    console.log(format(parseISO(this.events[1].date_start), 'MMM dd yyyy'))
     this.auth = getAuth()
     this.user = this.auth.currentUser
     if(this.user != null)

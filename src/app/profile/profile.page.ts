@@ -48,9 +48,6 @@ export class ProfilePage implements OnInit {
 
   }
 
-  getUser() {
-      console.log(this.user);
-  }
   async openAlertLogOut(){
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',

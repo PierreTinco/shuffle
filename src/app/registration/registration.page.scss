@@ -1,3 +1,15 @@
 ion-content{
     --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) no-repeat center center /cover ;
 }
+
+ion-item {
+    --background: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+form{
+    margin-top: 80px;
+}

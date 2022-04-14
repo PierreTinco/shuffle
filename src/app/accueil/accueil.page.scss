@@ -43,9 +43,7 @@ ion-card-title{
     border-radius: 31.5px;
 }
 
-ion-card-content{
-    width: 150px;
-}
+
 
 ::ng-deep .header-ios ion-toolbar:last-of-type{
     --border-width: 0 !important;
@@ -69,6 +67,10 @@ ion-card-subtitle{
 
 ion-card-content{
     width: auto;
+}
+
+ion-card-content{
+    width: 150px;
 }
 
 #map{

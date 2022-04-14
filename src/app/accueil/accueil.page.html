@@ -1,5 +1,5 @@
 <ion-header style="display: flex;flex-direction: row;" collapse="condense">
-  <script async
+  <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly">
 </script>
   <ion-toolbar>
@@ -16,12 +16,8 @@
 </ion-header>
 
 
-<ion-content [fullscreen]="true" >
+<ion-content [fullscreen]="true" class="background">
   <div onload="initMap()">
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly"
-      >
-    </script>
       <div id="map" *ngIf="viewMap"></div>
   </div>
  

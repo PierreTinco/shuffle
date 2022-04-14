@@ -21,10 +21,6 @@ const routes: Routes = [
     loadChildren: () => import('./profile-edition/profile-edition.module').then( m => m.ProfileEditionPageModule)
   },
   {
-    path: 'logout',
-    loadChildren: () => import('./logout/logout.module').then( m => m.LogoutPageModule)
-  },
-  {
     path: 'welcome',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
   },
