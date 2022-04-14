@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { format, parseISO } from 'date-fns';
+import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+import {AppComponent} from '../app.component'
 @Component({
   selector: 'app-createEvent',
   templateUrl: 'createEvent.page.html',
@@ -28,10 +31,16 @@ export class createEventPage {
   public = false;
   free = true;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private app: AppComponent) {}
 
   async ngOnInit() {
+    
     await this.api.loadSaved();
+
+
+
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+    // const storage = getStorage(firebaseApp);
   }
 
  async addPhotoToGallery() {
