@@ -19,6 +19,15 @@
 <ion-row *ngIf="!isViewingMode">
   <ion-col  >
     <ion-item>
+
+      <ion-fab size="3"  class="ion-text-center"  (click)="addPhotoToGallery()" vertical="bottom"  >
+       <ion-fab-button >
+         <ion-icon name="camera" class="icon" ></ion-icon>
+        </ion-fab-button> 
+      </ion-fab> 
+     
+    </ion-item>
+    <ion-item>
       <ion-label>Event Name:</ion-label>
       <ion-input type="text " [(ngModel)]="event.name"  placeholder="Projet Shuffle"></ion-input>
     </ion-item>

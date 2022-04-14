@@ -30,7 +30,13 @@ export class createEventPage {
 
   constructor(private api: ApiService) {}
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    await this.api.loadSaved();
+  }
+
+ async addPhotoToGallery() {
+    await this.api.choosePicture();
+  }
 
   async addEvent() {
     this.event.date_start = format(parseISO(this.event.date_start), 'MMM dd yyyy')
