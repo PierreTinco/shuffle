@@ -9,14 +9,15 @@
 <ion-content>
   <form>
     <ion-item >
-      <ion-label position="floating"><ion-icon name="mail-outline"></ion-icon>Email</ion-label>
+      <ion-label position="floating"><ion-icon name="mail-outline"></ion-icon>  Email</ion-label>
       <ion-input placeholder="Email" type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating"><ion-icon name="lock-closed-outline"></ion-icon>Password</ion-label>
       <div>
         <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password' " [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
-        <ion-icon slot="end" [name]="passwordToggleIcon" (click)="togglePassword()" ></ion-icon>
+        <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()" > </ion-icon>
+      
       </div>
     </ion-item>
     <ion-row>

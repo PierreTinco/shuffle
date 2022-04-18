@@ -13,27 +13,25 @@ import { getAuth } from "firebase/auth";
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit{
-  app: any
+  firabaseApp: any
   analytics: any
   auth: any;
   user: any;
   constructor(private router:Router) {
-
+    this.initializeApp();
   }
   async ngOnInit() {
-    this.initializeApp();  
-  }
-
-  initializeApp(){
-    this.app = initializeApp(environment.firebaseConfig);
-    this.analytics = getAnalytics(this.app); 
     this.auth = getAuth();
     this.user = this.auth.currentUser
-    console.log(this.auth);
     console.log("user: ", this.user );
     
   
-    this.router.navigateByUrl('loading')
+    this.router.navigateByUrl('loading') 
+  }
+
+  initializeApp(){
+    this.firabaseApp = initializeApp(environment.firebaseConfig);
+    this.analytics = getAnalytics(this.firabaseApp); 
   }
 
   

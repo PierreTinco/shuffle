@@ -9,65 +9,38 @@
 <ion-content [fullscreen]="true" >
   <div class="container">
     <div class="outer" [ngStyle]="{'background-image': 'url(' + photo + ')'}">
-        <div class="inner" (click)="showActionSheet()">
-           <ion-icon name="pencil" class="modif-icon"></ion-icon>
-        </div> 
-      
+
+      <div >
+        <ion-fab class="ion-text-center" (click)="showActionSheet()"vertical="bottom"  >
+          <ion-fab-button>
+            <ion-icon name="pencil" class="icon" ></ion-icon>
+           </ion-fab-button> 
+         </ion-fab>   
+      </div> 
      </div>
   </div>
-
-  <ion-footer class="container">
-    <h3 class="title">Profile pic</h3>
-
-    <ion-grid class="ion-padding-top">
-      <ion-row>
-         
-        <!-- <ion-row>
-          <ion-col size="6" *ngFor="let photo of apiService.photos; index as position">
-            <ion-img [src]="photo.webviewPath" (click)="showActionSheet(photo, position)"></ion-img>
-          </ion-col>
-        </ion-row>  -->
-
-        <ion-fab size="3"  class="ion-text-center"  (click)="showActionSheet()"vertical="bottom"  >
-         <ion-fab-button >
-           <ion-icon name="camera" class="icon" ></ion-icon>
-          </ion-fab-button> 
-        </ion-fab> 
-       
-       
-       </ion-row>
-    </ion-grid>
-  </ion-footer>
 
   <form>
 
     <ion-item >
       <ion-label position="floating">First name</ion-label>
-      <ion-input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input type="text"  [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">Last name</ion-label>
-      <ion-input type="text"  [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input type="text" [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">Pseudo</ion-label>
-      <ion-input type="text" [(ngModel)]="user.pseudo" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input type="text"  required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">Birthdate</ion-label>
-      <ion-input type="date" [(ngModel)]="user.birth_date" [ngModelOptions]="{standalone: true}" required></ion-input>
-    </ion-item>
-    <ion-item >
-      <ion-label position="floating">Gender</ion-label>
-      <ion-select placeholder="Select One" [(ngModel)]="user.gender" [ngModelOptions]="{standalone: true}" required>
-        <ion-select-option value="f">Female</ion-select-option>
-        <ion-select-option value="m">Male</ion-select-option>
-        <ion-select-option value="nod" >Gender no defind</ion-select-option>
-      </ion-select>
+      <ion-input type="date" [(ngModel)]="user.birth_date" [ngModelOptions]="{standalone: true}" placeholder="04/21/2000 "  required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">Email</ion-label>
-      <ion-input type="text"  placeholder="Email" type="text" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input type="mail"  placeholder="Email" type="text" [(ngModel)]="firebaseUser.email" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating"></ion-label>
@@ -93,7 +66,7 @@
   
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="primary" expand="block" (click))="editProfil()">Edit</ion-button>
+        <ion-button type="submit" color="primary" expand="block" (click)="editProfil()">Edit</ion-button>
       </ion-col>
     </ion-row>
   </form>

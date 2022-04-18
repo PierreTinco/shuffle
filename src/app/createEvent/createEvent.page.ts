@@ -21,8 +21,9 @@ export class createEventPage {
     location: '',
     date_start: '',
     time_start: '',
+    date_end:'',
+    time_end:'',
     price: null,
-    date_end: '',
     max_participant: null,
     age_min: '',
     note: '',
@@ -31,7 +32,7 @@ export class createEventPage {
   public = false;
   free = true;
 
-  constructor(private api: ApiService, private app: AppComponent) {}
+  constructor(private api: ApiService, private appComp: AppComponent) {}
 
   async ngOnInit() {
     
@@ -40,7 +41,8 @@ export class createEventPage {
 
 
     // Get a reference to the storage service, which is used to create references in your storage bucket
-    // const storage = getStorage(firebaseApp);
+    const storage = getStorage(this.appComp.firabaseApp);
+  
   }
 
  async addPhotoToGallery() {

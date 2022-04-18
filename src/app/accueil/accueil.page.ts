@@ -6,6 +6,7 @@ import { getAuth } from "firebase/auth";
 import { format, parseISO } from 'date-fns';
 import { Geolocation } from '@capacitor/geolocation';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { Observable } from 'rxjs';
 
 declare let window: any;
 
@@ -17,21 +18,19 @@ declare let window: any;
 export class accueilPage implements OnInit {
   details: Event;
   events: any;
-  user: any
-  auth: any
+  user: any;
+  auth: any;
   provider: any;
   clicked = false;
   connected = false;
   curentAccount: any;
   ticketQuantity = null;
   searchText = '';
-  date: string
+  date: string;
   ticket_qty = null;
   viewMap = null;
 
-  map:google.maps.Map;
-
-
+  map: google.maps.Map;
 
   web3 = new Web3(
     'https://ropsten.infura.io/v3/2d0c4c5065844f828e66b7b2f543a119'
@@ -40,15 +39,26 @@ export class accueilPage implements OnInit {
   free = false;
   constructor(private api: ApiService) {}
   // @ViewChild('map') mapView: ElementRef;
+
   async ngOnInit() {
+
+      console.log(window.ethereum.chainId);
+    const chainObservable: any = null
     console.log('on init accueil');
     this.events = await this.api.getAllEvents().toPromise();
     console.log(this.events);
-    this.auth = getAuth()
-    this.user = this.auth.currentUser
-    if(this.user != null)
-      console.log(this.user);
+    this.auth = getAuth();
+    this.user = this.auth.currentUser;
+    //chainObservable.subscribe(this.checkChainId())
+    //console.log(chainObservable);
+    window.ethereum.on('chainChanged', (chainId) => {
 
+      console.log(chainId);
+
+      
+    
+    });
+    
     if (window.ethereum.selectedAdress == window.ethereum) {
       console.log('test');
 
@@ -56,29 +66,26 @@ export class accueilPage implements OnInit {
     }
   }
 
-  participateFree() {
-
-  }
-
+  participateFree() {}
 
   participate(walletAdress: any) {
     this.sendTr(walletAdress);
   }
 
-  add(){
+  add() {
     this.ticket_qty += 1;
     console.log(this.ticket_qty + 1);
   }
 
-  remove(){
-    if(this.ticket_qty-1 < 1){
+  remove() {
+    if (this.ticket_qty - 1 < 1) {
       this.ticket_qty = 1;
-      console.log('ticket_1->' + this.ticket_qty)
+      console.log('ticket_1->' + this.ticket_qty);
+    } else {
+      this.ticket_qty -= 1;
+      console.log('ticket_2->' + this.ticket_qty);
+    }
   }
-  else{
-    this.ticket_qty -= 1;
-    console.log('ticket_2->' +this.ticket_qty);
-  }}
 
   connectWallet() {
     if (window.ethereum) {
@@ -136,7 +143,7 @@ export class accueilPage implements OnInit {
     else this.free = false;
   }
 
-  viewMapfct(){
+  viewMapfct() {
     this.viewMap = !this.viewMap;
   }
 
@@ -153,21 +160,45 @@ export class accueilPage implements OnInit {
     console.log('Current position:', coordinates);
   }
 
-
-  initMap(){
+  initMap() {
     const directionsRenderer = new google.maps.DirectionsRenderer();
     const directionsService = new google.maps.DirectionsService();
-    const center= {lat: 30, lng: -110};
- 
-     this.map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
-      center:center,
-      zoom: 8,
-     });
-     const marker = new google.maps.Marker({
-       position: center,
-       map: this.map,
-     });
-   }
+    const center = { lat: 30, lng: -110 };
 
+    this.map = new google.maps.Map(
+      document.getElementById('map') as HTMLElement,
+      {
+        center: center,
+        zoom: 8,
+      }
+    );
+    const marker = new google.maps.Marker({
+      position: center,
+      map: this.map,
+    });
+  }
+
+  checkChainId() {
+    // Create an Observable that will start listening to chain updates
+    // when a consumer subscribes.
+    const chainId = new Observable((observer) => {
+      let watchId: number;
+      if(window.ethereum.isConnected())
+      {
+        window.ethereum.on('chainChanged', (chainId) => {
+          // Handle the new chain.
+          // Correctly handling chain changes can be complicated.
+          // We recommend reloading the page unless you have good reason not to.
+          console.log(chainId);
+          
+        
+        });
+
+      }
+
+
+      return observer
+    });
+  }
 
 }
