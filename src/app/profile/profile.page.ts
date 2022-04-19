@@ -3,7 +3,7 @@ import { getAuth, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import { AlertController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
-
+import{ Router } from '@angular/router'
 declare let window: any;
 
 @Component({
@@ -24,7 +24,7 @@ export class ProfilePage implements OnInit {
   curentAccount: any;
 
   constructor(private api: ApiService,public alertController: AlertController,
-    public actionSheetController: ActionSheetController) { }
+    public actionSheetController: ActionSheetController, private routes:Router) { }
 
   async ngOnInit() {
     this.auth = getAuth()
@@ -37,6 +37,7 @@ export class ProfilePage implements OnInit {
     {
       this.connected = true
     }
+    
     this.buttonEvents = [
       {value: 'grid', icon:'grid'},
       {value: 'reels', icon:'shuffle'}
@@ -51,9 +52,8 @@ export class ProfilePage implements OnInit {
   async openAlertLogOut(){
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Are you sure you want to log out?',
-      subHeader: 'Subtitle',
-      message: 'You saved your credentials, so the logging back in will be easy.',
+      header: 'log out?',
+      subHeader: 'Are you sure you want to log out ?',
       buttons: [{
         text: 'Cancel',
         role: 'cancel',
@@ -160,12 +160,22 @@ export class ProfilePage implements OnInit {
         handler: () => {
         this.openAlerConnectWallet();
         console.log('Confirm wallet');
-        }
+        },
+      },{
+        text: 'Create an event',
+        role: 'create',
+        icon: 'add',
+        handler: () => {
+          this.routes.navigateByUrl('createEvent');
+          },
       }]
     });
     await actionSheet.present();
   }
 
+  goTocreateEvent() {
+    this.routes.navigateByUrl('createEvent');
+  }
 
 }
 

@@ -1,3 +1,8 @@
+
+::ng-deep .header-collapse-condense ion-toolbar:first-of-type {
+    padding-top: 0px; 
+}
+
 ion-icon {
     font-size: 180%;
     margin-top: 5px;
@@ -9,8 +14,25 @@ ion-card .event-details .event-img{
     height: max-content;
 }
 
-::ng-deep .card-details .ios .hydrated ion-card:last-of-type{
-    height: 600px !important;
+.event-details{
+    --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) 0 0/100% 100% no-repeat;
+}
+
+
+
+::ng-deep   .card-details .ios .hydrated ion-card:last-of-type{
+    height: 800px !important;
+    width: 700px !important;
+
+    // margin-inline-start: unset;
+    // margin-inline-end: unset;
+
+}
+:host .card-details ion-card:last-of-type{
+    --margin-inline-end: 0px !important;
+    --margin-inline-start: 0px !important;
+    margin-left: -100px;
+    
 }
 
 .background{
@@ -36,13 +58,21 @@ ion-card-title{
 
 ::ng-deep .event-img:last-of-type{
     background: url(https://i.pravatar.cc/150) 0 0/100% 100% no-repeat;
-    margin-top: 20px;
+    margin-top: 25px;
     margin-left: 20px;
     width: 170px !important;
     height: 180px;
     border-radius: 31.5px;
 }
 
+
+.event-details-img{
+    background: url(https://i.pravatar.cc/150) 0 0/100% 100% no-repeat;
+    width: 400px;
+    height: 300px;
+    margin-bottom: -30px;   
+
+}
 
 
 ::ng-deep .header-ios ion-toolbar:last-of-type{
@@ -55,7 +85,7 @@ ion-card-title{
 }
 
 ::ng-deep ion-card:last-of-type{
-    opacity: 0.99;
+    margin-bottom: 0px;
 }
 
 
@@ -67,10 +97,11 @@ ion-card-subtitle{
 
 ion-card-content{
     width: auto;
+    width: 150px;
 }
 
-ion-card-content{
-    width: 150px;
+.map-btn{
+    margin-left: 240px;
 }
 
 #map{

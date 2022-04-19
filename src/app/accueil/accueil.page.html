@@ -3,13 +3,10 @@
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly">
 </script>
   <ion-toolbar>
-    <ion-button [routerLink]="['/createEvent']" *ngIf="!clicked">add Event
-      <ion-icon name="add"></ion-icon>
-    </ion-button>
     <ion-button [routerLink]="['/profile']" *ngIf="!clicked">
       <ion-icon name="person-circle"></ion-icon>
     </ion-button>
-    <ion-button (click)="viewMapfct()">
+    <ion-button (click)="viewMapfct()" *ngIf="!clicked" class="map-btn">
       <ion-icon name="location"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -23,9 +20,9 @@
  
   <app-explore-container name="accueil"></app-explore-container>
   <ion-content *ngIf="clicked"  class="event-details">
-    <div class="event-img"></div>
+    <div class="event-details-img"></div>
     <ion-card class="card-details">
-      <ion-card-header>
+      <ion-card-header class="card-header">
         <ion-icon (click)="return()" name="arrow-back"></ion-icon>
         <ion-card-title>{{details[0].name}}</ion-card-title>
       </ion-card-header>
@@ -51,7 +48,8 @@
 
 
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
-  <ion-list *ngIf="!clicked && !viewMap" class="bg-transparent">
+  <ion-button> <ion-icon name="add"></ion-icon>Filter</ion-button>
+  <ion-list class="eventList" *ngIf="!clicked && !viewMap" class="bg-transparent">
     <ion-item-sliding *ngFor="let item of events | filter : searchText">
       <ion-card (click)="viewMore(item.id)" class="events" style="display: flex;flex-direction: row;">
         <div class="event-img"></div>

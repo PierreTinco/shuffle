@@ -4,6 +4,7 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Storage } from '@capacitor/storage';
 import { ActionSheetController } from '@ionic/angular';
+import { getAuth, User } from 'firebase/auth';
 import { ApiService, UserPhoto } from '../services/api.service';
 @Component({
   selector: 'app-profile-edition',
@@ -11,18 +12,11 @@ import { ApiService, UserPhoto } from '../services/api.service';
   styleUrls: ['./profile-edition.page.scss'],
 })
 export class ProfileEditionPage implements OnInit {
-    user = {
-    token: "",
-    gender: null,
-    name: "",
-    surname : "",
-    pseudo : "",
-    birth_date :"",
-    email: "",
-    password : "",
-    wallet: "",
-    phone_number : ""
-  }
+  currentUser: any
+  users: any
+  auth: any
+  user: any
+  firebaseUser: any
   filepath: string;
   webviewPath: string;
   
@@ -30,10 +24,18 @@ export class ProfileEditionPage implements OnInit {
 
   photo = 'https://i.pravatar.cc/150';
   public photos: UserPhoto[] = [];
+  connected: boolean;
   constructor(private api: ApiService,
     public actionSheetController: ActionSheetController) { }
 
   async ngOnInit() {
+    this.auth = getAuth()
+    this.firebaseUser = this.auth.currentUser
+    this.users = await this.api.getUser().toPromise()
+    console.log(this.users);
+    this.filterUser()
+    this.user = this.currentUser[0]
+    console.log("current user test ", this.user);
     await this.api.loadSaved();
   }
 
@@ -69,7 +71,15 @@ export class ProfileEditionPage implements OnInit {
     });
     await actionSheet.present();
   }
-
+  filterUser() {
+    const userToken = this.firebaseUser.uid  
+    this.currentUser = this.users.filter(users =>
+      users.token == userToken
+    );
+    console.log("current user ", this.currentUser);
+  }
  
-  
+  editProfil(){
+
+  }
 }

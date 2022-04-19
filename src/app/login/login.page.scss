@@ -15,6 +15,13 @@ form{
     color: whitesmoke;
     
 }
+ion-item {
+    --background: rgba(255, 255, 255, 0.6);
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
 
 ion-list{
     background: transparent;
