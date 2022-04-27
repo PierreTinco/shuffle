@@ -10,7 +10,7 @@ import{ Router } from '@angular/router'
 
 export class LoginPage implements OnInit {
   showPassword = false;
-  passwordToggleIcon = "eye";
+  passwordToggleIcon = "eye-off";
   app: any;
   analytics: any
   auth: any

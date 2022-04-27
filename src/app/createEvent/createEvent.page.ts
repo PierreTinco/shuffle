@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { format, parseISO } from 'date-fns';
-import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
-import {AppComponent} from '../app.component'
+import { Firestore, doc, setDoc } from '@angular/fire/firestore'
+import { ref, Storage, getDownloadURL, uploadString } from '@angular/fire/storage';
+import {  getAuth, User } from 'firebase/auth';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+
+
+
 @Component({
   selector: 'app-createEvent',
   templateUrl: 'createEvent.page.html',
   styleUrls: ['createEvent.page.scss'],
 })
 export class createEventPage {
+  userRef: any
+  user: User
   isAddingMode = false;
   isViewingMode = false;
   isPayingMode = false;
@@ -30,24 +36,34 @@ export class createEventPage {
     wallet: '',
   };
   public = false;
-  free = true;
+  free = true;  
 
-  constructor(private api: ApiService, private appComp: AppComponent) {}
+  constructor(private api: ApiService) {}
 
   async ngOnInit() {
-    
-    await this.api.loadSaved();
+    const auth = getAuth()
+    this.user = auth.currentUser
+    //,private firestore: Firestore,  private storage: Storage
+    //this.userRef = doc(this.firestore, `users/${this.user.uid}`)
+    //await this.api.loadSaved();
 
-
-
-    // Get a reference to the storage service, which is used to create references in your storage bucket
-    const storage = getStorage(this.appComp.firabaseApp);
-  
   }
 
- async addPhotoToGallery() {
-    await this.api.choosePicture();
-  }
+//  async addPhoto(cameraFile: Photo) {
+//   const storageRef = ref(this.storage, `upload/${this.user.uid}/profile.png`)
+//    // await this.api.choosePicture();
+//    try{
+//     await uploadString(storageRef, cameraFile.base64String)
+//     const imageUrl = await getDownloadURL(storageRef)
+//     await setDoc(this.userRef, {
+//       imageUrl
+//     });
+//     return true
+//    }
+//    catch{
+//      return null
+//    }
+//   }
 
   async addEvent() {
     this.event.date_start = format(parseISO(this.event.date_start), 'MMM dd yyyy')
@@ -112,4 +128,13 @@ export class createEventPage {
   formatDate(value: string) {
     return format(parseISO(value), 'MMM dd yyyy');
 }
+
+  async changeImg() {
+    const img = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Photos,
+    });
+  }
 }

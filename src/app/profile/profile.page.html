@@ -9,12 +9,15 @@
     <ion-buttons slot="start">
       <ion-back-button [routerLink]="['/accueil']">Back</ion-back-button>
     </ion-buttons>
-      
+  
     <ion-buttons slot="end" >
       <ion-button fill="clear" color="dark">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button> 
+      
+      <ion-button fill="clear" color="dark" (click)="openPopover($event)">
         <ion-icon name="add-circle-outline"></ion-icon>
       </ion-button>
-
       <ion-button fill="clear" color="dark" (click)="showMenuSheet()">
         <ion-icon name="menu-outline"></ion-icon>
       </ion-button>
@@ -28,9 +31,9 @@
   <ion-grid>
     <ion-row>
       <ion-col size="3">
-        <ion-thumbnail>
-          <ion-icon name="person-circle-outline"></ion-icon>
-        </ion-thumbnail>
+        <ion-avatar>
+          <img src="https://i.pravatar.cc/150">
+        </ion-avatar>
       </ion-col>
       <ion-col size="3" class="ion-text">
         <ion-label>
@@ -40,16 +43,16 @@
           </p>
         </ion-label>
       </ion-col>
-      <ion-col size="3" class="ion-text">
-        <ion-label>
+      <ion-col size="3" class="ion-text" [routerLink]="['/follow']">
+        <ion-label >
           <strong>1000</strong>
           <p>
             <ion-text color="medium">Followers</ion-text>
           </p>
-        </ion-label>
+        </ion-label >
       </ion-col>
-      <ion-col size="3" class="ion-text">
-        <ion-label>
+      <ion-col size="3" class="ion-text" [routerLink]="['/follow']">
+        <ion-label >
           <strong>120</strong>
           <p>
             <ion-text color="medium">Follow</ion-text>
@@ -64,25 +67,78 @@
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button>
+        <ion-button (click)="viewFriendF()" >
           <ion-icon name="person-add-outline"></ion-icon>
         </ion-button>
+
       </ion-col>
+      <!-- <ion-button size="big" fill="outline" [routerLink]="['/createEvent']"><ion-text>create</ion-text></ion-button> -->
       <ion-col>
           <ion-button *ngIf="connected" (click)="openAlertLogOut()">
           log out 
         </ion-button>
-        <ion-button *ngIf="!connected" [routerLink]="['/login']">
+        <ion-button *ngIf="!connected" [routerLink]="['/welcome']">
           connect
         </ion-button>
       </ion-col>
+
+      <ion-slides *ngIf="viewFriends" [options]="sliderConfig">
+        <ion-card class="friends">
+          <ion-icon  name="close-outline"></ion-icon>
+          <ion-card-header>
+            <ion-card-title>F Profil</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            <ion-avatar name="person-circle-outline">
+              <img src="https://i.pravatar.cc/150">
+            </ion-avatar><br>
+            <ion-button >add</ion-button>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-slides>
     </ion-row>
-    <ion-row class="card" (ionChange)="buttonsChanged()">
-      <ion-segment mode="md" [value]="buttonValue">
-        <ion-segment-button [value]="item?.value" *ngFor="let item of buttonEvents">
-          <ion-icon [name]="buttonValue == item?.value ? item?.icon : item?.icon + '-outline'"></ion-icon>
+    
+    <ion-row >
+      
+      <ion-segment size="big" expand="block" mode="md"  [(ngModel)]="segmentModel"  (ionChange)="buttonsChanged($event)" >
+        <ion-segment-button value="creation">
+          <ion-icon name="grid-outline"></ion-icon>
+        </ion-segment-button>
+  
+        <ion-segment-button value="participation">
+          <ion-icon name="shuffle"></ion-icon>
         </ion-segment-button>
       </ion-segment>
+    </ion-row>
+
+    <ion-row>
+      <ion-grid *ngIf="segmentModel === 'creation'">
+        <ion-card >
+          <ion-card-header>
+            <ion-card-subtitle>Segment Content</ion-card-subtitle>
+            <ion-card-title>Creation</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            You will see your precedent creations...
+          </ion-card-content>
+        </ion-card>
+      </ion-grid>
+      <ion-grid *ngIf="segmentModel === 'participation'">
+        <ion-card >
+          <ion-card-header>
+            <ion-card-subtitle>Segment Content</ion-card-subtitle>
+            <ion-card-title>Participation</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            You will see your precedent participations...
+          </ion-card-content>
+        </ion-card>
+      </ion-grid> 
+      
     </ion-row>
   </ion-grid>
 </ion-content>
