@@ -30,9 +30,9 @@ export class ProfilePage implements OnInit {
     this.auth = getAuth()
     this.user = this.auth.currentUser
     this.users = await this.api.getUser().toPromise()
-    console.log(this.users);
+    //console.log(this.users);
     this.filterUser()
-    console.log("current user ", this.currentUser[0].name);
+    //console.log("current user", this.currentUser[0].name);
     if (this.user != null )
     {
       this.connected = true

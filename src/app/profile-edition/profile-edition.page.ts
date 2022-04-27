@@ -4,7 +4,7 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Storage } from '@capacitor/storage';
 import { ActionSheetController } from '@ionic/angular';
-import { getAuth, User } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { ApiService, UserPhoto } from '../services/api.service';
 @Component({
   selector: 'app-profile-edition',
@@ -33,9 +33,9 @@ export class ProfileEditionPage implements OnInit {
     this.firebaseUser = this.auth.currentUser
     this.users = await this.api.getUser().toPromise()
     console.log(this.users);
-    this.filterUser()
+     this.filterUser()
     this.user = this.currentUser[0]
-    console.log("current user test ", this.user);
+    console.log("current user test", this.user);
     await this.api.loadSaved();
   }
 
@@ -71,7 +71,7 @@ export class ProfileEditionPage implements OnInit {
     });
     await actionSheet.present();
   }
-  filterUser() {
+  async filterUser() {
     const userToken = this.firebaseUser.uid  
     this.currentUser = this.users.filter(users =>
       users.token == userToken
