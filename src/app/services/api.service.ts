@@ -40,6 +40,9 @@ export class ApiService {
     return this.http.post(`${environment.apiUrl}/user`, {responseType: 'text'})
   }
 
+  getFriends(){
+    return this.http.post(`${environment.apiUrl}/friends`,{responseType: 'text'})
+  }
   // getPhoto() {
   //   return this.http.get<ApiImage[]>('${this.url}/image')
   // }

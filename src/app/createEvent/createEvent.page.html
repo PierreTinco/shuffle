@@ -7,92 +7,89 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-    <ion-button [routerLink]="['/profile']" color="primary">
-      <ion-icon name="person-circle"></ion-icon>
-    </ion-button>
-  </ion-buttons>
+      <ion-button [routerLink]="['/profile']" color="primary">
+        <ion-icon name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-fab size="3"    (click)="addPhotoToGallery()"   >
-    <ion-fab-button >
-      <ion-icon name="camera" class="icon" ></ion-icon>
-     </ion-fab-button> 
-   </ion-fab> 
-  <ion-row *ngIf="!isViewingMode">
-  <ion-col  >
-    <ion-item>
-
-      <ion-fab size="3"  class="ion-text-center"  (click)="changeImg()" vertical="bottom"  >
-       <ion-fab-button  >
-         <ion-icon name="camera" class="icon" ></ion-icon>
+      <img src="https://i.pravatar.cc/150">
+      <ion-fab size="3"    (click)="addPhotoToGallery()"   >
+        <ion-fab-button >
+          <ion-icon name="camera" class="icon"></ion-icon>
         </ion-fab-button> 
-      </ion-fab> 
-     
-    </ion-item>
-    <ion-item>
-      <ion-label>Event Name:</ion-label>
-      <ion-input type="text " [(ngModel)]="event.name"  placeholder="Projet Shuffle"></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label position="floating">Event Location</ion-label>
-        <ion-input type="text " [(ngModel)]="event.location"  placeholder="666 chemin du Rorota"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Description</ion-label>
-      <ion-input type="text" class="ion-margin-left" [(ngModel)]="event.description"  placeholder="...."></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Start Date</ion-label>
-      <ion-input  type="date" [(ngModel)]="event.date_start"placeholder="04/21/2000 "  pickerFormat="YYYY-MM-DD">  </ion-input>
-    </ion-item>
+      </ion-fab>
+   
+      <ion-row *ngIf="!isViewingMode">
+        <ion-col  >
 
-    <ion-item>
-      <ion-label position="floating">Start Time</ion-label>
-      <ion-input type="time" [(ngModel)]="event.time_start" placeholder="04:20 AM" displayFormat="HH:mm" pickerFormat="HH:mm" ></ion-input>
-    </ion-item>
+          <ion-item>
+            <ion-label position="floating">Event Name:</ion-label>
+            <ion-input type="text " [(ngModel)]="event.name"  placeholder="Projet Shuffle"></ion-input>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="floating" >End Date</ion-label>
-      <ion-input  type="date" [(ngModel)]="event.date_end" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">  </ion-input>
-    </ion-item>
+          <ion-item>
+              <ion-label position="floating">Event Location</ion-label>
+              <ion-input type="text " [(ngModel)]="event.location"  placeholder="666 chemin du Rorota"></ion-input>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">End at</ion-label>
-      <ion-input type="time" [(ngModel)]="event.time_end" placeholder="04:20 AM" displayFormat="HH:mm" pickerFormat="HH:mm" ></ion-input>
-    </ion-item>
+          <ion-item>
+            <ion-label position="floating">Description</ion-label>
+            <ion-input type="text" class="ion-margin-left" [(ngModel)]="event.description"  placeholder="...."></ion-input>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Expected number of participants</ion-label>
-      <ion-input type="number" [(ngModel)]="event.max_participant"  placeholder="Expected participant"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Age minimum</ion-label>
-      <ion-input type="number" [(ngModel)]="event.age_min" placeholder="18"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Private <ion-checkbox  [(ngModel)]="public" checked="false">Private </ion-checkbox></ion-label>
-      
-    </ion-item>
+          <ion-item>
+            <ion-label position="floating">Start Date</ion-label>
+            <ion-input  type="date" [(ngModel)]="event.date_start"placeholder="04/21/2000 "  pickerFormat="YYYY-MM-DD">  </ion-input>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="floating" >For free
-        <ion-checkbox  (click)="isPayingModeHandler()" [(ngModel)]="free" checked="false">free </ion-checkbox>
-      </ion-label>
-      
-    </ion-item>
+          <ion-item>
+            <ion-label position="floating">Start Time</ion-label>
+            <ion-input type="time" [(ngModel)]="event.time_start" placeholder="04:20 AM" displayFormat="HH:mm" pickerFormat="HH:mm" ></ion-input>
+          </ion-item>
 
-    <ion-item *ngIf="isPayingMode">
-      <ion-label>Price:</ion-label>
-      <ion-input  [(ngModel)]="event.price"  placeholder="0 eth"></ion-input>
-      <ion-label>Wallet:</ion-label>
-      <ion-input  [(ngModel)]="event.wallet"  placeholder="00x"></ion-input>
-    </ion-item>
+          <ion-item>
+            <ion-label position="floating" >End Date</ion-label>
+            <ion-input  type="date" [(ngModel)]="event.date_end" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">  </ion-input>
+          </ion-item>
 
-    <ion-button expand="block" (click)="addEvent()" >Confirm</ion-button>
-  </ion-col>
-</ion-row>
+          <ion-item>
+            <ion-label position="floating">End at</ion-label>
+            <ion-input type="time" [(ngModel)]="event.time_end" placeholder="04:20 AM" displayFormat="HH:mm" pickerFormat="HH:mm" ></ion-input>
+          </ion-item>
 
+          <ion-item>
+            <ion-label position="floating">Expected number of participants</ion-label>
+            <ion-input type="number" [(ngModel)]="event.max_participant"  placeholder="Expected participant"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Age minimum</ion-label>
+            <ion-input type="number" [(ngModel)]="event.age_min" placeholder="18"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Private <ion-checkbox  [(ngModel)]="public" checked="false">Private </ion-checkbox></ion-label>
+
+          </ion-item>
+
+          <ion-item style="display: flex;flex-direction: column;">
+            <ion-label position="floating" >For free
+              <ion-checkbox  slot="end" (click)="isPayingModeHandler()" [(ngModel)]="free" checked="false">free </ion-checkbox>
+            </ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="isPayingMode">
+            <ion-label>Price:</ion-label>
+            <ion-input  [(ngModel)]="event.price"  placeholder="0 eth"></ion-input>
+            <ion-label>Wallet:</ion-label>
+            <ion-input  [(ngModel)]="event.wallet"  placeholder="00x"></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" (click)="addEvent()" >Confirm</ion-button>
+        </ion-col>
+      </ion-row>
+ 
 
 </ion-content>

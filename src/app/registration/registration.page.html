@@ -8,12 +8,13 @@
 </ion-header>
 <ion-content>
   <form>
+      
     <ion-item >
       <ion-label position="floating">First name</ion-label>
       <ion-input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
 
-    <ion-item >
+   <ion-item >
       <ion-label position="floating">Last name</ion-label>
       <ion-input type="text" [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
@@ -44,12 +45,18 @@
 
     <ion-item >
       <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <div style="display: flex;flex-direction: row;">
+        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password' " [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
+        <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()" > </ion-icon>
+      </div>
     </ion-item>
    
     <ion-item >
       <ion-label position="floating">Verify your password</ion-label>
-      <ion-input type="password"   required></ion-input>
+      <div style="display: flex;flex-direction: row;">
+        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password' "  required></ion-input>
+        <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()"  > </ion-icon>
+      </div>
     </ion-item>
 
     <ion-row>

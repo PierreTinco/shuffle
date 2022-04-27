@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { ApiService } from '../services/api.service';
-import{ Router } from '@angular/router'
+import{ Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
@@ -22,11 +23,18 @@ export class RegistrationPage implements OnInit {
   auth: any
   email:any;
   password: any;
-
+  myForm: FormGroup;
+  showPassword = false;
+  passwordToggleIcon = "eye-off";
   constructor(private api: ApiService, private router:Router) {}
 
   ngOnInit() {
     this.auth = getAuth()
+    //,public formBuilder: FormBuilder
+    // this.myForm = this.formBuilder.group({
+    //   email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+    //   password: ['', [Validators.required, Validators.minLength(3)]]
+    // })
   }
 
   async register(email: any, password: any) {
@@ -35,7 +43,7 @@ export class RegistrationPage implements OnInit {
       // Signed in 
       const user = userCredential.user;
       this.addUserToDb(user.uid)
-      this.router.navigateByUrl('accueil')
+      this.router.navigateByUrl('login')
       
       // ...
     })
@@ -49,7 +57,16 @@ export class RegistrationPage implements OnInit {
       // ..
     });
   }
+  togglePassword():void {
+    this.showPassword = !this.showPassword;
 
+    if(this.passwordToggleIcon == 'eye'){
+      this.passwordToggleIcon = 'eye-off';
+    }else {
+      this.passwordToggleIcon = 'eye';
+    }
+
+  }
   async addUserToDb(token: any) {
     this.user.token = token
     console.log(this.user);

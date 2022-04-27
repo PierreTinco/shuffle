@@ -24,11 +24,12 @@ export class accueilPage implements OnInit {
   clicked = false;
   connected = false;
   curentAccount: any;
-  ticketQuantity = null;
   searchText = '';
   date: string;
   ticket_qty = null;
   viewMap = null;
+  totalVal = null;
+  //maxTicket=this.details[0].max_participant;
 
   map: google.maps.Map;
 
@@ -73,20 +74,43 @@ export class accueilPage implements OnInit {
   }
 
   add() {
-    this.ticket_qty += 1;
-    console.log(this.ticket_qty + 1);
+    if (this.details[0].max_participant != 0){
+     this.details[0].max_participant-=1;
+     console.log('restTicket: '+ this.details[0].max_participant);
+     this.ticket_qty += 1;
+     console.log('Ticket qty: '+this.ticket_qty);
+    }
+    else {
+      this.details[0].max_participant=0;
+      console.log('restTicket: '+ this.details[0].max_participant);
+      console.log('Ticket qty: '+this.ticket_qty);
+    }
+   
+    this.total();
   }
-
+//pas bien fait 
   remove() {
     if (this.ticket_qty - 1 < 1) {
       this.ticket_qty = 1;
       console.log('ticket_1->' + this.ticket_qty);
+      this.details[0].max_participant+=1;
+      console.log( 'restTicket: '+this.details[0].max_participant);
+      this.total();
     } else {
       this.ticket_qty -= 1;
       console.log('ticket_2->' + this.ticket_qty);
+      this.details[0].max_participant+=1;
+      console.log( 'restTicket: '+ this.details[0].max_participant);
+      this.total();
     }
   }
 
+  total(){
+    
+    this.totalVal = (this.details[0].price * this.ticket_qty);
+    console.log('Ticket total price: '+ this.totalVal);
+    
+  }
   connectWallet() {
     if (window.ethereum) {
       window.ethereum

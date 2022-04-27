@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { getAuth, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { ApiService } from '../services/api.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, mdTransitionAnimation, PopoverController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
 import{ Router } from '@angular/router'
+import { PopoverComponent} from '../popover/popover.component';
 declare let window: any;
 
 @Component({
@@ -22,9 +23,18 @@ export class ProfilePage implements OnInit {
   buttonEvents: any[] = [];
   clicked = false
   curentAccount: any;
+ segmentModel ="creation";
+ friends:any
+ viewFriends=null;
+ photo = 'https://i.pravatar.cc/150';
+ sliderConfig={
+   spaceBetween:5,
+   centeredSlides:true,
+   slidesPerView:3
+ }
 
   constructor(private api: ApiService,public alertController: AlertController,
-    public actionSheetController: ActionSheetController, private routes:Router) { }
+    public actionSheetController: ActionSheetController, private popCtrl: PopoverController,private routes:Router) { }
 
   async ngOnInit() {
     this.auth = getAuth()
@@ -37,15 +47,16 @@ export class ProfilePage implements OnInit {
     {
       this.connected = true
     }
-    
-    this.buttonEvents = [
-      {value: 'grid', icon:'grid'},
-      {value: 'reels', icon:'shuffle'}
-    ]
+    // this.friends = await this.api.getFriends().toPromise(); 
   }
 
   
-  buttonsChanged() {
+  buttonsChanged(event:any) {
+    this.segmentModel=event.target.value;
+    console.log(this.segmentModel);
+      
+    console.log('event:' ,event);
+    
 
   }
 
@@ -136,6 +147,20 @@ export class ProfilePage implements OnInit {
     );
     console.log("current user ", this.currentUser);
   }
+  public async openPopover(ev:any){
+     const popover=await this.popCtrl.create({
+       component: PopoverComponent,
+       componentProps: {
+
+       },
+       event: ev,
+       translucent:true,
+       mode:'md'
+
+     })
+     return await popover.present()
+
+  }
   public async showMenuSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: '___',
@@ -160,14 +185,16 @@ export class ProfilePage implements OnInit {
         handler: () => {
         this.openAlerConnectWallet();
         console.log('Confirm wallet');
+        
         },
       },{
         text: 'Create an event',
         role: 'create',
         icon: 'add',
         handler: () => {
-          this.routes.navigateByUrl('createEvent');
+          this.goTocreateEvent();
           },
+          
       }]
     });
     await actionSheet.present();
@@ -176,6 +203,11 @@ export class ProfilePage implements OnInit {
   goTocreateEvent() {
     this.routes.navigateByUrl('createEvent');
   }
+
+  viewFriendF() {
+    this.viewFriends = !this.viewFriends;
+  }
+
 
 }
 
