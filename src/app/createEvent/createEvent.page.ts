@@ -47,25 +47,14 @@ export class createEventPage {
     //this.userRef = doc(this.firestore, `users/${this.user.uid}`)
     //await this.api.loadSaved();
 
+    
+
   }
 
-//  async addPhoto(cameraFile: Photo) {
-//   const storageRef = ref(this.storage, `upload/${this.user.uid}/profile.png`)
-//    // await this.api.choosePicture();
-//    try{
-//     await uploadString(storageRef, cameraFile.base64String)
-//     const imageUrl = await getDownloadURL(storageRef)
-//     await setDoc(this.userRef, {
-//       imageUrl
-//     });
-//     return true
-//    }
-//    catch{
-//      return null
-//    }
-//   }
+
 
   async addEvent() {
+    const userEvent = null
     this.event.date_start = format(parseISO(this.event.date_start), 'MMM dd yyyy')
     this.event.date_end = this.formatDate(this.event.date_end)
     this.free == true ? (this.event['free'] = 1) : (this.event['free'] = 0);
@@ -138,3 +127,20 @@ export class createEventPage {
     });
   }
 }
+
+
+//  async addPhoto(cameraFile: Photo) {
+//   const storageRef = ref(this.storage, `upload/${this.user.uid}/profile.png`)
+//    // await this.api.choosePicture();
+//    try{
+//     await uploadString(storageRef, cameraFile.base64String)
+//     const imageUrl = await getDownloadURL(storageRef)
+//     await setDoc(this.userRef, {
+//       imageUrl
+//     });
+//     return true
+//    }
+//    catch{
+//      return null
+//    }
+//   }

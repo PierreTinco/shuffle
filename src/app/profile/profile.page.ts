@@ -3,7 +3,7 @@ import { getAuth, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import { AlertController, mdTransitionAnimation, PopoverController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
-import{ Router } from '@angular/router'
+import{ Router, RouterLink } from '@angular/router'
 import { PopoverComponent} from '../popover/popover.component';
 declare let window: any;
 
@@ -30,7 +30,7 @@ export class ProfilePage implements OnInit {
  sliderConfig={
    spaceBetween:5,
    centeredSlides:true,
-   slidesPerView:3
+   slidesPerView:2
  }
 
   constructor(private api: ApiService,public alertController: AlertController,

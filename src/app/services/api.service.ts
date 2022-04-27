@@ -31,6 +31,10 @@ export class ApiService {
     return this.http.delete(`${environment.apiUrl}/event/delete`,data)
   }
 
+  addUserEvent(data: any){
+    return this.http.post(`${environment.apiUrl}/user_event/insert`,data)
+  }
+
   addUser(data: any) {
     return this.http.post(`${environment.apiUrl}/user/insert`,data)
   }

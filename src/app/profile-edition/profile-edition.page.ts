@@ -1,5 +1,5 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Storage } from '@capacitor/storage';
@@ -15,7 +15,7 @@ export class ProfileEditionPage implements OnInit {
   currentUser: any
   users: any
   auth: any
-  user: any
+  @Input() user: any
   firebaseUser: any
   filepath: string;
   webviewPath: string;
@@ -29,12 +29,6 @@ export class ProfileEditionPage implements OnInit {
     public actionSheetController: ActionSheetController) { }
 
   async ngOnInit() {
-    this.auth = getAuth()
-    this.firebaseUser = this.auth.currentUser
-    this.users = await this.api.getUser().toPromise()
-    console.log(this.users);
-     this.filterUser()
-    this.user = this.currentUser[0]
     console.log("current user test", this.user);
     await this.api.loadSaved();
   }
