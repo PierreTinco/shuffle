@@ -43,7 +43,7 @@ export class createEventPage {
   async ngOnInit() {
     const auth = getAuth()
     this.user = auth.currentUser
-    //,private firestore: Firestore,  private storage: Storage
+    //private firestore: Firestore,  private storage: Storage
     //this.userRef = doc(this.firestore, `users/${this.user.uid}`)
     //await this.api.loadSaved();
 

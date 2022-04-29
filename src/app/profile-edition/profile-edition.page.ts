@@ -22,7 +22,7 @@ export class ProfileEditionPage implements OnInit {
   
 
 
-  photo = 'https://i.pravatar.cc/150';
+
   public photos: UserPhoto[] = [];
   connected: boolean;
   constructor(private api: ApiService,
