@@ -149,7 +149,7 @@ export class accueilPage implements OnInit {
             {
               from: this.curentAccount[0],
               to: hostAccount,
-              value: this.details[0].price,
+              value: this.totalVal,
             },
           ],
         })

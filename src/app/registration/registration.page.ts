@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import{ Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, ValidatorFn } from "@angular/forms";
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
@@ -23,19 +23,46 @@ export class RegistrationPage implements OnInit {
   auth: any
   email:any;
   password: any;
-  myForm: FormGroup;
+  //repeatPassword:any;
+ 
   showPassword = false;
   passwordToggleIcon = "eye-off";
-  constructor(private api: ApiService, private router:Router) {}
+
+  private formBuilder: FormBuilder;
+  private myForm: FormGroup;
+
+  constructor(private api: ApiService, private router:Router,formBuilder: FormBuilder) {
+    this.formBuilder =formBuilder;
+    this.myForm= this.createForm();
+  }
+  private createForm():FormGroup{
+   return this.myForm = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    repeatPassword:['', [Validators.required, Validators.minLength(6)]],
+      user: this.formBuilder.group({
+        gender: ['', [Validators.required]],
+        name: ['',[Validators.required, Validators.minLength(3)]],
+        surname : ['',[Validators.required, Validators.minLength(3)]],
+        birth_date :['',[Validators.required]],
+        wallet : [''],
+        phone_number : ['', [Validators.required, Validators.minLength(9)]],
+        token : ['']
+      })
+    });
+   
+  }
+
+  getForm():FormGroup{
+    return this.myForm;
+  }
+  
 
   ngOnInit() {
     this.auth = getAuth()
-    //,public formBuilder: FormBuilder
-    // this.myForm = this.formBuilder.group({
-    //   email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-    //   password: ['', [Validators.required, Validators.minLength(3)]]
-    // })
+    
   }
+
 
   async register(email: any, password: any) {
     await createUserWithEmailAndPassword(this.auth, email, password)

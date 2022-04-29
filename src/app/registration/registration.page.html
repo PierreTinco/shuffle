@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form>
+  <form [formGroup]="myForm">
       
     <ion-item >
       <ion-label position="floating">First name</ion-label>
@@ -35,12 +35,16 @@
 
     <ion-item >
       <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input formControlName ="email" placeholder="Email" type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <div  *ngIf="myForm.get('email').hasError('required') && myForm.get('email').touched ">
+        <span>{{}}
+      </div>
     </ion-item>
+   
 
     <ion-item >
       <ion-label position="floating">Phone number</ion-label>
-      <ion-input type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}"required></ion-input>
+      <ion-input formControlName ="" placeholder="0769660543"type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}"required></ion-input>
     </ion-item>
 
     <ion-item >
