@@ -65,6 +65,8 @@ export class createEventPage {
     await this.api.addEvents(this.event).subscribe(
       (res) => {
         alert("Event ajouté à l'application");
+        
+
       },
       (err) => {
         alert('Il y a eu une erreur');
@@ -79,16 +81,18 @@ export class createEventPage {
     //   alert("Il y a eu une erreur")
     // })
   }
-  async deleteEvent(event: any) {
-    await this.api.deleteEvents(event).subscribe(
-      (res) => {
-        alert('Event supprimé');
-      },
-      (err) => {
-        alert('Il y a eu une erreur');
-      }
-    );
-  }
+  
+  
+  // async deleteEvent(event: any) {
+  //   await this.api.deleteEvents(event).subscribe(
+  //     (res) => {
+  //       alert('Event supprimé');
+  //     },
+  //     (err) => {
+  //       alert('Il y a eu une erreur');
+  //     }
+  //   );
+  // }
 
 
 

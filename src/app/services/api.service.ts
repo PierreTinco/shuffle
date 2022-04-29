@@ -40,12 +40,13 @@ export class ApiService {
   }
 
 
-  getUser() {
-    return this.http.post(`${environment.apiUrl}/user`, {responseType: 'text'})
+  getUser(data : any) {
+    console.log("data",data)
+    return this.http.post(`${environment.apiUrl}/user`,data)
   }
 
-  getFriends(){
-    return this.http.post(`${environment.apiUrl}/friends`,{responseType: 'text'})
+  getFriends(data : any){
+    return this.http.post(`${environment.apiUrl}/friends`,data)
   }
   // getPhoto() {
   //   return this.http.get<ApiImage[]>('${this.url}/image')
@@ -83,8 +84,12 @@ export class ApiService {
       resultType: CameraResultType.Uri
     
     });
+    console.log(image);
+    
     // Save the picture and add it to photo collection
     const savedImageFile = await this.savePicture(image);
+    console.log("image saved:",savedImageFile);
+    
     this.photos.unshift(savedImageFile);
 
      // Cache all photo data for future retrieval
@@ -127,21 +132,21 @@ export class ApiService {
 
   private async readAsBase64(photo: Photo) {
     // "hybrid" will detect Cordova or Capacitor
-    if (this.platform.is('hybrid')) {
+    // if (this.platform.is('hybrid')) {
       // Read the file into base64 format
       const file = await Filesystem.readFile({
         path: photo.path
       });
 
       return file.data;
-    }
-    else {
+    // }
+    // else {
       // Fetch the photo, read as a blob, then convert to base64 format
-      const response = await fetch(photo.webPath);
-      const blob = await response.blob();
+    //   const response = await fetch(photo.webPath);
+    //   const blob = await response.blob();
 
-      return await this.convertBlobToBase64(blob) as string;
-    }
+    //   return await this.convertBlobToBase64(blob) as string;
+    //  }
   }
   
   private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {

@@ -1,20 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Profile Edition</ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content [fullscreen]="true" >
+
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Profile Edition</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <div class="container">
     <div class="outer" [ngStyle]="{'background-image': 'url(' + photo + ')'}">
       <div >
-        <!-- <ion-fab class="ion-text-center" (click)="showActionSheet()"vertical="bottom"  >
+        <!-- <ion-fab class="ion-text-center" vertical="bottom"  > -->
+
+        <ion-fab class="ion-text-center" (click)="showActionSheet()"vertical="bottom"  >
           <ion-fab-button>
             <ion-icon name="pencil" class="icon" ></ion-icon>
           </ion-fab-button> 
-        </ion-fab>    -->
+        </ion-fab>   
       </div> 
     </div>
   </div>
@@ -22,12 +25,12 @@
   <form>
     <ion-item >
       <ion-label position="floating">First name</ion-label>
-      <ion-input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input type="text" [(ngModel)]="user[0].name" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     
    <ion-item >
       <ion-label position="floating">Last name</ion-label>
-      <ion-input type="text" [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input type="text" [(ngModel)]="user[0].surname" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <!-- <ion-item >
       <ion-label position="floating">Pseudo</ion-label>
@@ -35,15 +38,15 @@
     </ion-item> -->
     <ion-item >
       <ion-label position="floating">Birthdate</ion-label>
-      <ion-input type="date" [(ngModel)]="user.birth_date" [ngModelOptions]="{standalone: true}" placeholder="04/21/2000 "  required></ion-input>
+      <ion-input type="date" [(ngModel)]="user[0].birth_date" [ngModelOptions]="{standalone: true}" placeholder="04/21/2000 "  required></ion-input>
     </ion-item>
-    <ion-item >
+    <!-- <ion-item >
       <ion-label position="floating">Email</ion-label>
-      <ion-input  placeholder="Email" type="text" [(ngModel)]="firebaseUser.email" [ngModelOptions]="{standalone: true}" required></ion-input>
-    </ion-item>
+      <ion-input  placeholder="Email" type="text" [(ngModel)]="firebaseuser[0].email" [ngModelOptions]="{standalone: true}" required></ion-input>
+    </ion-item> -->
     <ion-item >
       <ion-label position="floating">Phone number</ion-label>
-      <ion-input type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input type="phone_number" [(ngModel)]="user[0].phone_number" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">Addresse</ion-label>
@@ -51,7 +54,7 @@
     </ion-item>
     <ion-item >
       <ion-label position="floating">Wallet</ion-label>
-      <ion-input type="text" [(ngModel)]="user.wallet" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input type="text" [(ngModel)]="user[0].wallet" [ngModelOptions]="{standalone: true}" required></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="floating">New Password</ion-label>

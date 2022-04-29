@@ -18,7 +18,7 @@ const routes: Routes = [
   },
   // {
   //   path: 'profile-edition',
-  //   loadChildren: () => import('./profile/profile-edition/profile-edition.module').then( m => m.ProfileEditionPageModule)
+  //   loadChildren: () => import('./profile/ee/profile-edition.module').then( m => m.ProfileEditionPageModule)
   // },
   {
     path: 'welcome',
