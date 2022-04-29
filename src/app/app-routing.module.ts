@@ -16,10 +16,10 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
-  {
-    path: 'profile-edition',
-    loadChildren: () => import('./profile-edition/profile-edition.module').then( m => m.ProfileEditionPageModule)
-  },
+  // {
+  //   path: 'profile-edition',
+  //   loadChildren: () => import('./profile/ee/profile-edition.module').then( m => m.ProfileEditionPageModule)
+  // },
   {
     path: 'welcome',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
@@ -39,7 +39,8 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
-  },  {
+  },
+  {
     path: 'follow',
     loadChildren: () => import('./follow/follow.module').then( m => m.FollowPageModule)
   },

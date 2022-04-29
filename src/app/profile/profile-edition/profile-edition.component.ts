@@ -1,21 +1,18 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, OnInit } from '@angular/core';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Storage } from '@capacitor/storage';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-import { getAuth, User } from 'firebase/auth';
-import { ApiService, UserPhoto } from '../services/api.service';
+import { ApiService, UserPhoto } from 'src/app/services/api.service';
+
 @Component({
   selector: 'app-profile-edition',
-  templateUrl: './profile-edition.page.html',
-  styleUrls: ['./profile-edition.page.scss'],
+  templateUrl: './profile-edition.component.html',
+  styleUrls: ['./profile-edition.component.scss'],
 })
-export class ProfileEditionPage implements OnInit {
+export class ProfileEditionComponent implements OnInit {
+
   currentUser: any
   users: any
   auth: any
-  user: any
+  @Input() user: any
   firebaseUser: any
   filepath: string;
   webviewPath: string;
@@ -29,17 +26,11 @@ export class ProfileEditionPage implements OnInit {
     public actionSheetController: ActionSheetController) { }
 
   async ngOnInit() {
-    this.auth = getAuth()
-    this.firebaseUser = this.auth.currentUser
-    this.users = await this.api.getUser().toPromise()
-    console.log(this.users);
-    this.filterUser()
-    this.user = this.currentUser[0]
-    console.log("current user test ", this.user);
+    console.log("current user test", this.user);
     await this.api.loadSaved();
   }
 
-  public async showActionSheet(photo: UserPhoto, position: number) {
+  public async showActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Change profile photo',
       buttons: [{
@@ -55,7 +46,7 @@ export class ProfileEditionPage implements OnInit {
         role: 'destructive',
         icon: 'trash',
         handler: () => {
-          this.api.deletePicture(photo, position);
+          // this.api.deletePicture(photo, position);
           console.log('Confirm Destruction');
         }
       }, {
@@ -71,7 +62,7 @@ export class ProfileEditionPage implements OnInit {
     });
     await actionSheet.present();
   }
-  filterUser() {
+  async filterUser() {
     const userToken = this.firebaseUser.uid  
     this.currentUser = this.users.filter(users =>
       users.token == userToken
@@ -82,4 +73,5 @@ export class ProfileEditionPage implements OnInit {
   editProfil(){
 
   }
+
 }

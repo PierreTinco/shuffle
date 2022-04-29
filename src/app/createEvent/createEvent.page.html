@@ -17,7 +17,7 @@
 
 <ion-content [fullscreen]="true">
       <img src="https://i.pravatar.cc/150">
-      <ion-fab size="3"    (click)="addPhotoToGallery()"   >
+      <ion-fab size="3">
         <ion-fab-button >
           <ion-icon name="camera" class="icon"></ion-icon>
         </ion-fab-button> 
@@ -70,14 +70,16 @@
             <ion-input type="number" [(ngModel)]="event.age_min" placeholder="18"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Private <ion-checkbox  [(ngModel)]="public" checked="false">Private </ion-checkbox></ion-label>
-
+            <ion-label>Private </ion-label>
+            <ion-checkbox  [(ngModel)]="public" checked="false">Private </ion-checkbox>
           </ion-item>
 
           <ion-item style="display: flex;flex-direction: column;">
-            <ion-label position="floating" >For free
-              <ion-checkbox  slot="end" (click)="isPayingModeHandler()" [(ngModel)]="free" checked="false">free </ion-checkbox>
+            <ion-label>For free
+
             </ion-label>
+            <ion-checkbox  slot="end" (click)="isPayingModeHandler()" [(ngModel)]="free" checked="false">free </ion-checkbox>
+            
           </ion-item>
 
           <ion-item *ngIf="isPayingMode">

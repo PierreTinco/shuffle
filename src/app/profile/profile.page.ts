@@ -3,7 +3,7 @@ import { getAuth, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import { AlertController, mdTransitionAnimation, PopoverController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
-import{ Router } from '@angular/router'
+import{ Router, RouterLink } from '@angular/router'
 import { PopoverComponent} from '../popover/popover.component';
 declare let window: any;
 
@@ -30,34 +30,35 @@ export class ProfilePage implements OnInit {
  sliderConfig={
    spaceBetween:5,
    centeredSlides:true,
-   slidesPerView:3
+   slidesPerView:2
  }
-
+viewAll = false
+isEditing = false
   constructor(private api: ApiService,public alertController: AlertController,
     public actionSheetController: ActionSheetController, private popCtrl: PopoverController,private routes:Router) { }
 
   async ngOnInit() {
     this.auth = getAuth()
     this.user = this.auth.currentUser
-    this.users = await this.api.getUser().toPromise()
-    console.log(this.users);
-    this.filterUser()
-    console.log("current user ", this.currentUser[0].name);
+    console.log("this.user",this.user)
+    this.currentUser = await this.api.getUser({where : {token : this.user.uid} }).toPromise()
+    console.log("current user profile : ", this.currentUser);
+    
+    this.users = await this.api.getUser({}).toPromise()
+    this.viewAll =true
     if (this.user != null )
     {
       this.connected = true
     }
-    // this.friends = await this.api.getFriends().toPromise(); 
   }
 
-  
+  goEditMode(){
+    this.isEditing = !this.isEditing
+  }
   buttonsChanged(event:any) {
     this.segmentModel=event.target.value;
-    console.log(this.segmentModel);
-      
+    console.log(this.segmentModel);  
     console.log('event:' ,event);
-    
-
   }
 
   async openAlertLogOut(){
@@ -140,13 +141,7 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  filterUser() {
-    const userToken = this.user.uid  
-    this.currentUser = this.users.filter(users =>
-      users.token == userToken
-    );
-    console.log("current user ", this.currentUser);
-  }
+
   public async openPopover(ev:any){
      const popover=await this.popCtrl.create({
        component: PopoverComponent,

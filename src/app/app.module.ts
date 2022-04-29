@@ -10,6 +10,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
+import { ProfileEditionComponent } from './profile/profile-edition/profile-edition.component';
 
 @NgModule({
   declarations: [AppComponent],
