@@ -16,6 +16,7 @@ declare let window: any;
   styleUrls: ['accueil.page.scss'],
 })
 export class accueilPage implements OnInit {
+  currentUser: any
   details: Event;
   events: any;
   user: any;
@@ -42,14 +43,15 @@ export class accueilPage implements OnInit {
   // @ViewChild('map') mapView: ElementRef;
 
   async ngOnInit() {
-
-      console.log(window.ethereum.chainId);
-    const chainObservable: any = null
-    console.log('on init accueil');
-    this.events = await this.api.getAllEvents().toPromise();
-    console.log(this.events);
     this.auth = getAuth();
     this.user = this.auth.currentUser;
+    console.log(window.ethereum.chainId);
+    const chainObservable: any = null
+    console.log('on init accueil');
+    this.events = await this.api.getAllEvents({}).toPromise();
+    this.currentUser = await this.api.getUser({where : {token : this.user.uid} }).toPromise()
+    console.log(this.currentUser);
+
     //chainObservable.subscribe(this.checkChainId())
     //console.log(chainObservable);
     window.ethereum.on('chainChanged', (chainId) => {
@@ -67,7 +69,19 @@ export class accueilPage implements OnInit {
     }
   }
 
-  participateFree() {}
+  async participateFree(currentEvent: any) {
+    
+    for(let i = 0 ; i < this.ticket_qty; i++)
+    {
+    await this.api.addUserEvent({id_user: this.currentUser[0].id,id_event: currentEvent.id}).subscribe(
+      (res) => {
+        alert('ok userEvent')
+      }
+      
+    )
+    
+    }
+  }
 
   participate(walletAdress: any) {
     this.sendTr(walletAdress);
@@ -80,7 +94,7 @@ export class accueilPage implements OnInit {
      this.ticket_qty += 1;
      console.log('Ticket qty: '+this.ticket_qty);
     }
-    else {
+    else{
       this.details[0].max_participant=0;
       console.log('restTicket: '+ this.details[0].max_participant);
       console.log('Ticket qty: '+this.ticket_qty);
@@ -93,7 +107,6 @@ export class accueilPage implements OnInit {
     if (this.ticket_qty - 1 < 1) {
       this.ticket_qty = 1;
       console.log('ticket_1->' + this.ticket_qty);
-      this.details[0].max_participant+=1;
       console.log( 'restTicket: '+this.details[0].max_participant);
       this.total();
     } else {

@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
-import { ApiService } from '../services/api.service';
+import { ApiService } from '../../services/api.service';
 import { format, parseISO } from 'date-fns';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore'
 import { ref, Storage, getDownloadURL, uploadString } from '@angular/fire/storage';
 import {  getAuth, User } from 'firebase/auth';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { ActivatedRoute } from '@angular/router';
+import { DataStorageService } from 'src/app/services/datastorage.service';
 
 
 
 @Component({
-  selector: 'app-createEvent',
-  templateUrl: 'createEvent.page.html',
-  styleUrls: ['createEvent.page.scss'],
+  selector: 'app-add-event',
+  templateUrl: 'add-event.component.html',
+  styleUrls: ['add-event.component.scss'],
 })
-export class createEventPage {
+export class addEventPage {
   userRef: any
   user: User
   isAddingMode = false;
@@ -40,10 +41,10 @@ export class createEventPage {
   free = true;  
   idUser: any
 
-  constructor(private api: ApiService, private route: ActivatedRoute) {}
+  constructor(private api: ApiService, private route: ActivatedRoute,private dataStorageService : DataStorageService) {}
 
   async ngOnInit() {
-    this.idUser = this.route.snapshot.paramMap.get('id')
+    this.idUser = this.dataStorageService.getid_user_creator()
     //,private firestore: Firestore,  private storage: Storage
     //this.userRef = doc(this.firestore, `users/${this.user.uid}`)
     //await this.api.loadSaved();
@@ -66,7 +67,7 @@ export class createEventPage {
     await this.api.addEvents(this.event).subscribe(
       (res :any) => {
         alert("Event ajouté à l'application");
-        this.api.addUserEvent({id_user: this.idUser,id_event: res.insertId, status: 'creator'}).subscribe(
+        this.api.addUserEvent({id_user: this.idUser,id_event: res.insertId,status : "creator"}).subscribe(
           (res) => {
             alert('ok userEvent')
           }

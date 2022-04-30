@@ -41,7 +41,7 @@
           </p>
         </ion-label>
       </ion-col>
-      <ion-col size="3" class="ion-text" [routerLink]="['/follow']">
+      <ion-col size="3" class="ion-text"(click)="goToFollowPage('followers')">
         <ion-label >
           <strong>1000</strong>
           <p>
@@ -49,11 +49,11 @@
           </p>
         </ion-label >
       </ion-col>
-      <ion-col size="3" class="ion-text" [routerLink]="['/follow']">
+      <ion-col size="3" class="ion-text" (click)="goToFollowPage('follow')">
         <ion-label >
           <strong>120</strong>
           <p>
-            <ion-text color="medium">Follow</ion-text>
+            <ion-text color="medium"> Follow</ion-text>
           </p>
         </ion-label>
       </ion-col>
@@ -98,30 +98,28 @@
     <ion-row >
       
       <ion-segment size="big" expand="block" mode="md"  [(ngModel)]="segmentModel"  (ionChange)="buttonsChanged($event)" >
-        <ion-segment-button value="creation">
+        <ion-segment-button value="creator">
           <ion-icon name="grid-outline"></ion-icon>
         </ion-segment-button>
   
-        <ion-segment-button value="participation">
+        <ion-segment-button value="participant">
           <ion-icon name="shuffle"></ion-icon>
         </ion-segment-button>
       </ion-segment>
     </ion-row>
 
-    <ion-row>
-      <ion-grid *ngIf="segmentModel === 'creation'">
+  <ion-row *ngFor="let event of returnGoodrray(eventsUser)">
+      <ion-grid *ngIf="segmentModel === 'creator'">
         <ion-card >
           <ion-card-header>
-            <ion-card-subtitle>Segment Content</ion-card-subtitle>
-            <ion-card-title>Creation</ion-card-title>
+            <ion-card-title>{{event.name}}</ion-card-title>
           </ion-card-header>
         
-          <ion-card-content>
-            You will see your precedent creations...
+          <ion-card-content class="eventImg">
           </ion-card-content>
         </ion-card>
       </ion-grid>
-      <ion-grid *ngIf="segmentModel === 'participation'">
+      <ion-grid *ngIf="segmentModel === 'participant'">
         <ion-card >
           <ion-card-header>
             <ion-card-subtitle>Segment Content</ion-card-subtitle>

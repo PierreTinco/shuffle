@@ -19,8 +19,8 @@ export class ApiService {
 
   constructor(private http : HttpClient, platform: Platform) { }
 
-  getAllEvents(){
-    return this.http.post(`${environment.apiUrl}/event`,{responseType: 'text'})
+  getAllEvents(data : any){
+    return this.http.post(`${environment.apiUrl}/event`,data)
   }
 
   addEvents(data :any){
@@ -30,7 +30,10 @@ export class ApiService {
   deleteEvents(data :any){
     return this.http.delete(`${environment.apiUrl}/event/delete`,data)
   }
+  getUserEvent(data :any){
+    return this.http.post(`${environment.apiUrl}/user_event`,data)
 
+  }
   addUserEvent(data: any){
     return this.http.post(`${environment.apiUrl}/user_event/insert`,data)
   }
@@ -84,7 +87,7 @@ export class ApiService {
       resultType: CameraResultType.Uri
     
     });
-    console.log(image);
+    console.log("ici l'image",image);
     
     // Save the picture and add it to photo collection
     const savedImageFile = await this.savePicture(image);
