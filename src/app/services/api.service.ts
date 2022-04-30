@@ -6,7 +6,7 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Storage } from '@capacitor/storage';
 import { Platform } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
-
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +16,8 @@ export class ApiService {
   public photos: UserPhoto[] = [];
   private PHOTO_STORAGE: string = 'photos';
   private platform: Platform;
-
+  private storage = getStorage();
+  private storageRef = ref(this.storage, 'some-child');
   constructor(private http : HttpClient, platform: Platform) { }
 
   getAllEvents(){
@@ -85,12 +86,18 @@ export class ApiService {
     
     });
     console.log(image);
+   
     
     // Save the picture and add it to photo collection
     const savedImageFile = await this.savePicture(image);
     console.log("image saved:",savedImageFile);
     
-    this.photos.unshift(savedImageFile);
+    // this.photos.unshift(savedImageFile);
+
+
+    // uploadBytes(this.storageRef, savedImageFile).then((snapshot) => {
+    //   console.log('Uploaded a blob or file!',snapshot);
+    // });
 
      // Cache all photo data for future retrieval
     Storage.set({
@@ -100,6 +107,15 @@ export class ApiService {
 
   }
   
+  public b64toBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/jpeg' });
+  }
   private async savePicture(photo: Photo) {
     // Convert photo to base64 format, required by Filesystem API to save
     const base64Data = await this.readAsBase64(photo);
