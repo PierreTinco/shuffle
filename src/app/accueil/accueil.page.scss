@@ -20,18 +20,18 @@ ion-card .event-details .event-img{
 
 
 
-::ng-deep   .card-details .ios .hydrated ion-card:last-of-type{
-    height: 800px !important;
-    width: 700px !important;
 
-    // margin-inline-start: unset;
-    // margin-inline-end: unset;
+.card-details {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;    
+    height: 67%;
+    text-transform: uppercase;
+    display:flex;
+    flex-direction: column;
 
-}
-:host .card-details ion-card:last-of-type{
-    --margin-inline-end: 0px !important;
-    --margin-inline-start: 0px !important;
-    margin-left: -100px;
+    align-items: center;
+
+    background-color: white;
     
 }
 
@@ -117,17 +117,23 @@ ion-card-title{
     border-radius: 5px;
     margin-top: -6%;
     z-index: 2;
-    position: absolute;
+    
     padding: 5px 10px;
-    margin-left: 15px;
-    width:auto;
-    background-color: rgb(131, 60, 253);
+    width: 300px;
+    height: 80px;
+    background: linear-gradient(101.18deg, #d158f3 -8.51%, #25cae4 103.04%);
+    border-radius: 31.5025px;
     box-shadow: 0 3px 3px rgba(0,0,0,0.15);
     text-align: center;
-    font-size: 12px;
+    font-size: 30px;
     font-family: Garamond;
     color:white;
-    text-transform: uppercase;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  
 
 }
 ion-card-subtitle{

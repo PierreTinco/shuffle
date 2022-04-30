@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { addEventPage } from './profile/add-event/add-event.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,10 @@ const routes: Routes = [
   //   path: 'profile-edition',
   //   loadChildren: () => import('./profile/ee/profile-edition.module').then( m => m.ProfileEditionPageModule)
   // },
+  {
+    path: 'addevent',
+    component: addEventPage
+  },
   {
     path: 'welcome',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)

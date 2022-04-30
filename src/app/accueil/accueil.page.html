@@ -21,22 +21,28 @@
   <app-explore-container name="accueil"></app-explore-container>
   <ion-content *ngIf="clicked"  class="event-details">
     <div class="event-details-img"></div>
-    <ion-card class="card-details">
-      <ion-card-header class="card-header">
+    <div class="card-details">
+      <div class="card-header">
         <ion-icon (click)="return()" name="arrow-back"></ion-icon>
-        <ion-card-title>{{details[0].name}}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <div  >
+        <div>{{details[0].name}}</div>
+      </div>
+      <div>
+        <div  style="display: flex;
+        flex-direction: column;">
           <ion-label>{{details[0].description}}</ion-label><br>
           <ion-label> {{details[0].date_start}} </ion-label><br>
-          <ion-label>Nombre de places restantes: {{details[0].max_participant}}</ion-label><br>
-          <ion-label>minimum age: {{details[0].age_min}}</ion-label><br>
-          <ion-label *ngIf="details[0].price > 0"> {{details[0].price}} eth</ion-label><br>
-          <ion-label *ngIf="details[0].price == 0">gratuit</ion-label><br>
+
+          <div style="justify-content: center;">
+            <ion-label>Nombre de places restantes: {{details[0].max_participant}}</ion-label><br>
+            <ion-label>minimum age: {{details[0].age_min}}</ion-label><br>
+            <ion-label *ngIf="details[0].price > 0"> {{details[0].price}} eth</ion-label><br>
+            <ion-label *ngIf="details[0].price == 0">gratuit</ion-label><br>
+          </div>
         </div>
-        <div>
-          <ion-buttons>
+        <div >
+          <ion-buttons style="    display: flex;
+          justify-content: center;
+          margin-bottom: 5%;">
             <ion-button (click)="remove()"><ion-icon name="remove-circle"></ion-icon></ion-button>
             <span>{{ticket_qty}}</span>
             <ion-button (click)="add()"><ion-icon name="add-circle"></ion-icon></ion-button>
@@ -45,18 +51,17 @@
           <ion-label class="box">Total: {{totalVal}} eth</ion-label><br>
   
         </div>
-      </ion-card-content>
+      </div>
      
      
-      <ion-button *ngIf="free" color="primary" (click)="participateFree()">Purchase for free</ion-button>
+      <ion-button *ngIf="free" color="primary" (click)="participateFree(details[0])">Purchase for free</ion-button>
       <ion-button  *ngIf="!free" (click)="sendTr(details[0].wallet)">Purchase</ion-button>
-    </ion-card>
+    </div>
   </ion-content>
 
 
 
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
-  <ion-button> <ion-icon name="add"></ion-icon>Filter</ion-button>
   <ion-list class="eventList" *ngIf="!clicked && !viewMap" class="bg-transparent">
     <ion-item-sliding *ngFor="let item of events | filter : searchText">
       <ion-card (click)="viewMore(item.id)" class="events" style="display: flex;flex-direction: row;">
@@ -67,8 +72,8 @@
           <ion-card-subtitle  >
             <ion-label >{{item.date_start}}</ion-label>
             <ion-label>{{item.location}}</ion-label>
-            <ion-label  *ngIf="item.free > 0"> {{item.price}} eth</ion-label>
-            <ion-label *ngIf="item.free ==0">gratuit</ion-label>
+            <ion-label  *ngIf="item.free == 0"> {{item.price}} eth</ion-label>
+            <ion-label *ngIf="item.free == 1 ">gratuit</ion-label>
           </ion-card-subtitle>
         </ion-card-content>
       </ion-card>

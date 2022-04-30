@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataStorageService } from '../services/datastorage.service';
 
 @Component({
   selector: 'app-follow',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./follow.page.scss'],
 })
 export class FollowPage implements OnInit {
-  segmentModel ="follow";
-  constructor() { }
+  segmentModel ="";
+  constructor(private dataStorageService : DataStorageService) { }
 
   ngOnInit() {
+    this.segmentModel = this.dataStorageService.getfollowerClickString()
   }
 
 

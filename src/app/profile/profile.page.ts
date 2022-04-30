@@ -5,6 +5,7 @@ import { AlertController, mdTransitionAnimation, PopoverController } from '@ioni
 import { ActionSheetController } from '@ionic/angular';
 import{ Router, RouterLink } from '@angular/router'
 import { PopoverComponent} from '../popover/popover.component';
+import { DataStorageService } from '../services/datastorage.service';
 declare let window: any;
 
 @Component({
@@ -23,7 +24,7 @@ export class ProfilePage implements OnInit {
   buttonEvents: any[] = [];
   clicked = false
   curentAccount: any;
- segmentModel ="creation";
+ segmentModel ="creator";
  friends:any
  viewFriends=null;
  photo = 'https://i.pravatar.cc/150';
@@ -32,9 +33,10 @@ export class ProfilePage implements OnInit {
    centeredSlides:true,
    slidesPerView:2
  }
-viewAll = false
+ eventsUser : any = []
+viewAll = true
 isEditing = false
-  constructor(private api: ApiService,public alertController: AlertController,
+  constructor(private api: ApiService,public alertController: AlertController,private dataStorageService : DataStorageService,
     public actionSheetController: ActionSheetController, private popCtrl: PopoverController,private routes:Router) { }
 
   async ngOnInit() {
@@ -42,6 +44,8 @@ isEditing = false
     this.user = this.auth.currentUser
     console.log("this.user",this.user)
     this.currentUser = await this.api.getUser({where : {token : this.user.uid} }).toPromise()
+    this.eventsUser = await this.api.getUserEvent({where : {id_user : this.currentUser[0].id },join : {type : "INNER JOIN", tableJoin : "event", keyFrom : "id_event",keyJoin : "id"}}).toPromise()
+    // console.log("this.eventsUser",this.eventsUser)
     console.log("current user profile : ", this.currentUser);
     
     this.users = await this.api.getUser({}).toPromise()
@@ -52,6 +56,12 @@ isEditing = false
     }
   }
 
+
+  returnGoodrray(arr : any){
+    let temp = []
+    temp = arr.filter((el : any)=>el.statut == this.segmentModel)
+    return temp
+  }
   goEditMode(){
     this.isEditing = !this.isEditing
   }
@@ -160,7 +170,7 @@ isEditing = false
     const actionSheet = await this.actionSheetController.create({
       header: '___',
       buttons: [{
-        text: 'Log out',
+        text: this.connected?'Log out':'login',
         role: 'log out',
         handler: () => {
         this.openAlertLogOut();
@@ -195,8 +205,15 @@ isEditing = false
     await actionSheet.present();
   }
 
+
+  goToFollowPage(path : string){
+    this.dataStorageService.setfollowerClickString(path)
+    this.routes.navigate(['/follow'])
+  }
   goTocreateEvent() {
-    this.routes.navigateByUrl('createEvent');
+    this.dataStorageService.setid_user_creator(this.currentUser[0].id)
+    this.routes.navigate(['/addevent']);
+    //['/addEvent', {id:this.currentUser[0].id}]
   }
 
   viewFriendF() {

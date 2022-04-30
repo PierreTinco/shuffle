@@ -8,6 +8,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
 import { ProfileEditionComponent } from './profile-edition/profile-edition.component';
+import { addEventPage } from './add-event/add-event.component';
 
 
 
@@ -18,6 +19,6 @@ import { ProfileEditionComponent } from './profile-edition/profile-edition.compo
     IonicModule,
     ProfilePageRoutingModule,
   ],
-  declarations: [ProfilePage,ProfileEditionComponent]
+  declarations: [ProfilePage,ProfileEditionComponent, addEventPage]
 })
 export class ProfilePageModule {}
