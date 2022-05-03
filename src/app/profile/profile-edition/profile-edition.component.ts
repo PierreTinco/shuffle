@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-import { ApiService, UserPhoto } from 'src/app/services/api.service';
+import { PhotoService, UserPhoto } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-profile-edition',
@@ -16,18 +16,16 @@ export class ProfileEditionComponent implements OnInit {
   firebaseUser: any
   filepath: string;
   webviewPath: string;
-  
-
-
-
-  public photos: UserPhoto[] = [];
+  photos: UserPhoto[] = [];
   connected: boolean;
-  constructor(private api: ApiService,
+  photo:any;
+  position:any;
+  constructor(private pic: PhotoService,
     public actionSheetController: ActionSheetController) { }
 
   async ngOnInit() {
     console.log("current user test", this.user);
-    await this.api.loadSaved();
+    await this.pic.loadSaved();
   }
 
   public async showActionSheet() {
@@ -38,7 +36,7 @@ export class ProfileEditionComponent implements OnInit {
         role: 'changement',
         icon: 'camera',
         handler: () => {
-        this.api.choosePicture();
+        this.pic.choosePicture();
         console.log('Confirm Changement');
         }
       },{
@@ -46,7 +44,7 @@ export class ProfileEditionComponent implements OnInit {
         role: 'destructive',
         icon: 'trash',
         handler: () => {
-          // this.api.deletePicture(photo, position);
+          this.pic.deletePicture(this.photo, this.position);
           console.log('Confirm Destruction');
         }
       }, {
@@ -75,3 +73,4 @@ export class ProfileEditionComponent implements OnInit {
   }
 
 }
+

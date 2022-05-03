@@ -1,8 +1,8 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import{ Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators} from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, NgForm} from "@angular/forms";
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
@@ -12,6 +12,7 @@ import { FormGroup, FormBuilder, Validators} from "@angular/forms";
 export class RegistrationPage implements OnInit {
   app: any
   analytics: any
+  clicked = false
   user = {
     gender: null,
     name: "",
@@ -27,16 +28,40 @@ export class RegistrationPage implements OnInit {
   //repeatPassword:any;
  
   showPassword = false;
-  passwordToggleIcon = "eye-off";
+  public passwordToggleIcon = "eye-off";
+
+
 
   private myForm: FormGroup;
+  constructor(private api: ApiService, private router:Router,private fb: FormBuilder) {
 
-  constructor(private api: ApiService, private router:Router,formBuilder: FormBuilder) {
-    this.myForm=  formBuilder.group({
+  }
+  
+
+  // getForm():FormGroup{
+  //   return this.myForm;
+  // }
+  
+
+  ngOnInit() {
+    this.initForm()
+    // this.myForm.get('email').valueChanges.subscribe(el => {
+    //   console.log(    this.myForm.controls['email'].valid
+    //   );
+    // })
+    // //this.myForm.controls['email'].valid
+    // console.log(this.myForm.valid)
+    // this.auth = getAuth()
+    
+  }
+
+
+  initForm(): void{
+    this.myForm=  this.fb.group ({
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       repeatPassword:['', [Validators.required, Validators.minLength(6)]],
-      user: formBuilder.group({
+      user: this.fb.group({
         gender: ['', [Validators.required]],
         name: ['',[Validators.required, Validators.minLength(3)]],
         surname : ['',[Validators.required, Validators.minLength(3)]],
@@ -47,20 +72,14 @@ export class RegistrationPage implements OnInit {
         })
       });
   }
-  
 
-  // getForm():FormGroup{
-  //   return this.myForm;
+  // validForm(f : NgForm){
+  //   if(f.valid){
+  //     this.register(this.email,this.password)
+  //   }
   // }
-  
-
-  ngOnInit() {
-    this.auth = getAuth()
-    
-  }
-
-
   async register(email: any, password: any) {
+    this.clicked = !this.clicked;
     console.log(this.myForm.value);
     console.log(this.email);
     await createUserWithEmailAndPassword(this.auth, email, password)

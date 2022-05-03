@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form [formGroup]="myForm">
+  <form (ngSubmit)="validForm(myForm)" [formGroup]="myForm">
       
     <ion-item >
       <ion-label position="floating">First name</ion-label>
@@ -35,12 +35,17 @@
 
     <ion-item >
       <ion-label position="floating">Email</ion-label>
-      <ion-input formControlName ="email" placeholder="Email" type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input  formControlName ="email" placeholder="Email" type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
       <div class="show-error"> 
-        <div *ngIf="myForm.get('email').hasError('required') && myForm.get('email').dirty ">
+        <div *ngIf="myForm.get('email').hasError('required') ">
           <!--myForm.get('email').touched <span>{{}}</span> -->
-          Email is not empty please enter an address 
+          Email is required! 
         </div>
+        <div *ngIf="myForm.get('email').hasError('pattern') ">
+          <!--myForm.get('email').touched <span>{{}}</span> -->
+          Email require valid pattern ! 
+        </div>
+        
     </div>
     </ion-item>
    
@@ -68,7 +73,9 @@
 
     <ion-row>
       <ion-col>
-        <ion-button (click)="register(email,password)" color="primary" expand="block">Sign Up</ion-button>
+        <ion-button type="submit" color="primary" expand="block">Sign Up</ion-button>
+
+        <!-- <ion-button type="submit" (click)="register(email,password)" color="primary" expand="block">Sign Up</ion-button> -->
       </ion-col>
     </ion-row>
 

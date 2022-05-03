@@ -1,15 +1,25 @@
 
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [routerLink]="['/profile']">Back</ion-back-button>
+    </ion-buttons>
+    <ion-title>Profile Edition</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content [fullscreen]="true">
-  <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-      <ion-title>Profile Edition</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  
   <div class="container">
-    <div class="outer" [ngStyle]="{'background-image': 'url(' + photo + ')'}">
+    
+    <div class="outer" >
+      <ion-grid>
+        <ion-row>wesh
+          <ion-col size="6" *ngFor="let photo of pic.photos; index as position">
+            <ion-img [src]="photo.webviewPath"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <!-- [ngStyle]="{'background-image': 'url(' + photo.webviewPath + ')'}" -->
       <div >
         <!-- <ion-fab class="ion-text-center" vertical="bottom"  > -->
 
