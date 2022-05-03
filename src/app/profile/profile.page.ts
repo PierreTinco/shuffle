@@ -16,8 +16,8 @@ declare let window: any;
 export class ProfilePage implements OnInit {
   app: any
   currentUser: any
-  user: any
-  users: any 
+  firebaseUser: any
+  bddUsers: any 
   auth: any
   buttonValue = 'grid';
   connected = false
@@ -41,16 +41,15 @@ isEditing = false
 
   async ngOnInit() {
     this.auth = getAuth()
-    this.user = this.auth.currentUser
-    console.log("this.user",this.user)
-    this.currentUser = await this.api.getUser({where : {token : this.user.uid} }).toPromise()
+    this.firebaseUser = this.auth.currentUser
+    console.log("fireBase User :",this.firebaseUser)
+    this.currentUser = await this.api.getUser({where : {token : this.firebaseUser.uid} }).toPromise()
+    this.dataStorageService.set_user(this.currentUser[0])
     this.eventsUser = await this.api.getUserEvent({where : {id_user : this.currentUser[0].id },join : {type : "INNER JOIN", tableJoin : "event", keyFrom : "id_event",keyJoin : "id"}}).toPromise()
-    // console.log("this.eventsUser",this.eventsUser)
-    console.log("current user profile : ", this.currentUser);
-    
-    this.users = await this.api.getUser({}).toPromise()
+    console.log("current user profile : ", this.currentUser[0]);
+    this.bddUsers = await this.api.getUser({}).toPromise()
     this.viewAll =true
-    if (this.user != null )
+    if (this.firebaseUser != null )
     {
       this.connected = true
     }
@@ -62,9 +61,7 @@ isEditing = false
     temp = arr.filter((el : any)=>el.statut == this.segmentModel)
     return temp
   }
-  goEditMode(){
-    this.isEditing = !this.isEditing
-  }
+
   buttonsChanged(event:any) {
     this.segmentModel=event.target.value;
     console.log(this.segmentModel);  

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { addEventPage } from './profile/add-event/add-event.component';
+import { ProfileEditionComponent } from './profile/profile-edition/profile-edition.component';
 
 
 const routes: Routes = [
@@ -17,10 +18,10 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
-  // {
-  //   path: 'profile-edition',
-  //   loadChildren: () => import('./profile/ee/profile-edition.module').then( m => m.ProfileEditionPageModule)
-  // },
+  {
+    path: 'profile-edition',
+    component: ProfileEditionComponent
+  },
   {
     path: 'addevent',
     component: addEventPage

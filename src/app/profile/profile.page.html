@@ -1,11 +1,10 @@
-<ion-header *ngIf="!isEditing">
+<ion-header>
   <ion-toolbar *ngIf="viewAll">
     <ion-title *ngIf="connected" >
       <ion-label>{{currentUser[0].name}}  </ion-label>
       <ion-label>{{currentUser[0].surname}}</ion-label>
     </ion-title>
-    <ion-title *ngIf="!connected" >Guest
-    </ion-title>
+    <ion-title *ngIf="!connected" >Guest</ion-title>
     <ion-buttons slot="start">
       <ion-back-button [routerLink]="['/accueil']">Back</ion-back-button>
     </ion-buttons>
@@ -25,7 +24,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="!isEditing" >
+<ion-content>
   <ion-grid>
     <ion-row>
       <ion-col size="3">
@@ -60,7 +59,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button (click)="goEditMode()" size="big" fill="outline" expand="block">
+        <ion-button [routerLink]="['/profile-edition']" size="big" fill="outline" expand="block">
           <ion-text>Edit profil</ion-text>
         </ion-button>
       </ion-col>
@@ -77,7 +76,7 @@
       </ion-col>
 
       <ion-slides *ngIf="viewFriends" [options]="sliderConfig">
-        <ion-slide *ngFor="let slide of users">
+        <ion-slide *ngFor="let slide of bddUsers">
         <ion-card >
           <ion-icon  name="close-outline"></ion-icon>
           <ion-card-header>
@@ -133,4 +132,4 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-<app-profile-edition [user]="currentUser" *ngIf="isEditing"></app-profile-edition>
+

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { ApiService, UserPhoto } from 'src/app/services/api.service';
-
+import { DataStorageService } from 'src/app/services/datastorage.service';
 @Component({
   selector: 'app-profile-edition',
   templateUrl: './profile-edition.component.html',
@@ -12,20 +12,22 @@ export class ProfileEditionComponent implements OnInit {
   currentUser: any
   users: any
   auth: any
-  @Input() user: any
+  user: any
   firebaseUser: any
   filepath: string;
   webviewPath: string;
-  
+  update: any
+  where: any
 
 
   photo = 'https://i.pravatar.cc/150';
   public photos: UserPhoto[] = [];
   connected: boolean;
   constructor(private api: ApiService,
-    public actionSheetController: ActionSheetController) { }
+    public actionSheetController: ActionSheetController, private dataStorageService : DataStorageService) { }
 
   async ngOnInit() {
+    this.user = this.dataStorageService.get_user()
     console.log("current user test", this.user);
     await this.api.loadSaved();
   }
@@ -70,8 +72,15 @@ export class ProfileEditionComponent implements OnInit {
     console.log("current user ", this.currentUser);
   }
  
-  editProfil(){
-
+  async editProfil(){
+    await this.api.updateUser({update : this.user[0], where :{id: this.user[0].id}}).subscribe(
+      (res) => {
+        alert("Profile updated")
+      },
+      (err) => {
+        alert("error update profile")
+      }
+    )
   }
 
 }
