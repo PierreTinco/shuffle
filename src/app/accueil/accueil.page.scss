@@ -167,3 +167,8 @@ ion-card-content{
     border: 1px solid black;
 }
 
+.card-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

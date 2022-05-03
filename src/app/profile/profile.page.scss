@@ -2,6 +2,13 @@ ion-slides{
     max-width: max-content;
 }
 
+ion-slide ion-card{
+    width: 155px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 .eventImg{
     background: url(https://i.pravatar.cc/150) 0 0/100% 100% no-repeat;
