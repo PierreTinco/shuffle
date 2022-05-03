@@ -36,15 +36,18 @@
     <ion-item >
       <ion-label position="floating">Email</ion-label>
       <ion-input formControlName ="email" placeholder="Email" type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
-      <div  *ngIf="myForm.get('email').hasError('required') && myForm.get('email').touched ">
-        <span>{{}}
-      </div>
+      <div class="show-error"> 
+        <div *ngIf="myForm.get('email').hasError('required') && myForm.get('email').dirty ">
+          <!--myForm.get('email').touched <span>{{}}</span> -->
+          Email is not empty please enter an address 
+        </div>
+    </div>
     </ion-item>
    
 
     <ion-item >
       <ion-label position="floating">Phone number</ion-label>
-      <ion-input formControlName ="" placeholder="0769660543"type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}"required></ion-input>
+      <ion-input  placeholder="0769660543"type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}"required></ion-input>
     </ion-item>
 
     <ion-item >

@@ -170,10 +170,10 @@ isEditing = false
     const actionSheet = await this.actionSheetController.create({
       header: '___',
       buttons: [{
-        text: this.connected?'Log out':'login',
-        role: 'log out',
+        text: this.connected?'Log out':'Login',
+        role:this.connected?'log out': 'login' ,
         handler: () => {
-        this.openAlertLogOut();
+          this.connected? this.openAlertLogOut(): this.goToLogin();
         console.log('Confirm Changement');
         }
       },{
@@ -214,6 +214,10 @@ isEditing = false
     this.dataStorageService.setid_user_creator(this.currentUser[0].id)
     this.routes.navigate(['/addevent']);
     //['/addEvent', {id:this.currentUser[0].id}]
+  }
+  goToLogin() {
+    this.routes.navigate(['/welcome']);
+
   }
 
   viewFriendF() {

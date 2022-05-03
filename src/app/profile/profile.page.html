@@ -1,10 +1,10 @@
 <ion-header *ngIf="!isEditing">
   <ion-toolbar *ngIf="viewAll">
-    <ion-title *ngIf="connected" >
-      <ion-label>{{currentUser[0].name}}  </ion-label>
+    <ion-title *ngIf="connected" ><ion-icon name="lock-closed-outline"></ion-icon>
+      <ion-label> {{currentUser[0].name}}  </ion-label>
       <ion-label>{{currentUser[0].surname}}</ion-label>
     </ion-title>
-    <ion-title *ngIf="!connected" >Guest
+    <ion-title *ngIf="!connected" ><ion-icon name="lock-open-outline"></ion-icon> Guest
     </ion-title>
     <ion-buttons slot="start">
       <ion-back-button [routerLink]="['/accueil']">Back</ion-back-button>

@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import{ Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, ValidatorFn } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators} from "@angular/forms";
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })
+
 export class RegistrationPage implements OnInit {
   app: any
   analytics: any
@@ -28,34 +29,29 @@ export class RegistrationPage implements OnInit {
   showPassword = false;
   passwordToggleIcon = "eye-off";
 
-  private formBuilder: FormBuilder;
   private myForm: FormGroup;
 
   constructor(private api: ApiService, private router:Router,formBuilder: FormBuilder) {
-    this.formBuilder =formBuilder;
-    this.myForm= this.createForm();
-  }
-  private createForm():FormGroup{
-   return this.myForm = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    repeatPassword:['', [Validators.required, Validators.minLength(6)]],
-      user: this.formBuilder.group({
+    this.myForm=  formBuilder.group({
+      email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      repeatPassword:['', [Validators.required, Validators.minLength(6)]],
+      user: formBuilder.group({
         gender: ['', [Validators.required]],
         name: ['',[Validators.required, Validators.minLength(3)]],
         surname : ['',[Validators.required, Validators.minLength(3)]],
         birth_date :['',[Validators.required]],
         wallet : [''],
-        phone_number : ['', [Validators.required, Validators.minLength(9)]],
+        phone_number : ['', [Validators.required, Validators.minLength(9), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         token : ['']
-      })
-    });
-   
+        })
+      });
   }
+  
 
-  getForm():FormGroup{
-    return this.myForm;
-  }
+  // getForm():FormGroup{
+  //   return this.myForm;
+  // }
   
 
   ngOnInit() {
@@ -65,6 +61,8 @@ export class RegistrationPage implements OnInit {
 
 
   async register(email: any, password: any) {
+    console.log(this.myForm.value);
+    console.log(this.email);
     await createUserWithEmailAndPassword(this.auth, email, password)
     .then((userCredential) => {
       // Signed in 
