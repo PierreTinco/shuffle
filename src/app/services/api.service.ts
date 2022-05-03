@@ -34,6 +34,10 @@ export class ApiService {
     return this.http.post(`${environment.apiUrl}/user/insert`,data)
   }
 
+  updateUser(data: any){
+    return this.http.post(`${environment.apiUrl}/user/update`,data)
+  }
+
 
   getUser(data : any) {
     console.log("data",data)

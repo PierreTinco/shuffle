@@ -6,9 +6,17 @@ import { Injectable } from '@angular/core';
 export class DataStorageService {
 
   constructor() { }
-
+  user: any
   id_user_creator : any
   followerClickString : string
+
+  get_user() {
+    return this.user
+  }
+
+  set_user(user: any) {
+    this.user = user
+  }
 
   getid_user_creator(){
     return this.id_user_creator
