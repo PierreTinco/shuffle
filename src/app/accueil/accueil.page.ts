@@ -45,28 +45,33 @@ export class accueilPage implements OnInit {
   async ngOnInit() {
     this.auth = getAuth();
     this.user = this.auth.currentUser;
-    console.log(window.ethereum.chainId);
+
     const chainObservable: any = null
     console.log('on init accueil');
     this.events = await this.api.getAllEvents({}).toPromise();
     this.currentUser = await this.api.getUser({where : {token : this.user.uid} }).toPromise()
     console.log(this.currentUser);
+    if(window.ethereum)
+    {
+      console.log(window.ethereum.chainId);
 
-    //chainObservable.subscribe(this.checkChainId())
-    //console.log(chainObservable);
-    window.ethereum.on('chainChanged', (chainId) => {
-
-      console.log(chainId);
-
+      if (window.ethereum.selectedAdress == window.ethereum) {
+        console.log('test');
+  
+        this.connected = true;
+      }
       
-    
-    });
-    
-    if (window.ethereum.selectedAdress == window.ethereum) {
-      console.log('test');
+      window.ethereum.on('chainChanged', (chainId) => {
 
-      this.connected = true;
+        console.log(chainId);
+  
+        
+      
+      });
     }
+
+    
+
   }
 
   async participateFree(currentEvent: any) {

@@ -53,7 +53,7 @@
         <ion-label >
           <strong>120</strong>
           <p>
-            <ion-text color="medium"> Follow</ion-text>
+            <ion-text color="medium">Follow</ion-text>
           </p>
         </ion-label>
       </ion-col>
@@ -122,12 +122,10 @@
       <ion-grid *ngIf="segmentModel === 'participant'">
         <ion-card >
           <ion-card-header>
-            <ion-card-subtitle>Segment Content</ion-card-subtitle>
-            <ion-card-title>Participation</ion-card-title>
+            <ion-card-title>{{event.name}}</ion-card-title>
           </ion-card-header>
         
-          <ion-card-content>
-            You will see your precedent participations...
+          <ion-card-content class="eventImg">
           </ion-card-content>
         </ion-card>
       </ion-grid> 

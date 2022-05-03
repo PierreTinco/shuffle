@@ -3,7 +3,6 @@ import { ApiService } from '../../services/api.service';
 import { format, parseISO } from 'date-fns';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore'
 import { ref, Storage, getDownloadURL, uploadString } from '@angular/fire/storage';
-import {  getAuth, User } from 'firebase/auth';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { ActivatedRoute } from '@angular/router';
 import { DataStorageService } from 'src/app/services/datastorage.service';
@@ -17,7 +16,6 @@ import { DataStorageService } from 'src/app/services/datastorage.service';
 })
 export class addEventPage {
   userRef: any
-  user: User
   isAddingMode = false;
   isViewingMode = false;
   isPayingMode = false;

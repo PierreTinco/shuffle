@@ -63,7 +63,7 @@ export class ApiService {
   
     // Easiest way to detect when running on the web:
     // “when the platform is NOT hybrid, do this”
-    if (!this.platform.is('hybrid')) {
+    // if (!this.platform.is('hybrid')) {
       // Display the photo by reading into base64 format
       for (let photo of this.photos) {
         // Read each saved photo's data from the Filesystem
@@ -75,7 +75,7 @@ export class ApiService {
         // Web platform only: Load the photo as base64 data
         photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
       }
-    }
+    // }
   }
   
  
@@ -138,17 +138,17 @@ export class ApiService {
     // if (this.platform.is('hybrid')) {
       // Read the file into base64 format
       const file = await Filesystem.readFile({
-        path: photo.path
+        path: photo.webPath
       });
 
       return file.data;
     // }
     // else {
       // Fetch the photo, read as a blob, then convert to base64 format
-    //   const response = await fetch(photo.webPath);
-    //   const blob = await response.blob();
+      // const response = await fetch(photo.webPath);
+      // const blob = await response.blob();
 
-    //   return await this.convertBlobToBase64(blob) as string;
+      // return await this.convertBlobToBase64(blob) as string;
     //  }
   }
   
