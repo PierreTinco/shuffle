@@ -12,7 +12,7 @@ import { FormGroup, FormBuilder, Validators, NgForm} from "@angular/forms";
 export class RegistrationPage implements OnInit {
   app: any
   analytics: any
-  clicked = false
+  submitted = false;
   user = {
     gender: null,
     name: "",
@@ -51,7 +51,7 @@ export class RegistrationPage implements OnInit {
     // })
     // //this.myForm.controls['email'].valid
     // console.log(this.myForm.valid)
-    // this.auth = getAuth()
+     this.auth = getAuth()
     
   }
 
@@ -61,26 +61,29 @@ export class RegistrationPage implements OnInit {
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       repeatPassword:['', [Validators.required, Validators.minLength(6)]],
-      user: this.fb.group({
+      // user: this.fb.group({
         gender: ['', [Validators.required]],
         name: ['',[Validators.required, Validators.minLength(3)]],
         surname : ['',[Validators.required, Validators.minLength(3)]],
         birth_date :['',[Validators.required]],
         wallet : [''],
-        phone_number : ['', [Validators.required, Validators.minLength(9), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+        phone_number : ['', [Validators.required, Validators.minLength(9), Validators.pattern("^[0-9]{10}$")]],
         token : ['']
-        })
-      });
+        // })
+       });
   }
 
-  // validForm(f : NgForm){
-  //   if(f.valid){
-  //     this.register(this.email,this.password)
-  //   }
-  // }
+   validForm(f : NgForm){
+   
+    if (!this.myForm.valid) {
+      console.log('All fields are required.')
+      return false;
+    } else {
+      console.log(this.myForm.value)
+    }
+   }
   async register(email: any, password: any) {
-    this.clicked = !this.clicked;
-    console.log(this.myForm.value);
+    this.submitted = true;
     console.log(this.email);
     await createUserWithEmailAndPassword(this.auth, email, password)
     .then((userCredential) => {

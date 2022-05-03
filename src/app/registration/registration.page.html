@@ -7,11 +7,22 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form (ngSubmit)="validForm(myForm)" [formGroup]="myForm">
+  <form [formGroup]="myForm" (ngSubmit)="validForm(myForm)" novalidate >
       
     <ion-item >
       <ion-label position="floating">First name</ion-label>
       <ion-input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <div class="show-error"> 
+        <div *ngIf="myForm.get('name').hasError('required') && submitted ">
+          <!-- <span>{{}}</span>  -->
+          Name is required!
+        </div>
+        <div *ngIf="myForm.get('name').hasError('minLength') ">
+          <!-- <span>{{}}</span>  -->
+          Name is required!
+        </div>  
+        
+      </div>
     </ion-item>
 
    <ion-item >
