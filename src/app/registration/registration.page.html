@@ -7,80 +7,120 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form [formGroup]="myForm" (ngSubmit)="validForm(myForm)" novalidate >
-      
+  <form [formGroup]="myForm" (ngSubmit)="validForm(myForm)" novalidate >  
     <ion-item >
       <ion-label position="floating">First name</ion-label>
-      <ion-input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input  type="text" formControlName ="name" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
       <div class="show-error"> 
         <div *ngIf="myForm.get('name').hasError('required') && submitted ">
           <!-- <span>{{}}</span>  -->
-          Name is required!
+          First name is required!
         </div>
-        <div *ngIf="myForm.get('name').hasError('minLength') ">
-          <!-- <span>{{}}</span>  -->
-          Name is required!
+        <div *ngIf="myForm.get('name').hasError('minLength') && submitted ">
+          First name must be compose at least 3 characters !
         </div>  
-        
       </div>
     </ion-item>
 
    <ion-item >
       <ion-label position="floating">Last name</ion-label>
-      <ion-input type="text" [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <ion-input type="text" formControlName ="surname" [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
+      <div class="show-error"> 
+        <div *ngIf="myForm.get('surname').hasError('required') && submitted ">
+          Surname is required!
+        </div>
+        <div *ngIf="myForm.get('surname').hasError('minLength') && submitted ">
+          Surname must be compose at least 3 characters !
+        </div>   
+      </div>
     </ion-item>
 
     <ion-item >
       <ion-label >Birthdate</ion-label>
-      <ion-input type="date" [(ngModel)]="user.birth_date" [ngModelOptions]="{standalone: true}"required></ion-input>
+      <ion-input type="date" formControlName ="birth_date" [(ngModel)]="user.birth_date" [ngModelOptions]="{standalone: true}"required></ion-input>
+      <div *ngIf="myForm.get('birth_date').touched  ">
+      **Enter your real date of birth for the identification.
+      </div> 
+      <div class="show-error"> 
+        <div *ngIf="myForm.get('birth_date').hasError('required') && submitted ">
+        *Your Birth date is required!
+        </div> 
+      </div>
     </ion-item>
 
     <ion-item >
       <ion-label position="floating">Gender</ion-label>
-      <ion-select placeholder="Select One" [(ngModel)]="user.gender" [ngModelOptions]="{standalone: true}"required>
+      <ion-select formControlName ="gender" placeholder="Select One" [(ngModel)]="user.gender" [ngModelOptions]="{standalone: true}"required>
         <ion-select-option value="f">Female</ion-select-option>
         <ion-select-option value="m">Male</ion-select-option>
         <ion-select-option value="nod">Gender no defind</ion-select-option>
       </ion-select>
+      <div class="show-error"> 
+        <div *ngIf="myForm.get('birth_date').hasError('required') && submitted ">
+          Gender is required!
+        </div> 
+      </div>
     </ion-item>
 
     <ion-item >
       <ion-label position="floating">Email</ion-label>
       <ion-input  formControlName ="email" placeholder="Email" type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
       <div class="show-error"> 
-        <div *ngIf="myForm.get('email').hasError('required') ">
-          <!--myForm.get('email').touched <span>{{}}</span> -->
+        <div *ngIf="myForm.get('email').hasError('required') && submitted ">
           Email is required! 
         </div>
         <div *ngIf="myForm.get('email').hasError('pattern') ">
           <!--myForm.get('email').touched <span>{{}}</span> -->
           Email require valid pattern ! 
         </div>
-        
-    </div>
+      </div>
     </ion-item>
    
 
     <ion-item >
       <ion-label position="floating">Phone number</ion-label>
-      <ion-input  placeholder="0769660543"type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}"required></ion-input>
+      <ion-input  formControlName ="phone_number" placeholder="0769660543"type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}"required></ion-input>
+      <div class="show-error"> 
+         <div *ngIf="myForm.get('phone_number').hasError('required') && submitted ">
+         *Phone number is required! 
+        </div>
+        <div *ngIf="myForm.get('phone_number').hasError('pattern') &&  myForm.get('phone_number').touched">
+          *Phone number require valid pattern ([0-9](10))! 
+        </div>
+      </div> 
     </ion-item>
 
     <ion-item >
       <ion-label position="floating">Password</ion-label>
       <div style="display: flex;flex-direction: row;">
-        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password' " [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
+        <ion-input formControlName ="password" placeholder="Password" [type]="showPassword ? 'text' : 'password' " [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
         <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()" > </ion-icon>
+      </div>
+      <div class="show-error"> 
+        <div *ngIf="myForm.get('password').hasError('required') && submitted ">
+          *Password is required!
+        </div> 
+        <div *ngIf="myForm.get('password').hasError('pattern') && myForm.get('repeatPassword').hasError('minLength') ">
+          *Password required minimum of 6 valid pattern ([a-z];[A-Z];[0-9];[!?.,:;"@#$%^£&*];(8,))!
+        </div> 
       </div>
     </ion-item>
    
     <ion-item >
       <ion-label position="floating">Verify your password</ion-label>
       <div style="display: flex;flex-direction: row;">
-        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password' "  required></ion-input>
-        <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()"  > </ion-icon>
+        <ion-input formControlName ="repeatPassword" placeholder="Password" [type]="showPassword ? 'text' : 'password' "  required></ion-input>
+        <ion-icon  [name]="passwordToggleIcon" (click)="togglePassword()"  > </ion-icon>
       </div>
-    </ion-item>
+      <div class="show-error"> 
+        <div *ngIf="myForm.get('repeatPassword).hasError('required') && submitted ">
+          *Password is required!
+        </div> 
+        <div *ngIf="myForm.get('repeatPassword').hasError('pattern') && myForm.get('repeatPassword').hasError('minLength') ">
+          *Password required minimum of 6 valid pattern ([a-z];[A-Z];[0-9];[!?.,:;"@#$%^£&*];(8))!
+        </div> 
+      </div>
+    </ion-item> 
 
     <ion-row>
       <ion-col>

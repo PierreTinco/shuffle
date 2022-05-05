@@ -59,14 +59,14 @@ export class RegistrationPage implements OnInit {
   initForm(): void{
     this.myForm=  this.fb.group ({
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      repeatPassword:['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!?.,:;"@#$%^£&*])(?=.{8,})'), Validators.minLength(6)]],
+      repeatPassword:['', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!?.,:;"@#$%^£&*])(?=.{8,})'), Validators.minLength(6)]],
       // user: this.fb.group({
         gender: ['', [Validators.required]],
         name: ['',[Validators.required, Validators.minLength(3)]],
         surname : ['',[Validators.required, Validators.minLength(3)]],
         birth_date :['',[Validators.required]],
-        wallet : [''],
+        wallet : ['',[Validators.required]],
         phone_number : ['', [Validators.required, Validators.minLength(9), Validators.pattern("^[0-9]{10}$")]],
         token : ['']
         // })
@@ -74,16 +74,16 @@ export class RegistrationPage implements OnInit {
   }
 
    validForm(f : NgForm){
-   
+    this.submitted = true;
     if (!this.myForm.valid) {
       console.log('All fields are required.')
+      // this.submitted = !this.submitted;
       return false;
     } else {
       console.log(this.myForm.value)
     }
    }
   async register(email: any, password: any) {
-    this.submitted = true;
     console.log(this.email);
     await createUserWithEmailAndPassword(this.auth, email, password)
     .then((userCredential) => {
