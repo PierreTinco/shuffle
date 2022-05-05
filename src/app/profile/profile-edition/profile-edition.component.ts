@@ -27,7 +27,7 @@ export class ProfileEditionComponent implements OnInit {
   //photo = 'https://i.pravatar.cc/150';
   public photos: UserPhoto[] = [];
   connected: boolean;
-  constructor(private pic: PhotoService,private api: ApiService,
+  constructor(public pic: PhotoService,private api: ApiService,
     public actionSheetController: ActionSheetController, private dataStorageService : DataStorageService) { }
 
 
