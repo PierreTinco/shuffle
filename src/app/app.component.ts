@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { environment } from '../environments/environment';
 import { getAuth } from "firebase/auth";
+import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native';
 
 
 
@@ -19,6 +20,9 @@ export class AppComponent implements OnInit{
   user: any;
   constructor(private router:Router) {
     this.initializeApp();
+    CapacitorGoogleMaps.initialize({
+      key: environment.mapsKey
+    });
   }
   async ngOnInit() {
     this.auth = getAuth();

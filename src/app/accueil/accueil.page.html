@@ -1,7 +1,7 @@
 <ion-header style="display: flex;flex-direction: row;" collapse="condense">
-  <script async defer
+<!-- <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly">
-</script>
+</script> -->
   <ion-toolbar>
     <ion-button [routerLink]="['/profile']" *ngIf="!clicked">
       <ion-icon name="person-circle"></ion-icon>
@@ -14,9 +14,11 @@
 
 
 <ion-content [fullscreen]="true" class="background">
-  <div onload="initMap()">
-      <div id="map" *ngIf="viewMap"></div>
-  </div>
+   <!-- <div onload="initMap()"></div> -->
+  <div id="map" *ngIf="viewMap" #map></div>
+  <!-- <ion-button (click)="draw()" expand="full">Draw</ion-button>  -->
+ 
+ 
  
   <app-explore-container name="accueil"></app-explore-container>
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
