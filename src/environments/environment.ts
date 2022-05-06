@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  apiUrl: 'http://ec2-54-83-83-253.compute-1.amazonaws.com/api/shuffle',
-  //'http://localhost:3000/api/shuffle''http://ec2-34-203-13-33.compute-1.amazonaws.com/api/shuffle'
+  apiUrl: 'http://localhost:3000/api/shuffle',
+  //'http://localhost:3000/api/shuffle''http://ec2-54-83-83-253.compute-1.amazonaws.com/api/shuffle
   production: false,
   firebaseConfig: {
     apiKey: "AIzaSyAo6XIb8NRSkOmnkTs6eWUH4kEBAe8jHT0",
@@ -15,7 +15,7 @@ export const environment = {
     appId: "1:327216688543:web:c6f7580e76f5c98feba1aa",
     measurementId: "G-D5Q9MNK8YC"
   },
-  mapsKey:"AIzaSyAo6XIb8NRSkOmnkTs6eWUH4kEBAe8jHT0"
+  mapsKey:"AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4"
 };
 
 /*

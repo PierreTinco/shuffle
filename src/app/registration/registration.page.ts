@@ -12,7 +12,7 @@ import { FormGroup, FormBuilder, Validators, NgForm} from "@angular/forms";
 export class RegistrationPage implements OnInit {
   app: any
   analytics: any
-  clicked = false
+  submitted = false;
   user = {
     gender: null,
     name: "",
@@ -29,58 +29,56 @@ export class RegistrationPage implements OnInit {
  
   showPassword = false;
   public passwordToggleIcon = "eye-off";
-
-
-
   private myForm: FormGroup;
+  public age: number;
   constructor(private api: ApiService, private router:Router,private fb: FormBuilder) {
 
   }
   
-
-  // getForm():FormGroup{
-  //   return this.myForm;
-  // }
+ 
   
-
   ngOnInit() {
+    this.auth = getAuth()
     this.initForm()
-    // this.myForm.get('email').valueChanges.subscribe(el => {
-    //   console.log(    this.myForm.controls['email'].valid
-    //   );
-    // })
-    // //this.myForm.controls['email'].valid
-    // console.log(this.myForm.valid)
-    // this.auth = getAuth()
+    this.myForm.valueChanges.subscribe(data => console.log('form changes', data));
+    this.myForm.valueChanges.subscribe(el => {
+     console.log( 'my Form validity',this.myForm.valid); })
+    // this.myForm.controls.valid
     
   }
-
-
+  
   initForm(): void{
     this.myForm=  this.fb.group ({
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      repeatPassword:['', [Validators.required, Validators.minLength(6)]],
-      user: this.fb.group({
+      password: ['', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!?.,:;"@#$%^£&*])(?=.{6,})'), Validators.minLength(6)]],
+      repeatPassword: ['', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!?.,:;"@#$%^£&*])(?=.{6,})'), Validators.minLength(6)]],
+      //  user: this.fb.group({
         gender: ['', [Validators.required]],
         name: ['',[Validators.required, Validators.minLength(3)]],
         surname : ['',[Validators.required, Validators.minLength(3)]],
         birth_date :['',[Validators.required]],
-        wallet : [''],
-        phone_number : ['', [Validators.required, Validators.minLength(9), Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-        token : ['']
-        })
-      });
+        phone_number : ['', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]{10}$')]],
+        //  })
+       });   
   }
 
-  // validForm(f : NgForm){
-  //   if(f.valid){
-  //     this.register(this.email,this.password)
-  //   }
-  // }
+
+  validForm(){
+    this.submitted = true;
+ 
+    // if (!this.myForm.valid) {
+    //   console.log('All fields are required.')
+    //   alert('Please provide all the required fields.')
+      
+    //   return false;
+    //} else {
+      console.log(this.myForm.value) 
+      this.register(this.email, this.password)
+      
+      
+   // }
+   }
   async register(email: any, password: any) {
-    this.clicked = !this.clicked;
-    console.log(this.myForm.value);
     console.log(this.email);
     await createUserWithEmailAndPassword(this.auth, email, password)
     .then((userCredential) => {
@@ -100,6 +98,18 @@ export class RegistrationPage implements OnInit {
       
       // ..
     });
+  }
+  // public CalculateAge(): void
+  //    {
+  //        if(this.myForm.){
+  //           var timeDiff = Math.abs(Date.now() - this.birth_date);
+  //           //Used Math.floor instead of Math.ceil
+  //           //so 26 years and 140 days would be considered as 26, not 27.
+  //           this.age = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+  //       }
+  //   }
+  get errorControl(){
+    return this.myForm.controls;
   }
   togglePassword():void {
     this.showPassword = !this.showPassword;

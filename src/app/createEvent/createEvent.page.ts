@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['createEvent.page.scss'],
 })
 export class createEventPage {
+   submitted : boolean;
   userRef: any
   user: User
   isAddingMode = false;
