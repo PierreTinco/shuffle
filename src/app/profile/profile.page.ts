@@ -65,7 +65,6 @@ isEditing = false
   buttonsChanged(event:any) {
     this.segmentModel=event.target.value;
     console.log(this.segmentModel);  
-    console.log('event:' ,event);
   }
 
   async openAlertLogOut(){

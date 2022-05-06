@@ -4,6 +4,7 @@ import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Storage } from '@capacitor/storage';
 import { Platform } from '@ionic/angular';
+import { getStorage, ref } from 'firebase/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class PhotoService {
   public photos: UserPhoto[];
   private PHOTO_STORAGE: string = 'photos';
   private platform: Platform;
-  // private storage = getStorage();
-  // private storageRef = ref(this.storage, 'some-child');
+  private storage = getStorage();
+  private storageRef = ref(this.storage, 'some-child');
 
   constructor( platform: Platform) {this.platform = platform; }
   public async choosePicture() {
@@ -73,6 +74,7 @@ export class PhotoService {
      };
    }
  }
+
   private async readAsBase64(photo: Photo) {
     // "hybrid" will detect Cordova or Capacitor
     if (this.platform.is('hybrid')) {
@@ -100,16 +102,14 @@ export class PhotoService {
     };
     reader.readAsDataURL(blob);
   });
-  
 
   public async loadSaved() {
      // Retrieve cached photo array data
     const photoList = await Storage.get({ key: this.PHOTO_STORAGE });
     this.photos = JSON.parse(photoList.value) || [];
-  
    // Easiest way to detect when running on the web:
   // “when the platform is NOT hybrid, do this”
-    // if (!this.platform.is('hybrid')) {
+     if (!this.platform.is('hybrid')) {
     // Display the photo by reading into base64 format
        for (let photo of this.photos) {
          // Read each saved photo's data from the Filesystem
@@ -123,23 +123,9 @@ export class PhotoService {
           console.log("photo base64",photo.webviewPath );
           
        }
-    // }
+     }
  }
-  
- 
- 
-  
-  // public b64toBlob(dataURI) {
-  //   const byteString = atob(dataURI.split(',')[1]);
-  //   const ab = new ArrayBuffer(byteString.length);
-  //   const ia = new Uint8Array(ab);
-  //   for (let i = 0; i < byteString.length; i++) {
-  //     ia[i] = byteString.charCodeAt(i);
-  //   }
-  //   return new Blob([ab], { type: 'image/jpeg' });
-  // }
-  
- 
+
    public async deletePicture(photo: UserPhoto, position: number) {
     // Remove this photo from the Photos reference data array
     this.photos.splice(position, 1);
