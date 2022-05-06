@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import{ Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, NgForm} from "@angular/forms";

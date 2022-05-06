@@ -11,16 +11,13 @@
     
     <div class="outer" >
       <ion-grid>
-        <ion-row>wesh
+        <ion-row>
           <ion-col size="6" *ngFor="let photo of pic.photos; index as position">
             <ion-img [src]="photo.webviewPath"></ion-img>
           </ion-col>
         </ion-row>
       </ion-grid>
-      <!-- [ngStyle]="{'background-image': 'url(' + photo.webviewPath + ')'}" -->
       <div >
-        <!-- <ion-fab class="ion-text-center" vertical="bottom"  > -->
-
         <ion-fab class="ion-text-center" (click)="showActionSheet()"vertical="bottom"  >
           <ion-fab-button>
             <ion-icon name="pencil" class="icon" ></ion-icon>

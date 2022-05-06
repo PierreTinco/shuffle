@@ -28,11 +28,8 @@ ion-card .event-details .event-img{
     text-transform: uppercase;
     display:flex;
     flex-direction: column;
-
     align-items: center;
-
     background-color: white;
-    
 }
 
 .background{
@@ -108,7 +105,6 @@ ion-card-title{
     font-family: Garamond;
     color:white;
     text-transform: uppercase;
-
 }
 
 .box{
@@ -116,8 +112,7 @@ ion-card-title{
     font-weight: 100;
     border-radius: 5px;
     margin-top: -6%;
-    z-index: 2;
-    
+    z-index: 2; 
     padding: 5px 10px;
     width: 300px;
     height: 80px;
