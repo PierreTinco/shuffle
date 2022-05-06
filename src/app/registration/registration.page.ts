@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import{ Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, NgForm} from "@angular/forms";
@@ -50,15 +50,15 @@ export class RegistrationPage implements OnInit {
   initForm(): void{
     this.myForm=  this.fb.group ({
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      password: ['', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!?.,:;"@#$%^£&*])(?=.{6,})'), Validators.minLength(6)]],
-      repeatPassword: ['', [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!?.,:;"@#$%^£&*])(?=.{6,})'), Validators.minLength(6)]],
-      //  user: this.fb.group({
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      repeatPassword: ['', [Validators.required, Validators.minLength(6)]],
+       user: this.fb.group({
         gender: ['', [Validators.required]],
         name: ['',[Validators.required, Validators.minLength(3)]],
         surname : ['',[Validators.required, Validators.minLength(3)]],
         birth_date :['',[Validators.required]],
         phone_number : ['', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]{10}$')]],
-        //  })
+         })
        });   
   }
 
@@ -66,17 +66,17 @@ export class RegistrationPage implements OnInit {
   validForm(){
     this.submitted = true;
  
-    // if (!this.myForm.valid) {
-    //   console.log('All fields are required.')
-    //   alert('Please provide all the required fields.')
+    if (!this.myForm.valid) {
+       console.log('All fields are required.')
+       alert('Please provide all the required fields.')
       
-    //   return false;
-    //} else {
+       return false;
+    } else {
       console.log(this.myForm.value) 
-      this.register(this.email, this.password)
+      this.register(this.myForm.value.email, this.myForm.value.password)
       
       
-   // }
+    }
    }
   async register(email: any, password: any) {
     console.log(this.email);
