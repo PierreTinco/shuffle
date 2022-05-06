@@ -15,8 +15,11 @@
 
 <ion-content [fullscreen]="true" class="background">
    <!-- <div onload="initMap()"></div> -->
-  <div id="map" *ngIf="viewMap" #map></div>
-  <!-- <ion-button (click)="draw()" expand="full">Draw</ion-button>  -->
+  <div [hidden]="!viewMap">
+    <div id="map" *ngIf="viewMap" #map></div>
+    <ion-button (click)="draw()" expand="full">Draw</ion-button>
+  </div>
+
  
  
  

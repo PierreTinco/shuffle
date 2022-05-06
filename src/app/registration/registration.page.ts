@@ -12,7 +12,7 @@ import { FormGroup, FormBuilder, Validators, NgForm} from "@angular/forms";
 export class RegistrationPage implements OnInit {
   app: any
   analytics: any
-  submitted : boolean;
+  submitted = false;
   user = {
     gender: null,
     name: "",
@@ -29,34 +29,24 @@ export class RegistrationPage implements OnInit {
  
   showPassword = false;
   public passwordToggleIcon = "eye-off";
-
-
-
   private myForm: FormGroup;
+  public age: number;
   constructor(private api: ApiService, private router:Router,private fb: FormBuilder) {
 
   }
   
-
-  // getForm():FormGroup{
-  //   return this.myForm;
-  // }
+ 
   
-
   ngOnInit() {
+    this.auth = getAuth()
     this.initForm()
     this.myForm.valueChanges.subscribe(data => console.log('form changes', data));
-    // this.myForm.get('email').valueChanges.subscribe(el => {
-    //   console.log(    this.myForm.controls['email'].valid
-    //   );
-    // })
-    // //this.myForm.controls['email'].valid
-    console.log(this.myForm.valid)
-    this.auth = getAuth()
+    this.myForm.valueChanges.subscribe(el => {
+     console.log( 'my Form validity',this.myForm.valid); })
+    // this.myForm.controls.valid
     
   }
-
-
+  
   initForm(): void{
     this.myForm=  this.fb.group ({
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
@@ -67,27 +57,26 @@ export class RegistrationPage implements OnInit {
         name: ['',[Validators.required, Validators.minLength(3)]],
         surname : ['',[Validators.required, Validators.minLength(3)]],
         birth_date :['',[Validators.required]],
-        wallet : ['',[Validators.required]],
         phone_number : ['', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]{10}$')]],
-        token : ['']
         //  })
-       });
-      
+       });   
   }
 
-   validForm(f : NgForm,email: any, password: any){
+
+  validForm(){
     this.submitted = true;
  
-    if (!this.myForm.valid) {
-      console.log('All fields are required.')
-      alert('All fields are required.')
+    // if (!this.myForm.valid) {
+    //   console.log('All fields are required.')
+    //   alert('Please provide all the required fields.')
       
-      return false;
-    } else {
-      console.log(f.value)
-      this.register(email, password)
+    //   return false;
+    //} else {
+      console.log(this.myForm.value) 
+      this.register(this.email, this.password)
       
-    }
+      
+   // }
    }
   async register(email: any, password: any) {
     console.log(this.email);
@@ -109,6 +98,18 @@ export class RegistrationPage implements OnInit {
       
       // ..
     });
+  }
+  // public CalculateAge(): void
+  //    {
+  //        if(this.myForm.){
+  //           var timeDiff = Math.abs(Date.now() - this.birth_date);
+  //           //Used Math.floor instead of Math.ceil
+  //           //so 26 years and 140 days would be considered as 26, not 27.
+  //           this.age = Math.floor((timeDiff / (1000 * 3600 * 24))/365);
+  //       }
+  //   }
+  get errorControl(){
+    return this.myForm.controls;
   }
   togglePassword():void {
     this.showPassword = !this.showPassword;
