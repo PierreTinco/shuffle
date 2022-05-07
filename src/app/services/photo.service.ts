@@ -4,20 +4,27 @@ import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Storage } from '@capacitor/storage';
 import { Platform } from '@ionic/angular';
-import { getStorage, ref } from 'firebase/storage';
+import { getApp } from 'firebase/app';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { DataStorageService } from './datastorage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhotoService {
-  [x: string]: any;
+  user: any;
+  public imageUrl: string
+  public imageRef: any;
   public photos: UserPhoto[];
   private PHOTO_STORAGE: string = 'photos';
   private platform: Platform;
-  private storage = getStorage();
-  private storageRef = ref(this.storage, 'some-child');
+  private firebaseApp = getApp();
+  public storage = getStorage(this.firebaseApp, "gs://shuffle-de86f.appspot.com");
 
-  constructor( platform: Platform) {this.platform = platform; }
+  constructor(platform: Platform, private data: DataStorageService) {
+
+    
+  this.platform = platform; }
   public async choosePicture() {
     const image = await Camera.getPhoto({
       quality: 100,
@@ -29,22 +36,27 @@ export class PhotoService {
     console.log("ici l'image",image);
     
     // Save the picture and add it to photo collection
-     const savedImageFile = await this.savePicture(image);
-     console.log("image saved:",savedImageFile);
+    const savedImageFile = await this.savePicture(image);
+    console.log("image saved:",savedImageFile);
     this.photos.unshift(savedImageFile);
-
-
-    // uploadBytes(this.storageRef, savedImageFile).then((snapshot) => {
-    //   console.log('Uploaded a blob or file!',snapshot);
-    // });
+    this.user = this.data.get_user()
+    console.log("user pour photo", this.user);
+    this.imageRef = ref(this.storage, `photos/users/${this.user.id}`)
+    console.log(this.imageRef);
+    
+    const response = await fetch(savedImageFile.webviewPath);
+    const blob = await response.blob();
+    uploadBytes(this.imageRef, blob).then((snapshot) => {
+      console.log('Uploaded a blob or file!',snapshot);
+    });
 
      // Cache all photo data for future retrieval
     Storage.set({
       key: this.PHOTO_STORAGE,
       value: JSON.stringify(this.photos),
     });
-
   }
+
   private async savePicture(photo: Photo) {
     // Convert photo to base64 format, required by Filesystem API to save
     const base64Data = await this.readAsBase64(photo);
@@ -144,6 +156,9 @@ export class PhotoService {
       directory: Directory.Data,
     });
   }
+
+
+
 }
 export interface UserPhoto {
   filepath: string;

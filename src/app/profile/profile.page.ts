@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { getAuth, signOut, onAuthStateChanged, User } from "firebase/auth";
+import { getAuth, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { ApiService } from '../services/api.service';
-import { AlertController, mdTransitionAnimation, PopoverController } from '@ionic/angular';
+import {
+  AlertController,
+  mdTransitionAnimation,
+  PopoverController,
+} from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
-import{ Router, RouterLink } from '@angular/router'
-import { PopoverComponent} from '../popover/popover.component';
+import { Router, RouterLink } from '@angular/router';
+import { PopoverComponent } from '../popover/popover.component';
 import { DataStorageService } from '../services/datastorage.service';
+import { PhotoService } from '../services/photo.service';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { DomSanitizer } from '@angular/platform-browser';
 declare let window: any;
 
 @Component({
@@ -14,105 +21,133 @@ declare let window: any;
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  app: any
-  currentUser: any
-  firebaseUser: any
-  bddUsers: any 
-  auth: any
+  photoUrl: any;
+  app: any;
+  currentUser: any;
+  firebaseUser: any;
+  bddUsers: any;
+  auth: any;
   buttonValue = 'grid';
-  connected = false
+  connected = false;
   buttonEvents: any[] = [];
-  clicked = false
+  clicked = false;
   curentAccount: any;
- segmentModel ="creator";
- friends:any
- viewFriends=null;
- photo = 'https://i.pravatar.cc/150';
- sliderConfig={
-   spaceBetween:5,
-   centeredSlides:true,
-   slidesPerView:2
- }
- eventsUser : any = []
-viewAll = true
-isEditing = false
-  constructor(private api: ApiService,public alertController: AlertController,private dataStorageService : DataStorageService,
-    public actionSheetController: ActionSheetController, private popCtrl: PopoverController,private routes:Router) { }
+  segmentModel = 'creator';
+  friends: any;
+  viewFriends = null;
+  photo = 'https://i.pravatar.cc/150';
+  sliderConfig = {
+    spaceBetween: 5,
+    centeredSlides: true,
+    slidesPerView: 2,
+  };
+  eventsUser: any = [];
+  viewAll = true;
+  isEditing = false;
+
+  constructor(
+    private api: ApiService,
+    public alertController: AlertController,
+    private dataStorageService: DataStorageService,
+    public actionSheetController: ActionSheetController,
+    private popCtrl: PopoverController,
+    private routes: Router,
+    private photos: PhotoService,
+    private sanitizer: DomSanitizer
+  ) {}
 
   async ngOnInit() {
-    this.auth = getAuth()
-    this.firebaseUser = this.auth.currentUser
-    console.log("fireBase User :",this.firebaseUser)
-    this.currentUser = await this.api.getUser({where : {token : this.firebaseUser.uid} }).toPromise()
-    this.dataStorageService.set_user(this.currentUser[0])
-    this.eventsUser = await this.api.getUserEvent({where : {id_user : this.currentUser[0].id },join : {type : "INNER JOIN", tableJoin : "event", keyFrom : "id_event",keyJoin : "id"}}).toPromise()
-    console.log("current user profile : ", this.currentUser[0]);
-    this.bddUsers = await this.api.getUser({}).toPromise()
-    this.viewAll =true
-    if (this.firebaseUser != null )
-    {
-      this.connected = true
+    this.auth = getAuth();
+    this.firebaseUser = this.auth.currentUser;
+    console.log('fireBase User :', this.firebaseUser);
+    this.currentUser = await this.api
+      .getUser({ where: { token: this.firebaseUser.uid } })
+      .toPromise();
+    this.dataStorageService.set_user(this.currentUser[0]);
+    this.eventsUser = await this.api
+      .getUserEvent({
+        where: { id_user: this.currentUser[0].id },
+        join: {
+          type: 'INNER JOIN',
+          tableJoin: 'event',
+          keyFrom: 'id_event',
+          keyJoin: 'id',
+        },
+      })
+      .toPromise();
+    console.log('current user profile : ', this.currentUser[0]);
+    this.bddUsers = await this.api.getUser({}).toPromise();
+    this.viewAll = true;
+    if (this.firebaseUser != null) {
+      this.connected = true;
     }
+    await this.getPhotoUrl()
   }
 
-
-  returnGoodrray(arr : any){
-    let temp = []
-    temp = arr.filter((el : any)=>el.statut == this.segmentModel)
-    return temp
+  returnGoodrray(arr: any) {
+    let temp = [];
+    temp = arr.filter((el: any) => el.statut == this.segmentModel);
+    return temp;
   }
 
-  buttonsChanged(event:any) {
-    this.segmentModel=event.target.value;
-    console.log(this.segmentModel);  
+  buttonsChanged(event: any) {
+    this.segmentModel = event.target.value;
+    console.log(this.segmentModel);
   }
 
-  async openAlertLogOut(){
+  async openAlertLogOut() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'log out?',
       subHeader: 'Are you sure you want to log out ?',
-      buttons: [{
-        text: 'Cancel',
-        role: 'cancel',
-        handler: () => {
-        console.log('Confirm Cancel');
-        }
-      },{
-        text: 'Log Out',
-        role: 'log out',
-        handler: () => {
-          this.logOut();
-          console.log('Confirm Destruction');
-        }
-      }]
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Confirm Cancel');
+          },
+        },
+        {
+          text: 'Log Out',
+          role: 'log out',
+          handler: () => {
+            this.logOut();
+            window.location.reload();
+            console.log('Confirm Destruction');
+          },
+        },
+      ],
     });
     await alert.present();
   }
-  async openAlerConnectWallet(){
+  async openAlerConnectWallet() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Are you sure you want to connect your wallet?',
       subHeader: 'Subtitle',
       message: 'You will be laeding to the loading page of your Metamask.',
-      buttons: [{
-        text: 'Cancel',
-        role: 'cancel',
-        handler: () => {
-        console.log('Confirm Cancel');
-        }
-      },{
-        text: 'Connect',
-        role: 'connect',
-        handler: () => {
-          this.connectWallet();;
-          console.log('Confirm Destruction');
-        }
-      }]
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Confirm Cancel');
+          },
+        },
+        {
+          text: 'Connect',
+          role: 'connect',
+          handler: () => {
+            this.connectWallet();
+            console.log('Confirm Destruction');
+          },
+        },
+      ],
     });
     await alert.present();
   }
-  
+
   connectWallet() {
     if (window.ethereum) {
       window.ethereum
@@ -136,90 +171,99 @@ isEditing = false
   }
 
   logOut() {
-
-    signOut(this.auth).then(() => {
-      // Sign-out successful.
-      this.connected = false
-      alert('deconnexion')
-    }).catch((error) => {
-      // An error happened.
-      alert('erreur')
-    });
+    signOut(this.auth)
+      .then(() => {
+        // Sign-out successful.
+        this.connected = false;
+        alert('deconnexion');
+      })
+      .catch((error) => {
+        // An error happened.
+        alert('erreur');
+      });
   }
 
-
-  public async openPopover(ev:any){
-     const popover=await this.popCtrl.create({
-       component: PopoverComponent,
-       componentProps: {
-
-       },
-       event: ev,
-       translucent:true,
-       mode:'md'
-
-     })
-     return await popover.present()
-
+  public async openPopover(ev: any) {
+    const popover = await this.popCtrl.create({
+      component: PopoverComponent,
+      componentProps: {},
+      event: ev,
+      translucent: true,
+      mode: 'md',
+    });
+    return await popover.present();
   }
   public async showMenuSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: '___',
-      buttons: [{
-        text: this.connected?'Log out':'Login',
-        role:this.connected?'log out': 'login' ,
-        handler: () => {
-          this.connected? this.openAlertLogOut(): this.goToLogin();
-        console.log('Confirm Changement');
-        }
-      },{
-        text: 'Settings',
-        role: '',
-        icon: 'cog',
-        handler: () => {
-          console.log('Confirm Setting mode');
-        }
-      }, {
-        text: 'Connect wallet',
-        role: 'connect',
-        icon: 'wallet',
-        handler: () => {
-        this.openAlerConnectWallet();
-        console.log('Confirm wallet');
-        
-        },
-      },{
-        text: 'Create an event',
-        role: 'create',
-        icon: 'add',
-        handler: () => {
-          this.goTocreateEvent();
+      buttons: [
+        {
+          text: this.connected ? 'Log out' : 'Login',
+          role: this.connected ? 'log out' : 'login',
+          handler: () => {
+            this.connected ? this.openAlertLogOut() : this.goToLogin();
+            console.log('Confirm Changement');
           },
-          
-      }]
+        },
+        {
+          text: 'Settings',
+          role: '',
+          icon: 'cog',
+          handler: () => {
+            console.log('Confirm Setting mode');
+          },
+        },
+        {
+          text: 'Connect wallet',
+          role: 'connect',
+          icon: 'wallet',
+          handler: () => {
+            this.openAlerConnectWallet();
+            console.log('Confirm wallet');
+          },
+        },
+        {
+          text: 'Create an event',
+          role: 'create',
+          icon: 'add',
+          handler: () => {
+            this.goTocreateEvent();
+          },
+        },
+      ],
     });
     await actionSheet.present();
   }
 
-
-  goToFollowPage(path : string){
-    this.dataStorageService.setfollowerClickString(path)
-    this.routes.navigate(['/follow'])
+  goToFollowPage(path: string) {
+    this.dataStorageService.setfollowerClickString(path);
+    this.routes.navigate(['/follow']);
   }
   goTocreateEvent() {
-    this.dataStorageService.setid_user_creator(this.currentUser[0].id)
+    this.dataStorageService.setid_user_creator(this.currentUser[0].id);
     this.routes.navigate(['/addevent']);
     //['/addEvent', {id:this.currentUser[0].id}]
   }
   goToLogin() {
     this.routes.navigate(['/welcome']);
-
   }
 
   viewFriendF() {
     this.viewFriends = !this.viewFriends;
   }
 
-
+  public async getPhotoUrl(){
+    this.currentUser[0] = this.dataStorageService.get_user()
+    getDownloadURL(ref(this.photos.storage, `photos/users/${this.currentUser[0].id}`))
+  .then((url) => {
+    // `url` is the download URL for the user photo
+    this.photoUrl = url
+    console.log("url image", this.photoUrl); 
+  })
+  .catch((error) => {
+    // Handle any errors
+    console.log('erreur image');
+    
+  });
+  } 
 }
-
