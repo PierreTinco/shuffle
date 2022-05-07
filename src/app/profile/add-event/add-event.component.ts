@@ -204,20 +204,3 @@ export class addEventPage {
     await actionSheet.present();
   }
 }
-
-
-//  async addPhoto(cameraFile: Photo) {
-//   const storageRef = ref(this.storage, `upload/${this.user.uid}/profile.png`)
-//   // await this.api.choosePicture();
-//   try {
-//     await uploadString(storageRef, cameraFile.base64String)
-//     const imageUrl = await getDownloadURL(storageRef)
-//     await setDoc(this.userRef, {
-//       imageUrl
-//     });
-//     return true
-//   }
-//   catch {
-//     return null
-//   }
-// }
