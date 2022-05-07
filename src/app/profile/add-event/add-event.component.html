@@ -11,87 +11,100 @@
         <ion-icon name="person-circle"></ion-icon>
       </ion-button>
     </ion-buttons>
-    
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-      <img src="https://i.pravatar.cc/150">
-      <ion-fab size="3">
-        <ion-fab-button >
+  <div class="container">
+    <div class="outer">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" *ngFor="let photo of pic.photos; index as position">
+            <ion-img [src]="photo.webviewPath"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-fab (click)="showActionSheet() " class="ion-text-center">
+        <ion-fab-button>
           <ion-icon name="camera" class="icon"></ion-icon>
-        </ion-fab-button> 
+        </ion-fab-button>
       </ion-fab>
-   
-      <ion-row *ngIf="!isViewingMode">
-        <ion-col  >
+    </div>
+  </div>
+  <ion-row *ngIf="!isViewingMode">
+    <ion-col>
 
-          <ion-item>
-            <ion-label position="floating">Event Name:</ion-label>
-            <ion-input type="text " [(ngModel)]="event.name"  placeholder="Projet Shuffle"></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="floating">Event Name:</ion-label>
+        <ion-input type="text" [(ngModel)]="event.name" placeholder="Projet Shuffle"></ion-input>
+      </ion-item>
 
-          <ion-item>
-              <ion-label position="floating">Event Location</ion-label>
-              <ion-input type="text " [(ngModel)]="event.location"  placeholder="666 chemin du Rorota"></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="floating">Event Location</ion-label>
+        <ion-input type="text " [(ngModel)]="event.location" placeholder="666 chemin du Rorota"></ion-input>
+      </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Description</ion-label>
-            <ion-input type="text" class="ion-margin-left" [(ngModel)]="event.description"  placeholder="...."></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-input type="text" class="ion-margin-left" [(ngModel)]="event.description" placeholder="...."></ion-input>
+      </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Start Date</ion-label>
-            <ion-input  type="date" [(ngModel)]="event.date_start"placeholder="04/21/2000 "  pickerFormat="YYYY-MM-DD">  </ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="floating">Start Date</ion-label>
+        <ion-input type="date" [(ngModel)]="event.date_start" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">
+        </ion-input>
+      </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Start Time</ion-label>
-            <ion-input type="time" [(ngModel)]="event.time_start" placeholder="04:20 AM" displayFormat="HH:mm" pickerFormat="HH:mm" ></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="floating">Start Time</ion-label>
+        <ion-input type="time" [(ngModel)]="event.time_start" placeholder="04:20 AM" displayFormat="HH:mm"
+          pickerFormat="HH:mm"></ion-input>
+      </ion-item>
 
-          <ion-item>
-            <ion-label position="floating" >End Date</ion-label>
-            <ion-input  type="date" [(ngModel)]="event.date_end" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">  </ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="floating">End Date</ion-label>
+        <ion-input type="date" [(ngModel)]="event.date_end" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">
+        </ion-input>
+      </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">End at</ion-label>
-            <ion-input type="time" [(ngModel)]="event.time_end" placeholder="04:20 AM" displayFormat="HH:mm" pickerFormat="HH:mm" ></ion-input>
-          </ion-item>
+      <ion-item>
+        <ion-label position="floating">End at</ion-label>
+        <ion-input type="time" [(ngModel)]="event.time_end" placeholder="04:20 AM" displayFormat="HH:mm"
+          pickerFormat="HH:mm"></ion-input>
+      </ion-item>
 
-          <ion-item>
-            <ion-label position="floating">Expected number of participants</ion-label>
-            <ion-input type="number" [(ngModel)]="event.max_participant"  placeholder="Expected participant"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Age minimum</ion-label>
-            <ion-input type="number" [(ngModel)]="event.age_min" placeholder="18"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>Private </ion-label>
-            <ion-checkbox  [(ngModel)]="public" checked="false">Private </ion-checkbox>
-          </ion-item>
+      <ion-item>
+        <ion-label position="floating">Expected number of participants</ion-label>
+        <ion-input type="number" [(ngModel)]="event.max_participant" placeholder="Expected participant"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Age minimum</ion-label>
+        <ion-input type="number" [(ngModel)]="event.age_min" placeholder="18"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Private </ion-label>
+        <ion-checkbox [(ngModel)]="public" checked="false">Private </ion-checkbox>
+      </ion-item>
 
-          <ion-item style="display: flex;flex-direction: column;">
-            <ion-label>For free
+      <ion-item style="display: flex;flex-direction: column;">
+        <ion-label>For free
 
-            </ion-label>
-            <ion-checkbox  slot="end" (click)="isPayingModeHandler()" [(ngModel)]="free" checked="false">free </ion-checkbox>
-            
-          </ion-item>
+        </ion-label>
+        <ion-checkbox slot="end" (click)="isPayingModeHandler()" [(ngModel)]="free" checked="false">free </ion-checkbox>
 
-          <ion-item *ngIf="isPayingMode">
-            <ion-label>Price:</ion-label>
-            <ion-input  [(ngModel)]="event.price"  placeholder="0 eth"></ion-input>
-            <ion-label>Wallet:</ion-label>
-            <ion-input  [(ngModel)]="event.wallet"  placeholder="00x"></ion-input>
-          </ion-item>
+      </ion-item>
 
-          <ion-button expand="block" (click)="addEvent()" >Confirm</ion-button>
-        </ion-col>
-      </ion-row>
- 
+      <ion-item *ngIf="isPayingMode">
+        <ion-label>Price:</ion-label>
+        <ion-input [(ngModel)]="event.price" placeholder="0 eth"></ion-input>
+        <ion-label>Wallet:</ion-label>
+        <ion-input [(ngModel)]="event.wallet" placeholder="00x"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" (click)="addEvent()">Confirm</ion-button>
+    </ion-col>
+  </ion-row>
+
 
 </ion-content>
