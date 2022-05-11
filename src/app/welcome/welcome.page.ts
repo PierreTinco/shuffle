@@ -17,6 +17,6 @@ export class WelcomePage implements OnInit {
     console.log(this.user);
     if(this.user != null)
       this.routes.navigateByUrl('accueil');
-  }
+ }
 
 }

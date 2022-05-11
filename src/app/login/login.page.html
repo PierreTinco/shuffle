@@ -7,19 +7,44 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form>
-    <ion-item >
-      <ion-label position="floating"><ion-icon name="mail-outline"></ion-icon>   Email</ion-label>
-      <ion-input placeholder="Email" type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required></ion-input>
-    </ion-item>
-    <ion-item >
-      <ion-label position="floating"><ion-icon name="lock-closed-outline"></ion-icon>   Password</ion-label>
-      <div style="display: flex;flex-direction: row;"> 
-        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password' " [(ngModel)]="password" [ngModelOptions]="{standalone: true}" required></ion-input>
-        <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()" > </ion-icon>
-      
+  <form [formGroup]="myForm" (ngSubmit)="validForm()" novalidate>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="mail-outline"></ion-icon> Email
+      </ion-label>
+      <ion-input placeholder="Email" formControlName="email" type="text" required></ion-input>
+      <div class="show-error">
+        <div *ngIf="myForm.get('email').hasError('required') && submitted ">
+          *Email is required!
+        </div>
+        <div *ngIf="myForm.get('email').hasError('pattern') && myForm.get('email').touched ">
+          *Email require valid pattern [a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z] !
+        </div>
       </div>
     </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="lock-closed-outline"></ion-icon> Password
+      </ion-label>
+      <div style="display: flex;flex-direction: row;">
+        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password' " formControlName="password"
+          required></ion-input>
+        <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()"> </ion-icon>
+      </div>
+      <div class="show-error">
+        <div *ngIf="myForm.get('password').hasError('required') && submitted ">
+          *Password is required !
+        </div>
+        <div *ngIf="myForm.get('password').hasError('minlength')  && myForm.get('password').touched ">
+          *Password required minimum of 6 caracteres !
+        </div>
+        <!-- <div *ngIf="myForm.get('repeatPassword').hasError('pattern') && myForm.get('repeatPassword').touched">
+          *Password required minimum of 6 valid pattern ([a-z];[A-Z];[0-9];[!?.,:;"@#$%^£&*];(8,))!
+        </div>-->
+      </div>
+    </ion-item>
+
     <ion-row>
       <ion-col>
         <ion-button type="submit" color="primary" expand="block" (click)="signIn(email, password)">Sign In</ion-button>
