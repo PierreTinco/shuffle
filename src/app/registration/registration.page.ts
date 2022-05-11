@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Injectable, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, NgForm } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',

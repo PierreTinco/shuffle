@@ -7,7 +7,6 @@ ion-col {
     
 }
 
-
 ion-fab {
     position: absolute;
     bottom: 0;
@@ -49,3 +48,8 @@ ion-icon {
     position: absolute;
     background-size: 150px 150px;
   }
+  .show-error{
+    padding-top: 0.2rem;
+    color: red;
+    font-size: 12px;
+}

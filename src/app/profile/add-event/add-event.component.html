@@ -33,77 +33,174 @@
     </div>
   </div>
   <ion-row *ngIf="!isViewingMode">
-    <ion-col>
+    <form *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="validForm()" novalidate>
+      <div formGroupName="event">
+        <ion-item>
+          <ion-label position="floating">Event Name:</ion-label>
+          <ion-input type="text" FormControlName="name" placeholder="Projet Shuffle"></ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.name').hasError('required') && submitted ">
+              *Event name is required !
+            </div>
+            <div *ngIf="myForm.get('event.name').hasError('minlength') && myForm.get('event.name').touched">
+              *Event name must be compose at least 3 characters !
+            </div>
+            <div *ngIf="myForm.get('event.name').hasError('maxlength') && myForm.get('event.name').touched">
+              *Event name must be compose at maximum 25 characters !
+            </div>
+          </div>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Event Name:</ion-label>
-        <ion-input type="text" [(ngModel)]="event.name" placeholder="Projet Shuffle"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Event Location:</ion-label>
+          <ion-input type="text " FormControlName="location" placeholder="666 chemin du Rorota"></ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.location').hasError('required') && submitted ">
+              *Event location is required !
+            </div>
+          </div>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Event Location</ion-label>
-        <ion-input type="text " [(ngModel)]="event.location" placeholder="666 chemin du Rorota"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Description</ion-label>
+          <ion-input type="text" class="ion-margin-left" FormControlName="description" placeholder="...."></ion-input>
+          <!-- <div class="show-error">
+            <div *ngIf="myForm.get('event.description').hasError('required') && submitted ">
+              *Event description is required !
+            </div>
+          </div> -->
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Description</ion-label>
-        <ion-input type="text" class="ion-margin-left" [(ngModel)]="event.description" placeholder="...."></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Start Date</ion-label>
+          <ion-input type="date" FormControlName="date_start" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">
+          </ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.date_start').hasError('required') && submitted ">
+              *Event start date is required !
+            </div>
+          </div>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Start Date</ion-label>
-        <ion-input type="date" [(ngModel)]="event.date_start" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">
-        </ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Start Time</ion-label>
+          <ion-input type="time" FormControlName="time_start" placeholder="04:20 AM" displayFormat="HH:mm"
+            pickerFormat="HH:mm"></ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.time_start').hasError('required') && submitted ">
+              *Event start time is required !
+            </div>
+          </div>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Start Time</ion-label>
-        <ion-input type="time" [(ngModel)]="event.time_start" placeholder="04:20 AM" displayFormat="HH:mm"
-          pickerFormat="HH:mm"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">End Date</ion-label>
+          <ion-input type="date" FormControlName="date_end" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">
+          </ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.date_end').hasError('required') && submitted ">
+              *Event end date is required !
+            </div>
+          </div>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">End Date</ion-label>
-        <ion-input type="date" [(ngModel)]="event.date_end" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">
-        </ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">End at</ion-label>
+          <ion-input type="time" FormControlName="time_end" placeholder="04:20 AM" displayFormat="HH:mm"
+            pickerFormat="HH:mm"></ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.time_end').hasError('required') && submitted ">
+              *Event end time is required !
+            </div>
+          </div>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">End at</ion-label>
-        <ion-input type="time" [(ngModel)]="event.time_end" placeholder="04:20 AM" displayFormat="HH:mm"
-          pickerFormat="HH:mm"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Expected number of participants</ion-label>
+          <ion-input type="number" FormControlName="max_participant" placeholder="Expected participant"></ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.max_participant').hasError('required') && submitted ">
+              *Event expected number of participants is required !
+            </div>
+          </div>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Expected number of participants</ion-label>
-        <ion-input type="number" [(ngModel)]="event.max_participant" placeholder="Expected participant"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Age minimum</ion-label>
-        <ion-input type="number" [(ngModel)]="event.age_min" placeholder="18"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Age minimum</ion-label>
+          <ion-input type="number" FormControlName="age_min" placeholder="18"></ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.age_min').hasError('required') && submitted ">
+              *Age minimum to join the event is required !
+            </div>
+            <div *ngIf="myForm.get('event.age_min').hasError('pattern') && myForm.get('event.age_min').touched ">
+              *Valid pattern is riquired!
+            </div>
+          </div>
+        </ion-item>
+      </div>
+      <!-- public: ['', [Validators.required]],
+      free: ['', [Validators.required]],
+      event: this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(50)]],
+      location: ['', [Validators.required]],
+      date_start: ['', [Validators.required]],
+      time_start: ['', [Validators.required]],
+      date_end: ['', [Validators.required]],
+      time_end: ['', [Validators.required]],
+      price: ['', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]$')]],
+      max_participant: ['', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]$')]],
+      age_min: ['', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]$')]],
+      wallet: ['', [Validators.required]], -->
+
       <ion-item>
         <ion-label>Private </ion-label>
-        <ion-checkbox [(ngModel)]="public" checked="false">Private </ion-checkbox>
+        <div class="show-error">
+          <!-- <div *ngIf="myForm.get('public').hasError('required') && submitted ">
+            *Privacy of your event is required 
+          </div> -->
+        </div>
+        <ion-checkbox FormControlName="public" checked="false">Private </ion-checkbox>
       </ion-item>
 
       <ion-item style="display: flex;flex-direction: column;">
-        <ion-label>For free
-
-        </ion-label>
-        <ion-checkbox slot="end" (click)="isPayingModeHandler()" [(ngModel)]="free" checked="false">free </ion-checkbox>
-
+        <ion-label>For free</ion-label>
+        <!-- <div class="show-error">
+          <div *ngIf="myForm.get('free').hasError('required') && submitted ">
+            *The cost of your event is required !
+          </div>
+        </div> -->
+        <ion-checkbox slot="end" (click)="isPayingModeHandler()" FormControlName="free" checked="false">free
+        </ion-checkbox>
       </ion-item>
 
       <ion-item *ngIf="isPayingMode">
-        <ion-label>Price:</ion-label>
-        <ion-input [(ngModel)]="event.price" placeholder="0 eth"></ion-input>
-        <ion-label>Wallet:</ion-label>
-        <ion-input [(ngModel)]="event.wallet" placeholder="00x"></ion-input>
+        <div formGroupName="event">
+          <ion-label>Price:</ion-label>
+          <ion-input FormControlName="price" placeholder="0 eth"></ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.price').hasError('required') && submitted ">
+              *Your event ticket price is required !
+            </div>
+            <!-- <div *ngIf="myForm.get('event.price').hasError('pattern') && submitted ">
+              *Your wallet address required valid patterns !
+            </div> -->
+          </div>
+          <ion-label>Wallet:</ion-label>
+          <ion-input FormControlName="wallet" placeholder="00x"></ion-input>
+          <div class="show-error">
+            <div *ngIf="myForm.get('event.wallet').hasError('required') && submitted ">
+              *Your wallet address is required !
+            </div>
+            <!-- <div *ngIf="myForm.get('event.wallet').hasError('pattern') && submitted ">
+              *Your wallet address required valid patterns !
+            </div> -->
+          </div>
+        </div>
       </ion-item>
-
-      <ion-button expand="block" (click)="addEvent()">Confirm</ion-button>
-    </ion-col>
+      <ion-button type="submit" color="primary" expand="block">Confirm</ion-button>
+      <!-- <ion-button expand="block" (click)="addEvent()">Confirm</ion-button> -->
+    </form>
   </ion-row>
 
 
