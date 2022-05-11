@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://ec2-54-83-83-253.compute-1.amazonaws.com/api/shuffle',
+  //apiUrl: 'http://ec2-54-83-83-253.compute-1.amazonaws.com/api/shuffle',
   firebaseConfig: {
     apiKey: "AIzaSyAo6XIb8NRSkOmnkTs6eWUH4kEBAe8jHT0",
     authDomain: "shuffle-de86f.firebaseapp.com",

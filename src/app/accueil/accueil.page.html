@@ -1,12 +1,12 @@
-<ion-header style="display: flex;flex-direction: row;" collapse="condense">
+<ion-header  collapse="condense">
 <!-- <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly">
 </script> -->
-  <ion-toolbar>
+  <ion-toolbar class="header">
     <ion-button [routerLink]="['/profile']" *ngIf="!clicked">
       <ion-icon name="person-circle"></ion-icon>
     </ion-button>
-    <ion-button (click)="viewMapfct()" *ngIf="!clicked" class="map-btn">
+    <ion-button (click)="viewMapfct()" *ngIf="!clicked" slot="end">
       <ion-icon name="location"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -19,11 +19,6 @@
     <div id="map" *ngIf="viewMap" #map></div>
     <ion-button (click)="draw()" expand="full">Draw</ion-button>
   </div>
-
- 
- 
- 
-  <app-explore-container name="accueil"></app-explore-container>
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
   <ion-list class="eventList" *ngIf="!clicked && !viewMap" class="bg-transparent">
     <ion-item-sliding *ngFor="let item of events | filter : searchText">

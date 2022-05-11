@@ -3,11 +3,10 @@ import { ApiService } from '../services/api.service';
 import Web3 from 'web3';
 import { Event } from './accueil.model';
 import { getAuth } from "firebase/auth";
-import { format, parseISO } from 'date-fns';
-import { Geolocation } from '@capacitor/geolocation';
-import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native';
+//import { Geolocation } from '@capacitor/geolocation';
+//import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native';
 import { Observable } from 'rxjs';
-import { LatLng } from '@capacitor-community/capacitor-googlemaps-native/dist/esm/types/common/latlng.interface';
+//import { LatLng } from '@capacitor-community/capacitor-googlemaps-native/dist/esm/types/common/latlng.interface';
 
 declare let window: any;
 
@@ -44,10 +43,10 @@ export class accueilPage implements OnInit {
   @ViewChild('map') mapView: ElementRef;
   constructor(private api: ApiService) {}
  
-  ionViewDidEnter() {
-    console.log('on ViewDidEnter');
-    this.initMap();
-  }
+  // ionViewDidEnter() {
+  //   console.log('on ViewDidEnter');
+  //   this.initMap();
+  // }
 
   async ngOnInit() {
     this.auth = getAuth();
@@ -199,11 +198,11 @@ export class accueilPage implements OnInit {
     );
   }
 
-  async printCurrentPosition() {
-    const coordinates = await Geolocation.getCurrentPosition();
+  // async printCurrentPosition() {
+  //   const coordinates = await Geolocation.getCurrentPosition();
 
-    console.log('Current position:', coordinates);
-  }
+  //   console.log('Current position:', coordinates);
+  // }
 
   checkChainId() {
     // Create an Observable that will start listening to chain updates
@@ -220,10 +219,7 @@ export class accueilPage implements OnInit {
           
         
         });
-
       }
-
-
       return observer
     });
   }
@@ -232,7 +228,7 @@ export class accueilPage implements OnInit {
     this.viewMap = !this.viewMap;
   }
 
-  initMap() {
+  // initMap() {
     // const directionsRenderer = new google.maps.DirectionsRenderer();
     // const directionsService = new google.maps.DirectionsService();
     // const center = { lat: 30, lng: -110 };
@@ -249,81 +245,82 @@ export class accueilPage implements OnInit {
     //   map: this.map,
     // });
     
-    const boundingRect = this.mapView.nativeElement.getBoundingClientRect() as DOMRect;
-    console.log("initMap ~ boundingRect",boundingRect)
-    CapacitorGoogleMaps.create({
-      width: Math.round(boundingRect.width),
-      height: Math.round(boundingRect.height),
-      x: Math.round(boundingRect.x),
-      y: Math.round(boundingRect.y),
-      // latitude?:number;
+    // const boundingRect = this.mapView.nativeElement.getBoundingClientRect() as DOMRect;
+    // console.log("initMap ~ boundingRect",boundingRect)
+    // CapacitorGoogleMaps.create({
+    //   width: Math.round(boundingRect.width),
+    //   height: Math.round(boundingRect.height),
+    //   x: Math.round(boundingRect.x),
+    //   y: Math.round(boundingRect.y),
+    //   // latitude?:number;
       
-      zoom: 5
-    });
+    //   zoom: 5
+    // });
     // addListener(eventName: 'didTap', listenerFunc: (results: any) => void): PluginListenerHandle;
     // addListener(eventName: 'dragEnded', listenerFunc: (results: any) => void): PluginListenerHandle;
     // addListener(eventName: 'didTapAt', listenerFunc: (results: any) => void): PluginListenerHandle;
     // addListener(eventName: 'didTapPOIWithPlaceID', listenerFunc: (results: any) => void): PluginListenerHandle;
     // addListener(eventName: 'didChange', listenerFunc: (results: any) => void): PluginListenerHandle;
-    CapacitorGoogleMaps.addListener('onMapReady', async () => {
-      CapacitorGoogleMaps.setMapType({
-        type: "normal" // hybrid, satellite, terrain
-      });
+  //   CapacitorGoogleMaps.addListener('onMapReady', async () => {
+  //     CapacitorGoogleMaps.setMapType({
+  //       type: "normal" // hybrid, satellite, terrain
+  //     });
     
-    CapacitorGoogleMaps.addListener('didTapPOIWithPlaceID', async (ev) => {
-      const result = ev.results;
-      const alert = await this.alertCtrl.create({
-        header: result.name,
-        message: `Place ID:  ${result.placeID}`,
-        buttons: ['OK']
-      });
-       await alert.present();
-      });  
-      this.showCurrentPosition();
-    });
-  }
+  //   CapacitorGoogleMaps.addListener('didTapPOIWithPlaceID', async (ev) => {
+  //     const result = ev.results;
+  //     const alert = await this.alertCtrl.create({
+  //       header: result.name,
+  //       message: `Place ID:  ${result.placeID}`,
+  //       buttons: ['OK']
+  //     });
+  //      await alert.present();
+  //     });  
+  //     this.showCurrentPosition();
+  //   });
+  // }
  
-  async showCurrentPosition() {
-    Geolocation.requestPermissions().then(async premission => {
-      const coordinates = await Geolocation.getCurrentPosition();
+  // async showCurrentPosition() {
+  //   Geolocation.requestPermissions().then(async premission => {
+  //     const coordinates = await Geolocation.getCurrentPosition();
     
-      // Create our current location marker
-      CapacitorGoogleMaps.addMarker({
-        latitude: coordinates.coords.latitude,
-        longitude: coordinates.coords.longitude,
-        title: 'My Current Position',
-        snippet: 'Come and find me!'
-      });
+  //     // Create our current location marker
+  //     CapacitorGoogleMaps.addMarker({
+  //       latitude: coordinates.coords.latitude,
+  //       longitude: coordinates.coords.longitude,
+  //       title: 'My Current Position',
+  //       snippet: 'Come and find me!'
+  //     });
     
-      // Focus the camera
-      CapacitorGoogleMaps.setCamera({
-        latitude: coordinates.coords.latitude,
-        longitude: coordinates.coords.longitude,
-        zoom: 12,
-        bearing: 0
-      });
-    });
-  }
-  draw() {
-    const points: LatLng[] = [
-      {
-        latitude: 51.88,
-        longitude: 7.60,
-      },
-      {
-        latitude: 55,
-        longitude: 10,
-      }
-    ];
+  //     // Focus the camera
+  //     CapacitorGoogleMaps.setCamera({
+  //       latitude: coordinates.coords.latitude,
+  //       longitude: coordinates.coords.longitude,
+  //       zoom: 12,
+  //       bearing: 0
+  //     });
+  //   });
+  // }
+
+  // draw() {
+  //   const points: LatLng[] = [
+  //     {
+  //       latitude: 51.88,
+  //       longitude: 7.60,
+  //     },
+  //     {
+  //       latitude: 55,
+  //       longitude: 10,
+  //     }
+  //   ];
  
-    CapacitorGoogleMaps.addPolyline({
-      points,
-      color: '#ff00ff',
-      width: 2
-    });
-  }
-  ionViewDidLeave() {
-    CapacitorGoogleMaps.close();
-  }
+  //   CapacitorGoogleMaps.addPolyline({
+  //     points,
+  //     color: '#ff00ff',
+  //     width: 2
+  //   });
+  // }
+  // ionViewDidLeave() {
+  //   CapacitorGoogleMaps.close();
+  // }
 
 }

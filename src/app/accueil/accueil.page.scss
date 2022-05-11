@@ -1,7 +1,7 @@
 
-::ng-deep .header-collapse-condense ion-toolbar:first-of-type {
-    padding-top: 0px; 
-}
+// ::ng-deep .header-collapse-condense ion-toolbar:first-of-type {
+//     padding-top: 0px; 
+// }
 
 ion-icon {
     font-size: 180%;
@@ -64,9 +64,9 @@ ion-card .event-details .event-img{
 }
 
 
-::ng-deep .header-ios ion-toolbar:last-of-type{
-    --border-width: 0 !important;
-}
+// ::ng-deep .header-ios ion-toolbar:last-of-type{
+//     --border-width: 0 !important;
+// }
 
 
 ::ng-deep ion-list:last-of-type{
@@ -149,9 +149,6 @@ ion-card-content{
     width: 150px;
 }
 
-.map-btn{
-    margin-left: 240px;
-}
 
 #map{
     width:100%;
@@ -165,5 +162,12 @@ ion-card-content{
 .card-text{
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+
+.header{
+    display: flex;
+    flex-direction: row;
     align-items: center;
 }
