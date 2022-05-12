@@ -16,7 +16,7 @@ declare let window: any;
   styleUrls: ['accueil.page.scss'],
 })
 export class accueilPage implements OnInit {
-  [x: string]: any;
+  back = false
   currentUser: any
   details: Event;
   events: any;

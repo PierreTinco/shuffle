@@ -15,14 +15,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <div class="container">
     <div class="outer">
       <ion-grid>
         <ion-row>
-          <ion-col size="6" *ngFor="let photo of pic.photos; index as position">
-            <ion-img [src]="photo.webviewPath"></ion-img>
-          </ion-col>
+            <ion-img *ngIf="pic.photoLoaded" [src]="pic.photos[0]"></ion-img>
         </ion-row>
       </ion-grid>
       <ion-fab (click)="showActionSheet() " class="ion-text-center">
@@ -32,8 +30,8 @@
       </ion-fab>
     </div>
   </div>
-  <ion-row *ngIf="!isViewingMode">
-    <form *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="validForm()" novalidate>
+
+    <form [formGroup]="myForm" (ngSubmit)="validForm()" novalidate>
       <div formGroupName="event">
         <ion-item>
           <ion-label position="floating">Event Name:</ion-label>
@@ -201,7 +199,7 @@
       <ion-button type="submit" color="primary" expand="block">Confirm</ion-button>
       <!-- <ion-button expand="block" (click)="addEvent()">Confirm</ion-button> -->
     </form>
-  </ion-row>
+
 
 
 </ion-content>

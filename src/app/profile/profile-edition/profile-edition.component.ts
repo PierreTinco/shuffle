@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
+import { getDownloadURL, ref } from 'firebase/storage';
 import { ApiService } from 'src/app/services/api.service';
 import { DataStorageService } from 'src/app/services/datastorage.service';
 import { PhotoService, UserPhoto } from 'src/app/services/photo.service';
@@ -10,7 +11,7 @@ import { PhotoService, UserPhoto } from 'src/app/services/photo.service';
   styleUrls: ['./profile-edition.component.scss'],
 })
 export class ProfileEditionComponent implements OnInit {
-
+  photoUrl : any
   currentUser: any
   users: any
   auth: any
@@ -27,6 +28,7 @@ export class ProfileEditionComponent implements OnInit {
   //photo = 'https://i.pravatar.cc/150';
   public photos: UserPhoto[] = [];
   connected: boolean;
+  photoLoaded: boolean;
   constructor(public pic: PhotoService,private api: ApiService,
     public actionSheetController: ActionSheetController, private dataStorageService : DataStorageService) { }
 
@@ -34,7 +36,7 @@ export class ProfileEditionComponent implements OnInit {
   async ngOnInit() {
     this.user = this.dataStorageService.get_user()
     console.log("current user test", this.user);
-    await this.pic.loadSaved();
+    await this.getPhotoUrl()
   }
 
   public async showActionSheet() {
@@ -45,7 +47,7 @@ export class ProfileEditionComponent implements OnInit {
         role: 'changement',
         icon: 'camera',
         handler: () => {
-        this.pic.choosePicture();
+        this.pic.chooseProfilePicture();
         console.log('Confirm Changement');
         }
       },{
@@ -87,6 +89,22 @@ export class ProfileEditionComponent implements OnInit {
       }
     )
   }
+
+  public async getPhotoUrl(){
+    this.currentUser = this.dataStorageService.get_user()
+    getDownloadURL(ref(this.pic.storage, `photos/users/${this.currentUser.id}`))
+  .then((url) => {
+    // `url` is the download URL for the user photo
+    this.photoUrl = url
+    console.log("url image", this.photoUrl); 
+    this.photoLoaded = true
+  })
+  .catch((error) => {
+    // Handle any errors
+    console.log('erreur image');
+    
+  });
+  } 
 
 }
 

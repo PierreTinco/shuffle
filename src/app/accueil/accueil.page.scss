@@ -88,23 +88,17 @@ ion-card-title{
     font-size: 20px;
     text-transform: uppercase;
     text-align: center;
+
 }
 .info{
-    text-align: center;
     font-weight: 100;
     border-radius: 15px;
-    margin-top: -6%;
-    z-index: 2;
     position: absolute;
     padding: 5px 10px;
-    margin-left: 15px;
-    width: 100%;
+    width: 100px;
     background-color: rgb(60, 114, 253);
     box-shadow: 0 3px 3px rgba(0,0,0,0.5);
-    font-size: 20px;
-    font-family: Garamond;
     color:white;
-    text-transform: uppercase;
 }
 
 .box{
@@ -166,8 +160,13 @@ ion-card-content{
 }
 
 
-.header{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+
+
+.card-header{
+    margin-top: 20px;
 }
+
+ion-card-title{
+    margin-top: 10px;
+}
+

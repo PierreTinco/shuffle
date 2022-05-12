@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule} from '@angular
 import { PhotoService, UserPhoto } from 'src/app/services/photo.service';
 import { User } from 'firebase/auth';
 import { ActionSheetController } from '@ionic/angular';
+import { getDownloadURL, ref } from 'firebase/storage';
 
 
 
@@ -16,9 +17,8 @@ import { ActionSheetController } from '@ionic/angular';
   styleUrls: ['add-event.component.scss'],
 })
 export class addEventPage  {
+  user: any
   submitted: boolean;
-  userRef: any
-  user: User
   isAddingMode = false;
   isViewingMode = false;
   isPayingMode = false;
@@ -44,15 +44,14 @@ export class addEventPage  {
   photo: any;
   position: any;
   idUser: any
+  photoUrl: string;
 
-  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, private fb: FormBuilder, private dataStorageService : DataStorageService) { }
 
   async ngOnInit() {
     this.idUser = this.route.snapshot.paramMap.get('id')
-    //   , private firestore: Firestore, private storage: Storage
-    // this.userRef = doc(this.firestore, `users/${this.user.uid}`)
-    await this.pic.loadSaved();
     this.initForm()
+    this.myForm.valueChanges.subscribe(data => console.log('form changes', data));
   }
 
   initForm(): void {
@@ -97,11 +96,12 @@ export class addEventPage  {
     const userEvent = null
     this.myForm.value.event.date_start = format(parseISO(this.myForm.value.event.date_start), 'MMM dd yyyy')
     this.myForm.value.event.date_end = this.formatDate(this.myForm.value.event.date_end)
-    this.myForm.value.free == true ? (this.myForm.value.event['free'] = 1) : (this.myForm.value.event['free'] = 0);
+    this.myForm.value.free == true ? (this.myForm.value.event['free'] = true) : (this.myForm.value.event['free'] = false);
     this.public == false
-      ? (this.myForm.value.event['public'] = 1)
-      : (this.myForm.value.event['public'] = 0);
+      ? (this.myForm.value.event['public'] = true)
+      : (this.myForm.value.event['public'] = false);
     this.myForm.value.event.price == null ? delete this.myForm.value.event.price : null;
+    
     await this.api.addEvents(this.myForm.value.event).subscribe(
       (res: any) => {
         alert("Event ajouté à l'application");
@@ -169,17 +169,19 @@ export class addEventPage  {
 
   public async showActionSheet() {
     const actionSheet = await this.actionSheetController.create({
-      header: 'Change profile photo',
+      header: 'Change event photo',
       buttons: [{
-        text: 'New profile photo',
+        text: 'New event photo',
         role: 'changement',
         icon: 'camera',
         handler: () => {
-          this.pic.choosePicture();
+          this.pic.chooseEventPicture();
+          this.pic.loadSaved();
+          this.getPhotoUrl()
           console.log('Confirm Changement');
         }
       }, {
-        text: 'Remove profile photo',
+        text: 'Remove event photo',
         role: 'destructive',
         icon: 'trash',
         handler: () => {
@@ -198,4 +200,23 @@ export class addEventPage  {
     });
     await actionSheet.present();
   }
+
+  public async getPhotoUrl(){  
+    this.user = this.dataStorageService.get_user()
+    if(this.pic.photoLoaded)
+    {
+      getDownloadURL(this.pic.eventImageRef)
+      .then((url) => {
+        // `url` is the download URL for the user photo
+        this.photoUrl = url
+        console.log("url image", this.photoUrl); 
+    
+      })
+      .catch((error) => {
+        // Handle any errors
+        console.log('erreur image');
+        
+      });
+    }  
+  } 
 }
