@@ -42,7 +42,7 @@ export class PhotoService {
     // Save the picture and add it to photo collection
     const savedImageFile = await this.savePicture(image);
     console.log("image saved:",savedImageFile);
-    this.photos.unshift(savedImageFile);
+    //this.photos.unshift(savedImageFile);
     this.user = this.data.get_user()
     console.log("user pour photo", this.user);
     this.profileImageRef = ref(this.storage, `photos/users/${this.user.id}`)
