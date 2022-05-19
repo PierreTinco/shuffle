@@ -93,17 +93,17 @@ export class ProfileEditionComponent implements OnInit {
   public async getPhotoUrl(){
     this.currentUser = this.dataStorageService.get_user()
     getDownloadURL(ref(this.pic.storage, `photos/users/${this.currentUser.id}`))
-  .then((url) => {
-    // `url` is the download URL for the user photo
-    this.photoUrl = url
-    console.log("url image", this.photoUrl); 
-    this.photoLoaded = true
-  })
-  .catch((error) => {
-    // Handle any errors
-    console.log('erreur image');
-    
-  });
+    .then((url) => {
+      // `url` is the download URL for the user photo
+      this.photoUrl = url
+      console.log("url image", this.photoUrl); 
+      this.photoLoaded = true
+    })
+    .catch((error) => {
+      // Handle any errors
+      console.log('erreur image');
+
+    });
   } 
 
 }
