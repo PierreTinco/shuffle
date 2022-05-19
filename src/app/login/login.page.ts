@@ -10,6 +10,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 
 export class LoginPage implements OnInit {
+  email = "pierre@gmail.com"
+  password = "123456"
   showPassword = false;
   passwordToggleIcon = "eye";
   app: any;

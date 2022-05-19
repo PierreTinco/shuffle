@@ -4,7 +4,7 @@
       <ion-label> {{currentUser[0].name}}  </ion-label>
       <ion-label>{{currentUser[0].surname}}</ion-label>
     </ion-title>
-    <ion-title *ngIf="!connected" ><ion-icon name="lock-open-outline"></ion-icon> test back
+    <ion-title *ngIf="!connected" ><ion-icon name="lock-open-outline"></ion-icon>Guest
     </ion-title>
     <ion-buttons slot="start">
       <ion-back-button [routerLink]="['/accueil']">Back</ion-back-button>
@@ -65,8 +65,8 @@
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button  (click)="viewFriendF()" >
-          <ion-icon *ngIf="!connected" name="person-add-outline"></ion-icon>
+        <ion-button  *ngIf="!connected" (click)="viewFriendF()" >
+          <ion-icon  name="person-add-outline"></ion-icon>
         </ion-button>
 
       </ion-col>

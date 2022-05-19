@@ -4,7 +4,7 @@
 
 export const environment = {
   apiUrl: 'http://localhost:3000/api/shuffle',
-  //'http://localhost:3000/api/shuffle''http://ec2-54-83-83-253.compute-1.amazonaws.com/api/shuffle
+  //'http://localhost:3000/api/shuffle''http://ec2-54-83-83-253.compute-1.amazonaws.com/api/shuffle'
   production: false,
   firebaseConfig: {
     apiKey: "AIzaSyAo6XIb8NRSkOmnkTs6eWUH4kEBAe8jHT0",

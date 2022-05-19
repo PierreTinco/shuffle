@@ -5,7 +5,7 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Storage } from '@capacitor/storage';
 import { Platform } from '@ionic/angular';
 import { getApp } from 'firebase/app';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { DataStorageService } from './datastorage.service';
 
 @Injectable({
@@ -14,18 +14,54 @@ import { DataStorageService } from './datastorage.service';
 export class PhotoService {
   user: any;
   public imageUrl: string
-  public imageRef: any;
+  public profileImageRef: any;
+  public eventImageRef: any;
   public photos: UserPhoto[];
   private PHOTO_STORAGE: string = 'photos';
   private platform: Platform;
   private firebaseApp = getApp();
   public storage = getStorage(this.firebaseApp, "gs://shuffle-de86f.appspot.com");
+  createdAt: any;
+  photoLoaded: boolean;
 
   constructor(platform: Platform, private data: DataStorageService) {
 
     
   this.platform = platform; }
-  public async choosePicture() {
+
+  public async chooseProfilePicture() {
+    const image = await Camera.getPhoto({
+      quality: 100,
+      allowEditing: true,
+      source: CameraSource.Camera,
+      resultType: CameraResultType.Uri
+    
+    });
+    console.log("ici l'image",image);
+    
+    // Save the picture and add it to photo collection
+    const savedImageFile = await this.savePicture(image);
+    console.log("image saved:",savedImageFile);
+    //this.photos.unshift(savedImageFile);
+    this.user = this.data.get_user()
+    console.log("user pour photo", this.user);
+    this.profileImageRef = ref(this.storage, `photos/users/${this.user.id}`)
+    console.log(this.profileImageRef);
+    
+    const response = await fetch(savedImageFile.webviewPath);
+    const blob = await response.blob();
+    uploadBytes(this.profileImageRef, blob).then((snapshot) => {
+      console.log('Uploaded a blob or file!',snapshot);
+    });
+
+     // Cache all photo data for future retrieval
+    Storage.set({
+      key: this.PHOTO_STORAGE,
+      value: JSON.stringify(this.photos),
+    });
+  }
+
+  public async chooseEventPicture() {
     const image = await Camera.getPhoto({
       quality: 100,
       allowEditing: true,
@@ -40,13 +76,15 @@ export class PhotoService {
     console.log("image saved:",savedImageFile);
     this.photos.unshift(savedImageFile);
     this.user = this.data.get_user()
-    console.log("user pour photo", this.user);
-    this.imageRef = ref(this.storage, `photos/users/${this.user.id}`)
-    console.log(this.imageRef);
-    
+    this.createdAt = new Date().getTime()
+    console.log("timestamp",this.createdAt);
+    console.log(this.user.id);
+    this.photoLoaded = true
+    this.eventImageRef = ref(this.storage, `photos/events/${this.user.id}${this.createdAt}`)
+    console.log("ref Image:", this.eventImageRef);
     const response = await fetch(savedImageFile.webviewPath);
     const blob = await response.blob();
-    uploadBytes(this.imageRef, blob).then((snapshot) => {
+    uploadBytes(this.eventImageRef, blob).then((snapshot) => {
       console.log('Uploaded a blob or file!',snapshot);
     });
 

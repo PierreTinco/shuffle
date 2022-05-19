@@ -1,8 +1,4 @@
 
-::ng-deep .header-collapse-condense ion-toolbar:first-of-type {
-    padding-top: 0px; 
-}
-
 ion-icon {
     font-size: 180%;
     margin-top: 5px;
@@ -24,12 +20,15 @@ ion-card .event-details .event-img{
 .card-details {
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;    
-    height: 67%;
+    height: 69%;
     text-transform: uppercase;
     display:flex;
     flex-direction: column;
     align-items: center;
     background-color: white;
+    margin-top: -20px;
+
+
 }
 
 .background{
@@ -46,7 +45,7 @@ ion-card .event-details .event-img{
 }
 
 ::ng-deep .event-img:last-of-type{
-    background: url(https://i.pravatar.cc/150) 0 0/100% 100% no-repeat;
+    background: url(..\..\event.jpg) 0 0/100% 100% no-repeat;
     margin-top: 25px;
     margin-left: 20px;
     width: 170px !important;
@@ -56,17 +55,15 @@ ion-card .event-details .event-img{
 
 
 .event-details-img{
-    background: url(https://i.pravatar.cc/150) 0 0/100% 100% no-repeat;
-    width: 400px;
-    height: 300px;
-    margin-bottom: -30px;   
-
+    background: url(..\..\event.jpg) 0 0/100% 100% no-repeat;
+    width: 420px;
+    height: 300px;  
 }
 
 
-::ng-deep .header-ios ion-toolbar:last-of-type{
-    --border-width: 0 !important;
-}
+// ::ng-deep .header-ios ion-toolbar:last-of-type{
+//     --border-width: 0 !important;
+// }
 
 
 ::ng-deep ion-list:last-of-type{
@@ -78,33 +75,30 @@ ion-card .event-details .event-img{
 }
 
 ion-label{
-    margin-left: 5px;
+    // margin-left: 5px;
     white-space: nowrap;
-    font-family: Garamond;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 ion-card-title{
     font-family: Garamond;
-    font-size: 20px;
+    font-size: 18px;
     text-transform: uppercase;
     text-align: center;
+
 }
 .info{
-    text-align: center;
     font-weight: 100;
     border-radius: 15px;
-    margin-top: -6%;
-    z-index: 2;
     position: absolute;
     padding: 5px 10px;
-    margin-left: 15px;
-    width: 100%;
+    width: auto;
+    height: auto;
     background-color: rgb(60, 114, 253);
     box-shadow: 0 3px 3px rgba(0,0,0,0.5);
-    font-size: 20px;
-    font-family: Garamond;
     color:white;
-    text-transform: uppercase;
+    margin-left: 5px;
+    margin-bottom: auto;
 }
 
 .box{
@@ -134,7 +128,7 @@ ion-card-title{
 ion-card-subtitle{
     display:flex;
     flex-direction: column;
-    margin-top: 55px;
+    margin-top: 80px;
     margin-left: 15px;
     font-size: 18px;
     font-weight: 700;
@@ -149,9 +143,6 @@ ion-card-content{
     width: 150px;
 }
 
-.map-btn{
-    margin-left: 240px;
-}
 
 capacitor-google-maps{
     display: inline-block;
@@ -169,3 +160,15 @@ capacitor-google-maps{
     flex-direction: column;
     align-items: center;
 }
+
+
+
+
+.card-header{
+    margin-top: 20px;
+}
+
+ion-card-title{
+    margin-top: 10px;
+}
+

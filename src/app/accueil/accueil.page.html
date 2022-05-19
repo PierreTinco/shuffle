@@ -1,27 +1,27 @@
 <ion-header style="display: flex;flex-direction: row;" collapse="condense">
-  <ion-toolbar>
+  <ion-toolbar class="header">
     <ion-button [routerLink]="['/profile']" *ngIf="!clicked">
       <ion-icon name="person-circle"></ion-icon>
     </ion-button>
-    <ion-button (click)="viewMapfct()" *ngIf="!clicked" class="map-btn">
+    <ion-button (click)="viewMapfct()" *ngIf="!clicked" slot="end">
       <ion-icon name="location"></ion-icon>
     </ion-button>
+    <ion-buttons slot="start" *ngIf="clicked">
+      <ion-button  (click)="return()" ><ion-icon name="chevron-back-outline"></ion-icon>Back</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 
-<ion-content [fullscreen]="true" class="background">
+<ion-content class="background">
+   <!-- <div onload="initMap()"></div> -->
   <div [hidden]="!viewMap">
     <capacitor-google-maps #map id="map"></capacitor-google-maps>
     <ion-button (click)="draw()" expand="full">Draw</ion-button>
   </div>
-
- 
- 
- 
+  <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
   <app-explore-container name="accueil"></app-explore-container>
   <div *ngIf="!clicked && !viewMap">
-    <ion-searchbar  [(ngModel)]="searchText"></ion-searchbar>
     <ion-button>Filter<ion-icon name="filter-outline"></ion-icon></ion-button>
   </div>
   <ion-list class="eventList" *ngIf="!clicked && !viewMap" class="bg-transparent">
@@ -30,7 +30,7 @@
         <div class="event-img"></div>
         <ion-card-content class="card-text">
           <ion-card-title class="info">{{item.name}}</ion-card-title>
-          <ion-card-subtitle >
+          <ion-card-subtitle>
             <ion-label >{{item.date_start}}</ion-label>
             <ion-label>{{item.location}}</ion-label>
             <ion-label  *ngIf="item.free == 0"> {{item.price}} eth</ion-label>
@@ -45,7 +45,6 @@
     <div class="event-details-img"></div>
     <div class="card-details">
       <div class="card-header">
-       <ion-icon (click)="return()" name="arrow-back"></ion-icon>
         <div>{{details[0].name}}</div>
       </div>
       <div>
@@ -62,7 +61,7 @@
           </div>
         </div>
         <div >
-          <ion-buttons style="    display: flex;justify-content: center;margin-bottom: 5%;">
+          <ion-buttons style="display: flex;justify-content: center;margin-bottom: 5%;">
             <ion-button (click)="remove()"><ion-icon name="remove-circle"></ion-icon></ion-button>
             <span>{{ticket_qty}}</span>
             <ion-button (click)="add()"><ion-icon name="add-circle"></ion-icon></ion-button>

@@ -27,8 +27,6 @@ export class AppComponent implements OnInit{
     this.auth = getAuth();
     this.user = this.auth.currentUser
     console.log("user: ", this.user );
-    
-  
     this.router.navigateByUrl('loading') 
   }
 

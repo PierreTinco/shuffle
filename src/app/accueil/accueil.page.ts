@@ -17,6 +17,7 @@ declare let window: any;
   styleUrls: ['accueil.page.scss'],
 })
 export class accueilPage implements OnInit {
+  back = false
   currentUser: any
   details: Event;
   events: any;
@@ -93,12 +94,11 @@ export class accueilPage implements OnInit {
     
     for(let i = 0 ; i < this.ticket_qty; i++)
     {
-    await this.api.addUserEvent({id_user: this.currentUser[0].id,id_event: currentEvent.id}).subscribe(
+    await this.api.addUserEvent({id_user: this.currentUser[0].id,id_event: currentEvent.id, statut: "participant"}).subscribe(
       (res) => {
         alert('ok userEvent')
       }
-      
-    )
+      )
     
     }
   }
@@ -225,10 +225,7 @@ export class accueilPage implements OnInit {
           
         
         });
-
       }
-
-
       return observer
     });
   }
