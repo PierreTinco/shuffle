@@ -8,7 +8,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/profile']" color="primary">
-        <ion-icon name="person-circle"></ion-icon>
+        <ion-icon name="person"></ion-icon>
       </ion-button>
     </ion-buttons>
 
@@ -31,7 +31,7 @@
     </div>
   </div>
 
-    <form [formGroup]="myForm" (ngSubmit)="validForm()" novalidate>
+    <form *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="validForm()" novalidate>
       <div formGroupName="event">
         <ion-item>
           <ion-label position="floating">Event Name:</ion-label>
@@ -136,20 +136,6 @@
           </div>
         </ion-item>
       </div>
-      <!-- public: ['', [Validators.required]],
-      free: ['', [Validators.required]],
-      event: this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(50)]],
-      location: ['', [Validators.required]],
-      date_start: ['', [Validators.required]],
-      time_start: ['', [Validators.required]],
-      date_end: ['', [Validators.required]],
-      time_end: ['', [Validators.required]],
-      price: ['', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]$')]],
-      max_participant: ['', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]$')]],
-      age_min: ['', [Validators.required, Validators.minLength(9), Validators.pattern('^[0-9]$')]],
-      wallet: ['', [Validators.required]], -->
 
       <ion-item>
         <ion-label>Private </ion-label>
@@ -168,7 +154,7 @@
             *The cost of your event is required !
           </div>
         </div> -->
-        <ion-checkbox slot="end" (click)="isPayingModeHandler()" FormControlName="free" checked="false">free
+        <ion-checkbox slot="end" (click)="isPayingModeHandler()" FormControlName="free" checked="true">free
         </ion-checkbox>
       </ion-item>
 

@@ -3,7 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { format, parseISO } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { DataStorageService } from 'src/app/services/datastorage.service';
-import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule, AbstractControl} from '@angular/forms';
 import { PhotoService, UserPhoto } from 'src/app/services/photo.service';
 import { User } from 'firebase/auth';
 import { ActionSheetController } from '@ionic/angular';
@@ -51,13 +51,16 @@ export class addEventPage  {
   async ngOnInit() {
     this.idUser = this.route.snapshot.paramMap.get('id')
     this.initForm()
-    this.myForm.valueChanges.subscribe(data => console.log('form changes', data));
+    this.myForm.valueChanges.subscribe(data => console.log('form changes 1', data));
+    this.myForm.valueChanges.subscribe(el => {
+      console.log('my Form validity 1', this.myForm.valid);
+    })
+    
+    
   }
 
   initForm(): void {
     this.myForm = this.fb.group({
-      public: ['',null],
-      free: [0, null],
       event: this.fb.group({
         name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
         description: ['',null],
@@ -69,14 +72,27 @@ export class addEventPage  {
         price: ['', [Validators.required, Validators.pattern('^[0-9]$')]],
         max_participant: ['', [Validators.required, Validators.pattern('^[0-9]$')]],
         age_min: ['', [Validators.required, Validators.pattern('^[0-9]$')]],
-        wallet: ['', [Validators.required]],
-      })
-    });
+        wallet: ['', [Validators.required]]
+      }),
+      public: ["true",Validators.required],
+      free: ["true", Validators.required],
+    },{validator: this.checkCheckbox});
   }
+
+  checkCheckbox(c: AbstractControl){
+    if(c.get('public').value == false){
+        return false;
+    }
+    if(c.get('free').value == false){
+      return false;
+  }else return true;
+} 
 
   validForm() {
     console.log('form changes', this.myForm.value);
     console.log('my Form validity', this.myForm.valid);
+    console.log('form control',this.myForm.controls);
+    this.myForm.get('public').valueChanges.subscribe((val) => console.log("privacy",val));
 
 
     this.submitted = true;
@@ -117,6 +133,9 @@ export class addEventPage  {
         alert('Il y a eu une erreur');
       }
     );
+  }
+  get errorControl() {
+    return this.myForm.controls;
   }
 
   async updateEvent(event: number) {
@@ -164,7 +183,7 @@ export class addEventPage  {
   }
 
   formatDate(value: string) {
-    return format(parseISO(value), 'MMM dd yyyy');
+    return format(parseISO(value), 'yyyyddmm');
   }
 
   public async showActionSheet() {

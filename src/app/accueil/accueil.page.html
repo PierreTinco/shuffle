@@ -19,8 +19,9 @@
 <ion-content class="background">
    <!-- <div onload="initMap()"></div> -->
   <div [hidden]="!viewMap">
-    <div id="map" *ngIf="viewMap" #map></div>
-    <ion-button expand="full">Draw</ion-button>
+    <!-- <capacitor-google-maps #map *ngIf="viewMap" ></capacitor-google-maps> -->
+    <capacitor-google-maps #map id="map"></capacitor-google-maps>
+    <ion-button (click)="draw()" expand="full">Draw</ion-button>
   </div>
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
   <ion-list class="eventList" *ngIf="!clicked && !viewMap" class="bg-transparent">
