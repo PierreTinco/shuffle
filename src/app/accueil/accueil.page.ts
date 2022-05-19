@@ -36,8 +36,8 @@ export class accueilPage implements OnInit {
   @ViewChild('map') mapView: ElementRef<HTMLElement>;
  map: GoogleMap;
  center: any= { 
-  lat: 30, 
-  lng: -110 
+  lat: 43.12, 
+  lng: 5.92, 
  };
  markerId:string;
 
@@ -238,13 +238,9 @@ export class accueilPage implements OnInit {
   }
 
   async createMap() {
-    // const directionsRenderer = new google.maps.DirectionsRenderer();
-    // const directionsService = new google.maps.DirectionsService();
-    
 
-    //
      this.map = await GoogleMap.create(
-      //   document.getElementById('map') as HTMLElement,
+ 
        {
          element:this.mapView.nativeElement,
          id: 'capacitor-google-maps',
@@ -254,32 +250,9 @@ export class accueilPage implements OnInit {
             zoom: 8,
           },
         });
-        // console.log('map',this.map);
         this.addMarker(this.center.lat,this.center.lng);
-    // const marker = new google.maps.Marker({
-    //   position: center,
-    //   map: this.map,
-    // });
-    
-
-    
-    // CapacitorGoogleMaps.addListener('onMapReady', async () => {
-    //   CapacitorGoogleMaps.setMapType({
-    //     type: "normal" // hybrid, satellite, terrain
-    //   });
-    
-    // GoogleMap.addListener('didTapPOIWithPlaceID', async (ev) => {
-    //   const result = ev.results;
-    //   const alert = await this.alertCtrl.create({
-    //     header: result.name,
-    //     message: `Place ID:  ${result.placeID}`,
-    //     buttons: ['OK']
-    //   });
-    //    await alert.present();
-    //   });  
-    //   this.showCurrentPosition();
-    // });
   }
+
  
   async showCurrentPosition() {
    Geolocation.requestPermissions().then(async premission => {
@@ -288,7 +261,7 @@ export class accueilPage implements OnInit {
      
     });
   }
-  async addMarker(lat,lng){
+  async addMarker(lat: any,lng: any){
     //add a marker to map
     this.markerId= await this.map.addMarker({
       coordinate:{
