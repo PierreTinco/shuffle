@@ -20,9 +20,8 @@ export class AppComponent implements OnInit{
   user: any;
   constructor(private router:Router) {
     this.initializeApp();
-    // CapacitorGoogleMaps.initialize({
-      key: environment.mapsKey
-    // });
+    key: environment.mapsKey
+   
   }
   async ngOnInit() {
     this.auth = getAuth();

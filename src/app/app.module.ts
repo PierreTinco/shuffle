@@ -10,7 +10,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,5 +20,6 @@ import { environment } from 'src/environments/environment';
     AngularFirestoreModule, ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AngularFirestore],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

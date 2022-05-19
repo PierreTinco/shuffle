@@ -28,7 +28,7 @@ export class accueilPage implements OnInit {
   curentAccount: any;
   searchText = '';
   date: string;
-  ticket_qty = null;
+  ticket_qty = 1;
   viewMap = null;
   totalVal = null;
   //maxTicket=this.details[0].max_participant;
@@ -81,12 +81,12 @@ export class accueilPage implements OnInit {
       
       });
     }
-    this.showCurrentPosition
+    this.showCurrentPosition()
 
   }
   ngAfterViewInit(){
     console.log('on ngAfterViewInit')
-    this.createMap
+    this.createMap()
   }
 
   async participateFree(currentEvent: any) {
@@ -206,6 +206,9 @@ export class accueilPage implements OnInit {
       event.nom.includes(str.target.value)
     );
   }
+
+  filterCategorie()
+  {}
 
   checkChainId() {
     // Create an Observable that will start listening to chain updates
