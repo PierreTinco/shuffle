@@ -1,7 +1,4 @@
-<ion-header>
-<!-- <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDsKLsdyt2BQEVvM1GPizGxJup4PkrlO4&callback=initMap&libraries=v=weekly">
-</script> -->
+<ion-header style="display: flex;flex-direction: row;" collapse="condense">
   <ion-toolbar class="header">
     <ion-button [routerLink]="['/profile']" *ngIf="!clicked">
       <ion-icon name="person-circle"></ion-icon>
@@ -19,11 +16,14 @@
 <ion-content class="background">
    <!-- <div onload="initMap()"></div> -->
   <div [hidden]="!viewMap">
-    <!-- <capacitor-google-maps #map *ngIf="viewMap" ></capacitor-google-maps> -->
     <capacitor-google-maps #map id="map"></capacitor-google-maps>
     <ion-button (click)="draw()" expand="full">Draw</ion-button>
   </div>
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
+  <app-explore-container name="accueil"></app-explore-container>
+  <div *ngIf="!clicked && !viewMap">
+    <ion-button>Filter<ion-icon name="filter-outline"></ion-icon></ion-button>
+  </div>
   <ion-list class="eventList" *ngIf="!clicked && !viewMap" class="bg-transparent">
     <ion-item-sliding *ngFor="let item of events | filter : searchText">
       <ion-card (click)="viewMore(item.id)" class="events" style="display: flex;flex-direction: row;">
