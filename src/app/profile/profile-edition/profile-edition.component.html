@@ -9,13 +9,11 @@
 <ion-content>
   <div class="container">
     <div class="outer" >
-      <ion-grid>
-        <ion-row>
-         
+        <div style="width: 100px; height: 100px;">
+            <ion-avatar>
             <ion-img *ngIf="photoLoaded" [src]="photoUrl"></ion-img>
-          
-        </ion-row>
-      </ion-grid>
+          </ion-avatar>
+        </div>
       <div >
         <ion-fab  (click)="showActionSheet()"vertical="bottom"  >
           <ion-fab-button>

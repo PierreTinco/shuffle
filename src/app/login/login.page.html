@@ -32,23 +32,28 @@
           required></ion-input>
         <ion-icon [name]="passwordToggleIcon" (click)="togglePassword()"> </ion-icon>
       </div>
-      <!-- <div class="show-error">
+      <div class="show-error">
         <div *ngIf="myForm.get('password').hasError('required') && submitted ">
           *Password is required !
         </div>
         <div *ngIf="myForm.get('password').hasError('minlength')  && myForm.get('password').touched ">
           *Password required minimum of 6 caracteres !
         </div>
-        <div *ngIf="myForm.get('repeatPassword').hasError('pattern') && myForm.get('repeatPassword').touched">
-          *Password required minimum of 6 valid pattern ([a-z];[A-Z];[0-9];[!?.,:;"@#$%^£&*];(8,))!
-        </div>
-      </div> -->
+        <!-- <div *ngIf="myForm.get('repeatPassword').hasError('pattern') && myForm.get('repeatPassword').touched">
+          Password required minimum of 6 valid pattern ([a-z];[A-Z];[0-9];[!?.,:;"@#$%^£&];(8,))!
+        </div>-->
+      </div>
     </ion-item>
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="primary" expand="block">Sign In</ion-button>
+        <ion-button type="submit" color="primary" expand="block" (click)="signIn(email, password)">Sign In</ion-button>
         <a [routerLink]="['/forgot-password']" class="small-text">Forgot Password?</a>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="getUser()">
+          get user
+        </ion-button>
       </ion-col>
     </ion-row>
   </form>

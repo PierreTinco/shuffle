@@ -1,21 +1,24 @@
-ion-content .logo{
-    --background: url(..\..\logo.png) no-repeat;
-    margin-left: 140px;
-    margin-top: 350px;
-    height: 400px;
+.logo{
+    margin-top: 250px;
+    background: url(..\..\logo.png) no-repeat;
+    width: 300px;
+    height: 300px;
 }
 
-ion-content {
+ion-content{
     --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) no-repeat center center /cover ;  
 }
 
-ion-row .logo {
-    width: 100px;
-    height: 400px;
+div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    height: fit-content;
+    
 }
 
-h1{
+.title{
+    margin-top: 150px;
     font-size: 38px;
-    margin-left: 150px;
-    height: 30px;
 }
+
