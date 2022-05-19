@@ -5,9 +5,9 @@ import { Event } from './accueil.model';
 import { getAuth } from "firebase/auth";
 import { format, parseISO } from 'date-fns';
 import { Geolocation } from '@capacitor/geolocation';
-import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native';
+import { GoogleMap } from '@capacitor/google-maps';
 import { Observable } from 'rxjs';
-import { LatLng } from '@capacitor-community/capacitor-googlemaps-native/dist/esm/types/common/latlng.interface';
+import { environment } from 'src/environments/environment';
 
 declare let window: any;
 
@@ -17,7 +17,6 @@ declare let window: any;
   styleUrls: ['accueil.page.scss'],
 })
 export class accueilPage implements OnInit {
-  [x: string]: any;
   currentUser: any
   details: Event;
   events: any;
@@ -34,20 +33,26 @@ export class accueilPage implements OnInit {
   totalVal = null;
   //maxTicket=this.details[0].max_participant;
 
-  // map: google.maps.Map;
+  @ViewChild('map') mapView: ElementRef<HTMLElement>;
+ map: GoogleMap;
+ center: any= { 
+  lat: 30, 
+  lng: -110 
+ };
+ markerId:string;
 
   web3 = new Web3(
     'https://ropsten.infura.io/v3/2d0c4c5065844f828e66b7b2f543a119'
   );
   balance1: any;
   free = false;
-  @ViewChild('map') mapView: ElementRef;
+ 
   constructor(private api: ApiService) {}
  
-  ionViewDidEnter() {
-    console.log('on ViewDidEnter');
-    this.initMap();
-  }
+  // ionViewDidEnter() {
+  //   console.log('on ViewDidEnter');
+  //   this.initMap();
+  // }
 
   async ngOnInit() {
     this.auth = getAuth();
@@ -76,9 +81,12 @@ export class accueilPage implements OnInit {
       
       });
     }
+    this.showCurrentPosition
 
-    
-
+  }
+  ngAfterViewInit(){
+    console.log('on ngAfterViewInit')
+    this.createMap
   }
 
   async participateFree(currentEvent: any) {
@@ -199,12 +207,6 @@ export class accueilPage implements OnInit {
     );
   }
 
-  async printCurrentPosition() {
-    const coordinates = await Geolocation.getCurrentPosition();
-
-    console.log('Current position:', coordinates);
-  }
-
   checkChainId() {
     // Create an Observable that will start listening to chain updates
     // when a consumer subscribes.
@@ -232,98 +234,96 @@ export class accueilPage implements OnInit {
     this.viewMap = !this.viewMap;
   }
 
-  initMap() {
+  async createMap() {
     // const directionsRenderer = new google.maps.DirectionsRenderer();
     // const directionsService = new google.maps.DirectionsService();
-    // const center = { lat: 30, lng: -110 };
+    
 
-    // this.map = new google.maps.Map(
-    //   document.getElementById('map') as HTMLElement,
-    //   {
-    //     center: center,
-    //     zoom: 8,
-    //   }
-    // );
+    //
+     this.map = await GoogleMap.create(
+      //   document.getElementById('map') as HTMLElement,
+       {
+         element:this.mapView.nativeElement,
+         id: 'capacitor-google-maps',
+         apiKey: environment.mapsKey,
+         config:{
+            center: this.center,
+            zoom: 8,
+          },
+        });
+        // console.log('map',this.map);
+        this.addMarker(this.center.lat,this.center.lng);
     // const marker = new google.maps.Marker({
     //   position: center,
     //   map: this.map,
     // });
     
-    const boundingRect = this.mapView.nativeElement.getBoundingClientRect() as DOMRect;
-    console.log("initMap ~ boundingRect",boundingRect)
-    CapacitorGoogleMaps.create({
-      width: Math.round(boundingRect.width),
-      height: Math.round(boundingRect.height),
-      x: Math.round(boundingRect.x),
-      y: Math.round(boundingRect.y),
-      // latitude?:number;
-      
-      zoom: 5
-    });
-    // addListener(eventName: 'didTap', listenerFunc: (results: any) => void): PluginListenerHandle;
-    // addListener(eventName: 'dragEnded', listenerFunc: (results: any) => void): PluginListenerHandle;
-    // addListener(eventName: 'didTapAt', listenerFunc: (results: any) => void): PluginListenerHandle;
-    // addListener(eventName: 'didTapPOIWithPlaceID', listenerFunc: (results: any) => void): PluginListenerHandle;
-    // addListener(eventName: 'didChange', listenerFunc: (results: any) => void): PluginListenerHandle;
-    CapacitorGoogleMaps.addListener('onMapReady', async () => {
-      CapacitorGoogleMaps.setMapType({
-        type: "normal" // hybrid, satellite, terrain
-      });
+
     
-    CapacitorGoogleMaps.addListener('didTapPOIWithPlaceID', async (ev) => {
-      const result = ev.results;
-      const alert = await this.alertCtrl.create({
-        header: result.name,
-        message: `Place ID:  ${result.placeID}`,
-        buttons: ['OK']
-      });
-       await alert.present();
-      });  
-      this.showCurrentPosition();
-    });
+    // CapacitorGoogleMaps.addListener('onMapReady', async () => {
+    //   CapacitorGoogleMaps.setMapType({
+    //     type: "normal" // hybrid, satellite, terrain
+    //   });
+    
+    // GoogleMap.addListener('didTapPOIWithPlaceID', async (ev) => {
+    //   const result = ev.results;
+    //   const alert = await this.alertCtrl.create({
+    //     header: result.name,
+    //     message: `Place ID:  ${result.placeID}`,
+    //     buttons: ['OK']
+    //   });
+    //    await alert.present();
+    //   });  
+    //   this.showCurrentPosition();
+    // });
   }
  
   async showCurrentPosition() {
-    Geolocation.requestPermissions().then(async premission => {
-      const coordinates = await Geolocation.getCurrentPosition();
-    
-      // Create our current location marker
-      CapacitorGoogleMaps.addMarker({
-        latitude: coordinates.coords.latitude,
-        longitude: coordinates.coords.longitude,
-        title: 'My Current Position',
-        snippet: 'Come and find me!'
-      });
-    
-      // Focus the camera
-      CapacitorGoogleMaps.setCamera({
-        latitude: coordinates.coords.latitude,
-        longitude: coordinates.coords.longitude,
-        zoom: 12,
-        bearing: 0
-      });
+   Geolocation.requestPermissions().then(async premission => {
+       const coordinates = await Geolocation.getCurrentPosition();
+       console.log('Current position:', coordinates)    
+     
     });
   }
-  draw() {
-    const points: LatLng[] = [
-      {
-        latitude: 51.88,
-        longitude: 7.60,
+  async addMarker(lat,lng){
+    //add a marker to map
+    this.markerId= await this.map.addMarker({
+      coordinate:{
+        lat:lat,
+        lng: lng,
       },
-      {
-        latitude: 55,
-        longitude: 10,
-      }
-    ];
- 
-    CapacitorGoogleMaps.addPolyline({
-      points,
-      color: '#ff00ff',
-      width: 2
-    });
+      // draggable:true
+    })
   }
-  ionViewDidLeave() {
-    CapacitorGoogleMaps.close();
+  async removeMarker(id?){
+    //add a marker to map
+   await this.map.removeMarker(id ? id : this.markerId);
   }
 
-}
+  async addListeners(){
+    await this.map.setOnMarkerClickListener((event)=>{
+      console.log(event);
+    });
+
+  }
+  draw() {
+//     const points: LatLng[] = [
+//       {
+//         latitude: 51.88,
+//         longitude: 7.60,
+//       },
+//       {
+//         latitude: 55,
+//         longitude: 10,
+//       }
+//     ];
+ 
+//     CapacitorGoogleMaps.addPolyline({
+//       points,
+//       color: '#ff00ff',
+//       width: 2
+//     });
+ }
+ 
+
+ }

@@ -1,6 +1,6 @@
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { accueilPage } from './accueil.page';
@@ -10,6 +10,7 @@ import { accueilPageRoutingModule } from './accueil-routing.module';
 
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     IonicModule,
     CommonModule,
@@ -17,6 +18,7 @@ import { accueilPageRoutingModule } from './accueil-routing.module';
     ExploreContainerComponentModule,
     accueilPageRoutingModule,Ng2SearchPipeModule
   ],
-  declarations: [accueilPage]
+  declarations: [accueilPage],
+  
 })
 export class accueilPageModule {}

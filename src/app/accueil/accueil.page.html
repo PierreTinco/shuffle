@@ -16,7 +16,8 @@
 <ion-content [fullscreen]="true" class="background">
    <!-- <div onload="initMap()"></div> -->
   <div [hidden]="!viewMap">
-    <div id="map" *ngIf="viewMap" #map></div>
+    <!-- <capacitor-google-maps #map *ngIf="viewMap" ></capacitor-google-maps> -->
+    <capacitor-google-maps #map id="map"></capacitor-google-maps>
     <ion-button (click)="draw()" expand="full">Draw</ion-button>
   </div>
 
