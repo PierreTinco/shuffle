@@ -4,10 +4,9 @@ import { format, parseISO } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { DataStorageService } from 'src/app/services/datastorage.service';
 import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule, AbstractControl} from '@angular/forms';
-import { PhotoService, UserPhoto } from 'src/app/services/photo.service';
-import { User } from 'firebase/auth';
+import { PhotoService } from 'src/app/services/photo.service';
 import { ActionSheetController } from '@ionic/angular';
-import { getDownloadURL, ref } from 'firebase/storage';
+import { getDownloadURL } from 'firebase/storage';
 
 
 
