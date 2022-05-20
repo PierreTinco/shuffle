@@ -35,12 +35,12 @@ export class accueilPage implements OnInit {
   //maxTicket=this.details[0].max_participant;
 
   @ViewChild('map') mapView: ElementRef<HTMLElement>;
- map: GoogleMap;
- center: any= { 
-  lat: 30, 
-  lng: -110 
- };
- markerId:string;
+  map: GoogleMap;
+  center: any= { 
+    lat: 30, 
+    lng: -110 
+  };
+  markerId:string;
 
   web3 = new Web3(
     'https://ropsten.infura.io/v3/2d0c4c5065844f828e66b7b2f543a119'
