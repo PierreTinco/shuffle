@@ -211,8 +211,11 @@ export class addEventPage  {
     console.log("test cat");
     
     console.log(category, category.checked, 'categorie');
-    this.categoriesSelected = this.categories.filter((res) => res.checked == true);
-    console.log(this.categoriesSelected, 'categoriesSelected');
+    console.log("categories",this.categories);
+    const finalTab = this.categories.filter(el=> el.checked === true)
+    console.log("filter tab",finalTab);
+    
+    
   }
 }
 
