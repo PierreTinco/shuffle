@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { format, parseISO } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule, AbstractControl} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { PhotoService } from 'src/app/services/photo.service';
 import { ActionSheetController } from '@ionic/angular';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
@@ -17,7 +17,7 @@ import { Toast } from '@awesome-cordova-plugins/toast/ngx';
   templateUrl: 'add-event.component.html',
   styleUrls: ['add-event.component.scss'],
 })
-export class addEventPage  {
+export class addEventPage {
   user: any
   submitted: boolean;
   isAddingMode = false;
@@ -43,13 +43,14 @@ export class addEventPage  {
   public = false;
   free = true;
   photo: any;
-   idUser: any
+  idUser: any
   photoUrl: string;
-  coords: any ;
+  coords: any;
   position: any;
-  nativeGeocoder: any;
+  latitude: any;
+  longitude: any;
 
-  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, private fb: FormBuilder, private nativeGeocoder: NativeGeocoder) { }
 
 
   async ngOnInit() {
@@ -59,15 +60,15 @@ export class addEventPage  {
     this.myForm.valueChanges.subscribe(el => {
       console.log('my Form validity 1', this.myForm.valid);
     })
-    
-    
+
+
   }
 
   initForm(): void {
     this.myForm = this.fb.group({
       event: this.fb.group({
         name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-        description: ['',null],
+        description: ['', null],
         location: ['', [Validators.required]],
         date_start: ['', [Validators.required]],
         time_start: ['', [Validators.required]],
@@ -78,25 +79,25 @@ export class addEventPage  {
         age_min: ['', [Validators.required, Validators.pattern('^[0-9]$')]],
         wallet: ['', [Validators.required]]
       }),
-      public: ["true",Validators.required],
+      public: ["true", Validators.required],
       free: ["true", Validators.required],
-    },{validator: this.checkCheckbox});
+    }, { validator: this.checkCheckbox });
   }
 
-  checkCheckbox(c: AbstractControl){
-    if(c.get('public').value == false){
-        return false;
-    }
-    if(c.get('free').value == false){
+  checkCheckbox(c: AbstractControl) {
+    if (c.get('public').value == false) {
       return false;
-  }else return true;
-} 
+    }
+    if (c.get('free').value == false) {
+      return false;
+    } else return true;
+  }
 
   validForm() {
     console.log('form changes', this.myForm.value);
     console.log('my Form validity', this.myForm.valid);
-    console.log('form control',this.myForm.controls);
-    this.myForm.get('public').valueChanges.subscribe((val) => console.log("privacy",val));
+    console.log('form control', this.myForm.controls);
+    this.myForm.get('public').valueChanges.subscribe((val) => console.log("privacy", val));
 
 
     this.submitted = true;
@@ -121,7 +122,7 @@ export class addEventPage  {
       ? (this.myForm.value.event['public'] = true)
       : (this.myForm.value.event['public'] = false);
     this.myForm.value.event.price == null ? delete this.myForm.value.event.price : null;
-    
+
     await this.api.addEvents(this.myForm.value.event).subscribe(
       (res: any) => {
         alert("Event ajouté à l'application");
@@ -193,28 +194,35 @@ export class addEventPage  {
   async showCurrentPosition() {
     Geolocation.requestPermissions().then(async premission => {
       const coordinates = await Geolocation.getCurrentPosition();
-        console.log('Current position:', coordinates)    
-        this.coords=coordinates.coords
-        console.log('latitude position:', this.coords.latitude) 
-        console.log('longitude position:', this.coords.latitude) 
-      
-     }).catch((error) => {
+      console.log('Current position:', coordinates)
+      this.coords = coordinates.coords
+      console.log('latitude position:', this.coords.latitude)
+      console.log('longitude position:', this.coords.latitude)
+
+    }).catch((error) => {
       console.log('Error getting location', error);
     });
-   }
-  geocoderNative(){
-    let options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-  };
+  }
+  async geocoderNative() {
+    if (this.event.location != "") {
+        let options: NativeGeocoderOptions = {
+          useLocale: true,
+          maxResults: 5
+        };
+
+    // this.nativeGeocoder.reverseGeocode(this.coords.latitude, this.coords.longitude, options)
+    this.nativeGeocoder.reverseGeocode(this.coords.latitude, this.coords.longitude, options)
+      .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
+      .catch((error: any) => console.log('reverseGeocode',error));
+
+    this.nativeGeocoder.forwardGeocode(this.event.location, options)
+      .then((result: NativeGeocoderResult[]) => {
+        console.log('lat=' + result[0].latitude + 'long=' + result[0].longitude);
+      })
+      .catch((error: any) => console.log('Geocode',error));
+    }
+    
   
-  this.nativeGeocoder.reverseGeocode(this.coords.latitude, this.coords.latitude, options)
-    .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
-    .catch((error: any) => console.log(error));
-  
-  this.nativeGeocoder.forwardGeocode(this.event.location, options)
-    .then((result: NativeGeocoderResult[]) => console.log('The coordinates are latitude=' + result[0].latitude + ' and longitude=' + result[0].longitude))
-    .catch((error: any) => console.log(error));
   }
 
   public async showActionSheet() {
@@ -251,23 +259,22 @@ export class addEventPage  {
     await actionSheet.present();
   }
 
-  public async getPhotoUrl(){  
-    if(this.pic.photoLoaded)
-    {
+  public async getPhotoUrl() {
+    if (this.pic.photoLoaded) {
       getDownloadURL(this.pic.eventImageRef)
-      .then((url) => {
-        // `url` is the download URL for the user photo
-        this.photoUrl = url
-        console.log("url image", this.photoUrl); 
-    
-      })
-      .catch((error) => {
-        // Handle any errors
-        console.log('erreur image');
-        
-      });
-    }  
-  } 
+        .then((url) => {
+          // `url` is the download URL for the user photo
+          this.photoUrl = url
+          console.log("url image", this.photoUrl);
+
+        })
+        .catch((error) => {
+          // Handle any errors
+          console.log('erreur image');
+
+        });
+    }
+  }
 }
 
 // constructor(private toast: Toast) { }

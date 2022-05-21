@@ -84,12 +84,13 @@ export class accueilPage implements OnInit {
 
       });
     }
-    this.showCurrentPosition()
+    
 
   }
   ngAfterViewInit() {
     console.log('on ngAfterViewInit')
     this.createMap()
+    this.showCurrentPosition()
   }
 
   async participateFree(currentEvent: any) {
@@ -403,10 +404,11 @@ export class accueilPage implements OnInit {
         apiKey: environment.mapsKey,
         config: {
           center: this.center,
-          zoom: 8,
+          zoom: 12,
         },
       });
-    this.addMarker(this.center.lat, this.center.lng,);
+    this.addMarker(this.center.lat, this.center.lng,'Toulon');
+   
   }
 
   async showCurrentPosition() {
@@ -416,20 +418,20 @@ export class accueilPage implements OnInit {
       this.coords = coordinates.coords
       console.log('latitude position:', this.coords.latitude)
       console.log('longitude position:', this.coords.longitude)
-
+      this.addMarker(this.coords.latitude,this.coords.longitude,'CurentPosition')
     }).catch((error) => {
       console.log('Error getting location', error);
     });
   }
 
-  async addMarker(lat: any, lng: any) {
+  async addMarker(lat: any, lng: any,title: string) {
     //add a marker to map
     this.markerId = await this.map.addMarker({
       coordinate: {
         lat: lat,
         lng: lng,
       },
-      //  title: title,
+        title: title,
       // draggable:true
     });
 
