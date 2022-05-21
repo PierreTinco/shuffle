@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { format, parse, parseISO } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule, AbstractControl} from '@angular/forms';
 import { PhotoService } from 'src/app/services/photo.service';
 import { ActionSheetController } from '@ionic/angular';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
@@ -18,13 +17,12 @@ import { getDownloadURL } from 'firebase/storage';
   styleUrls: ['add-event.component.scss'],
 })
 export class addEventPage  {
-  categories = ["art","artisanat","games","sport","music","literature","party","cinema","theater","concert","festival","food","online","other"]
+  categories = [{cat:"art", checked: false},{cat:"artisanat", checked: false},{cat:"games", checked: false},{cat:"sport", checked: false},{cat:"music", checked: false},{cat:"literature", checked: false},{cat:"party", checked: false},{cat:"cinema", checked: false},{cat:"theater", checked: false},{cat:"concert", checked: false},{cat:"festival", checked: false},{cat:"food", checked: false},{cat:"online", checked: false},{cat:"other", checked: false}]
   user: any
   submitted: boolean;
   isAddingMode = false;
   isViewingMode = false;
   isPayingMode = false;
-  public myForm: FormGroup;
   searchText = '';
   user_event: any;
   event: any = {
@@ -50,14 +48,14 @@ export class addEventPage  {
   photo: any;
   position: any;
   idUser: any
-
   coords: any ;
 
   photoUrl: string;
   photoLoaded: boolean;
   nativeGeocoder: any;
+  categoriesSelected: any;
 
-  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute) { }
 
 
   async ngOnInit() {
@@ -87,7 +85,7 @@ export class addEventPage  {
       ? (this.event['public'] = 1)
       : (this.event['public'] = 0);
     this.event.price == null ? delete this.event.price : null;
-    await this.api.addEvents(this.myForm.value.event).subscribe(
+    await this.api.addEvents(this.event).subscribe(
       (res: any) => {
         alert("Event ajouté à l'application");
         this.api.addUserEvent({ id_user: this.idUser, id_event: res.insertId, status: 'creator' }).subscribe(
@@ -209,4 +207,11 @@ export class addEventPage  {
     }  
   }
 
+  addCategories(category: any) {
+    console.log("test cat");
+    
+    console.log(category, category.checked, 'categorie');
+    this.categoriesSelected = this.categories.filter((res) => res.checked == true);
+    console.log(this.categoriesSelected, 'categoriesSelected');
+  }
 }

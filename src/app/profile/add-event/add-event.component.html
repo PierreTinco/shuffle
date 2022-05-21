@@ -177,8 +177,8 @@
       </div>
       
       <ion-item *ngFor="let category of categories">
-        <ion-label>{{category}}</ion-label>
-        <ion-checkbox  checked="false"></ion-checkbox>
+        <ion-label >{{category.cat}}</ion-label>
+        <ion-checkbox [(ngModel)]="category.checked" [ngModelOptions]="{standalone: true}" (click)="addCategories(category)" checked="false"></ion-checkbox>
       </ion-item>
 
       <ion-item>
