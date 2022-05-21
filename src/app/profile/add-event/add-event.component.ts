@@ -215,3 +215,13 @@ export class addEventPage  {
     console.log(this.categoriesSelected, 'categoriesSelected');
   }
 }
+
+// constructor(private toast: Toast) { }
+
+// ...
+
+// this.toast.show(`I'm a toast`, '5000', 'center').subscribe(
+//   toast => {
+//     console.log(toast);
+//   }
+// );

@@ -54,7 +54,7 @@ export class ProfilePage implements OnInit {
     private routes: Router,
     private photos: PhotoService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.auth = getAuth();
@@ -195,13 +195,15 @@ export class ProfilePage implements OnInit {
   }
   public async showMenuSheet() {
     const actionSheet = await this.actionSheetController.create({
-      header: '___',
+      header: 'choose option',
       buttons: [
         {
           text: this.connected ? 'Log out' : 'Login',
           role: this.connected ? 'log out' : 'login',
+          icon: this.connected ? 'log-out' : 'log-in',
           handler: () => {
             this.connected ? this.openAlertLogOut() : this.goToLogin();
+
             console.log('Confirm Changement');
           },
         },
@@ -240,9 +242,14 @@ export class ProfilePage implements OnInit {
     this.routes.navigate(['/follow']);
   }
   goTocreateEvent() {
-    this.dataStorageService.setid_user_creator(this.currentUser[0].id);
-    this.routes.navigate(['/addevent']);
-    //['/addEvent', {id:this.currentUser[0].id}]
+    //ca marche pas gestion erreur 
+    if (this.connected = false) {
+      alert('Your credentials are required')
+    }
+    else {
+      this.dataStorageService.setid_user_creator(this.currentUser[0].id);
+      this.routes.navigate(['/addevent']);
+    }
   }
   goToLogin() {
     this.routes.navigate(['/welcome']);
@@ -252,18 +259,18 @@ export class ProfilePage implements OnInit {
     this.viewFriends = !this.viewFriends;
   }
 
-  public async getPhotoUrl(){
+  public async getPhotoUrl() {
     this.currentUser[0] = this.dataStorageService.get_user()
     getDownloadURL(ref(this.photos.storage, `photos/users/${this.currentUser[0].id}`))
-  .then((url) => {
-    // `url` is the download URL for the user photo
-    this.photoUrl = url
-    console.log("url image", this.photoUrl); 
-  })
-  .catch((error) => {
-    // Handle any errors
-    console.log('erreur image');
-    
-  });
-  } 
+      .then((url) => {
+        // `url` is the download URL for the user photo
+        this.photoUrl = url
+        console.log("url image", this.photoUrl);
+      })
+      .catch((error) => {
+        // Handle any errors
+        console.log('erreur image');
+
+      });
+  }
 }

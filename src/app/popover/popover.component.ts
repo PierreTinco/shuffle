@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-popover',
@@ -7,12 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PopoverComponent implements OnInit {
   
-  constructor() { }
+  
+  constructor( private router: Router) { 
+   
+  }
 
   ngOnInit() {}
-
+  goToAddEvent(){
+  this.router.navigate(['/addevent']);
+  }
+ 
   dismiss(item:string){
     console.log(item)
   }
+
 
 }

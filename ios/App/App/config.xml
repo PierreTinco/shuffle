@@ -6,5 +6,9 @@
     <param name="ios-package" value="RequestLocationAccuracy"/>
   </feature>
 
+  <feature name="Toast">
+    <param name="ios-package" value="Toast"/>
+  </feature>
+
   
 </widget>
