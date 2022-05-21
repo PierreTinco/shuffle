@@ -1,13 +1,13 @@
 package io.shuffle;
 import android.os.Bundle;
-// import com.hemangkumar.capacitorgooglemaps.CapacitorGoogleMaps;
+import com.capacitorjs.plugins.googlemaps.CapacitorGoogleMapsPlugin;
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
-    // @Override
-    // public void onCreate(Bundle savedInstanceState) {
-    //   super.onCreate(savedInstanceState);
-    //   registerPlugin(CapacitorGoogleMaps.class);
-    //  }
+     @Override
+    public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      registerPlugin(CapacitorGoogleMapsPlugin.class);
+     }
 
 }

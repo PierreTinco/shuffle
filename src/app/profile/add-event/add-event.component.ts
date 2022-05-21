@@ -8,7 +8,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Geolocation } from '@capacitor/geolocation';
 import { getDownloadURL } from 'firebase/storage';
-
+import { Toast } from '@awesome-cordova-plugins/toast/ngx';
 
 
 
@@ -43,12 +43,10 @@ export class addEventPage  {
   public = false;
   free = true;
   photo: any;
-  position: any;
-  idUser: any
-
-  coords: any ;
-
+   idUser: any
   photoUrl: string;
+  coords: any ;
+  position: any;
   nativeGeocoder: any;
 
   constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, private fb: FormBuilder) { }
@@ -271,3 +269,13 @@ export class addEventPage  {
     }  
   } 
 }
+
+// constructor(private toast: Toast) { }
+
+// ...
+
+// this.toast.show(`I'm a toast`, '5000', 'center').subscribe(
+//   toast => {
+//     console.log(toast);
+//   }
+// );
