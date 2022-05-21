@@ -5,7 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule, AbstractControl} from '@angular/forms';
 import { PhotoService } from 'src/app/services/photo.service';
 import { ActionSheetController } from '@ionic/angular';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
+import { Geolocation } from '@capacitor/geolocation';
 import { getDownloadURL } from 'firebase/storage';
+
 
 
 
@@ -47,10 +50,15 @@ export class addEventPage  {
   photo: any;
   position: any;
   idUser: any
+
+  coords: any ;
+
   photoUrl: string;
   photoLoaded: boolean;
+  nativeGeocoder: any;
 
   constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, private fb: FormBuilder) { }
+
 
   async ngOnInit() {
     this.idUser = this.route.snapshot.paramMap.get('id')    
@@ -121,7 +129,32 @@ export class addEventPage  {
     return format(parseISO(value), 'yyyyddMM');
   }
 
-
+  async showCurrentPosition() {
+    Geolocation.requestPermissions().then(async premission => {
+      const coordinates = await Geolocation.getCurrentPosition();
+        console.log('Current position:', coordinates)    
+        this.coords=coordinates.coords
+        console.log('latitude position:', this.coords.latitude) 
+        console.log('longitude position:', this.coords.latitude) 
+      
+     }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+   }
+  geocoderNative(){
+    let options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 5
+  };
+  
+  this.nativeGeocoder.reverseGeocode(this.coords.latitude, this.coords.latitude, options)
+    .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
+    .catch((error: any) => console.log(error));
+  
+  this.nativeGeocoder.forwardGeocode(this.event.location, options)
+    .then((result: NativeGeocoderResult[]) => console.log('The coordinates are latitude=' + result[0].latitude + ' and longitude=' + result[0].longitude))
+    .catch((error: any) => console.log(error));
+  }
 
   public async showActionSheet() {
     const actionSheet = await this.actionSheetController.create({

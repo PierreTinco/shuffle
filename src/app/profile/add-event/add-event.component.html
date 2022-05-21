@@ -54,6 +54,12 @@
         <ion-item>
           <ion-label position="floating">Number</ion-label>
           <ion-input [(ngModel)]="event.number" type="text "></ion-input>
+        
+          <!-- <ion-label position="floating">Event Location:</ion-label>
+          <div style="display: flex;flex-direction: row;">
+            <ion-input type="text " FormControlName="location" placeholder="666 chemin du Rorota">{{coords}}</ion-input>
+            <ion-icon  name="locate-outline" (click)=showCurrentPosition()></ion-icon>
+          </div> -->
           <div class="show-error">
             <div>
               *Number is required !
