@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { format, parseISO } from 'date-fns';
+import { format, parse, parseISO } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { PhotoService } from 'src/app/services/photo.service';
 import { ActionSheetController } from '@ionic/angular';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Geolocation } from '@capacitor/geolocation';
 import { getDownloadURL } from 'firebase/storage';
-import { Toast } from '@awesome-cordova-plugins/toast/ngx';
+
 
 
 
@@ -17,19 +16,23 @@ import { Toast } from '@awesome-cordova-plugins/toast/ngx';
   templateUrl: 'add-event.component.html',
   styleUrls: ['add-event.component.scss'],
 })
-export class addEventPage {
+export class addEventPage  {
+  categories = [{cat:"art", checked: false},{cat:"artisanat", checked: false},{cat:"games", checked: false},{cat:"sport", checked: false},{cat:"music", checked: false},{cat:"literature", checked: false},{cat:"party", checked: false},{cat:"cinema", checked: false},{cat:"theater", checked: false},{cat:"concert", checked: false},{cat:"festival", checked: false},{cat:"food", checked: false},{cat:"online", checked: false},{cat:"other", checked: false}]
   user: any
   submitted: boolean;
   isAddingMode = false;
   isViewingMode = false;
   isPayingMode = false;
-  public myForm: FormGroup;
   searchText = '';
   user_event: any;
   event: any = {
     name: '',
     description: '',
-    location: '',
+    street: '',
+    number: '',
+    postal: '',
+    city: '',
+    country: '',
     date_start: '',
     time_start: '',
     date_end: '',
@@ -43,127 +46,60 @@ export class addEventPage {
   public = false;
   free = true;
   photo: any;
-  idUser: any
-  photoUrl: string;
-  coords: any;
   position: any;
-  latitude: any;
-  longitude: any;
+  idUser: any
+  coords: any ;
 
-  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, private fb: FormBuilder, private nativeGeocoder: NativeGeocoder) { }
+  photoUrl: string;
+  photoLoaded: boolean;
+  nativeGeocoder: any;
+  categoriesSelected: any;
+
+  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute) { }
 
 
   async ngOnInit() {
-    this.idUser = this.route.snapshot.paramMap.get('id')
-    this.initForm()
-    this.myForm.valueChanges.subscribe(data => console.log('form changes 1', data));
-    this.myForm.valueChanges.subscribe(el => {
-      console.log('my Form validity 1', this.myForm.valid);
-    })
-
-
+    this.idUser = this.route.snapshot.paramMap.get('id')    
   }
 
-  initForm(): void {
-    this.myForm = this.fb.group({
-      event: this.fb.group({
-        name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-        description: ['', null],
-        location: ['', [Validators.required]],
-        date_start: ['', [Validators.required]],
-        time_start: ['', [Validators.required]],
-        date_end: ['', [Validators.required]],
-        time_end: ['', [Validators.required]],
-        price: ['', [Validators.required, Validators.pattern('^[0-9]$')]],
-        max_participant: ['', [Validators.required, Validators.pattern('^[0-9]$')]],
-        age_min: ['', [Validators.required, Validators.pattern('^[0-9]$')]],
-        wallet: ['', [Validators.required]]
-      }),
-      public: ["true", Validators.required],
-      free: ["true", Validators.required],
-    }, { validator: this.checkCheckbox });
-  }
 
-  checkCheckbox(c: AbstractControl) {
-    if (c.get('public').value == false) {
-      return false;
-    }
-    if (c.get('free').value == false) {
-      return false;
-    } else return true;
-  }
+ 
 
   validForm() {
-    console.log('form changes', this.myForm.value);
-    console.log('my Form validity', this.myForm.valid);
-    console.log('form control', this.myForm.controls);
-    this.myForm.get('public').valueChanges.subscribe((val) => console.log("privacy", val));
+    // this.event.date_start = this.formatDate(this.event.date_start)
+    // this.event.date_end = this.formatDate(this.event.date_end)
+    this.free == true ? (this.event['free'] = 1) : (this.event['free'] = 0);
+    this.public == false
+      ? (this.event['public'] = 1)
+      : (this.event['public'] = 0);
+    this.event.price == null ? delete this.event.price : null;
+    console.log(this.event);
 
-
-    this.submitted = true;
-
-    if (!this.myForm.valid) {
-      console.log('All fields are required.')
-      alert('Please provide all the required fields.')
-
-      return false;
-    } else {
-      console.log(this.myForm.value)
-      this.addEvent()
-    }
   }
 
   async addEvent() {
-    const userEvent = null
-    this.myForm.value.event.date_start = format(parseISO(this.myForm.value.event.date_start), 'MMM dd yyyy')
-    this.myForm.value.event.date_end = this.formatDate(this.myForm.value.event.date_end)
-    this.myForm.value.free == true ? (this.myForm.value.event['free'] = true) : (this.myForm.value.event['free'] = false);
+    // this.event.date_start = this.formatDate(this.event.date_start)
+    // this.event.date_end = this.formatDate(this.event.date_end)
+    this.free == true ? (this.event['free'] = 1) : (this.event['free'] = 0);
     this.public == false
-      ? (this.myForm.value.event['public'] = true)
-      : (this.myForm.value.event['public'] = false);
-    this.myForm.value.event.price == null ? delete this.myForm.value.event.price : null;
-
-    await this.api.addEvents(this.myForm.value.event).subscribe(
+      ? (this.event['public'] = 1)
+      : (this.event['public'] = 0);
+    this.event.price == null ? delete this.event.price : null;
+    await this.api.addEvents(this.event).subscribe(
       (res: any) => {
         alert("Event ajouté à l'application");
         this.api.addUserEvent({ id_user: this.idUser, id_event: res.insertId, status: 'creator' }).subscribe(
           (res) => {
             alert('ok userEvent')
           }
-
         )
-
       },
       (err) => {
         alert('Il y a eu une erreur');
+        console.log("erreur addevent", err);
       }
     );
   }
-  get errorControl() {
-    return this.myForm.controls;
-  }
-
-  async updateEvent(event: number) {
-    // await this.api.updateEvents(event).subscribe((res) => {
-    //   alert("Event ajouté à l'application")
-    // }, err => {
-    //   alert("Il y a eu une erreur")
-    // })
-  }
-
-
-  async deleteEvent(event: any) {
-    // await this.api.deleteEvents(event).subscribe(
-    //   (res) => {
-    //     alert('Event supprimé');
-    //   },
-    //   (err) => {
-    //     alert('Il y a eu une erreur');
-    //   }
-    // );
-  }
-
-
 
   isAddingModeHandler() {
     this.isAddingMode = true;
@@ -188,7 +124,7 @@ export class addEventPage {
   }
 
   formatDate(value: string) {
-    return format(parseISO(value), 'yyyyddmm');
+    return format(parseISO(value), 'yyyyddMM');
   }
 
   async showCurrentPosition() {
@@ -262,18 +198,27 @@ export class addEventPage {
   public async getPhotoUrl() {
     if (this.pic.photoLoaded) {
       getDownloadURL(this.pic.eventImageRef)
-        .then((url) => {
-          // `url` is the download URL for the user photo
-          this.photoUrl = url
-          console.log("url image", this.photoUrl);
+      .then((url) => {
+        // `url` is the download URL for the user photo
+        this.photoUrl = url
+        console.log("url image", this.photoUrl); 
+        this.photoLoaded = true
+    
+      })
+      .catch((error) => {
+        // Handle any errors
+        console.log('erreur image');
+        
+      });
+    }  
+  }
 
-        })
-        .catch((error) => {
-          // Handle any errors
-          console.log('erreur image');
-
-        });
-    }
+  addCategories(category: any) {
+    console.log("test cat");
+    
+    console.log(category, category.checked, 'categorie');
+    this.categoriesSelected = this.categories.filter((res) => res.checked == true);
+    console.log(this.categoriesSelected, 'categoriesSelected');
   }
 }
 
