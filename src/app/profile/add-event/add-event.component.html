@@ -49,17 +49,22 @@
           </div>
         </ion-item>
 
-        <div>Addresse</div>
+        <div>Addresse
+          <ion-item>
+         <ion-label position="floating">Event Location:</ion-label>
+           <div style="display: flex;flex-direction: row;">
+            <ion-input [(ngModel)]="event.location" type="text " placeholder="666 chemin du Rorota">{{lat}}{{lng}}</ion-input>
+            <ion-icon  name="locate-outline"  (click)="showCurrentPosition()"></ion-icon>
+            <ion-icon name="chevron-forward-outline" (click)="geocoderNative()"></ion-icon>
+          </div>
+          </ion-item>
+        </div>
 
         <ion-item>
           <ion-label position="floating">Number</ion-label>
           <ion-input [(ngModel)]="event.number" type="text "></ion-input>
         
-          <!-- <ion-label position="floating">Event Location:</ion-label>
-          <div style="display: flex;flex-direction: row;">
-            <ion-input type="text " FormControlName="location" placeholder="666 chemin du Rorota">{{coords}}</ion-input>
-            <ion-icon  name="locate-outline" (click)=showCurrentPosition()></ion-icon>
-          </div> -->
+          
           <div class="show-error">
             <div>
               *Number is required !
@@ -175,11 +180,8 @@
           </div>
         </ion-item>
       </div>
-      
-      <ion-item *ngFor="let category of categories">
-        <ion-label >{{category.cat}}</ion-label>
-        <ion-checkbox [(ngModel)]="category.checked" [ngModelOptions]="{standalone: true}" (click)="addCategories(category)" checked="false"></ion-checkbox>
-      </ion-item>
+     
+      <ion-button (click)="filterCategorie()" >Select categories</ion-button>
 
       <ion-item>
         <ion-label>Private </ion-label>

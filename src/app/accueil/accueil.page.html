@@ -22,7 +22,7 @@
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
   <app-explore-container name="accueil"></app-explore-container>
   <div *ngIf="!clicked && !viewMap">
-    <ion-button (click)="filterCategorie()">Filter<ion-icon name="filter-outline"></ion-icon></ion-button>
+    <ion-button (click)="selectFilterCategorie()">Filter<ion-icon name="filter-outline"></ion-icon></ion-button>
     <div *ngIf="filter">
       <!-- <ion-item>
       <ion-range  [pinFormatter]="customFormateur" [pin]="true" min="2" max="150" color="secondary">

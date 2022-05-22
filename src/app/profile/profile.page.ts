@@ -5,6 +5,7 @@ import {
   AlertController,
   mdTransitionAnimation,
   PopoverController,
+
 } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
@@ -12,7 +13,8 @@ import { PopoverComponent } from '../popover/popover.component';
 import { DataStorageService } from '../services/datastorage.service';
 import { PhotoService } from '../services/photo.service';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { DomSanitizer } from '@angular/platform-browser';
+
+
 declare let window: any;
 
 @Component({
@@ -53,7 +55,7 @@ export class ProfilePage implements OnInit {
     private popCtrl: PopoverController,
     private routes: Router,
     private photos: PhotoService,
-    private sanitizer: DomSanitizer
+    
   ) { }
 
   async ngOnInit() {
@@ -205,6 +207,8 @@ export class ProfilePage implements OnInit {
             this.connected ? this.openAlertLogOut() : this.goToLogin();
 
             console.log('Confirm Changement');
+   
+          
           },
         },
         {
@@ -242,12 +246,11 @@ export class ProfilePage implements OnInit {
     this.routes.navigate(['/follow']);
   }
   goTocreateEvent() {
-    //ca marche pas gestion erreur 
     if (this.connected = false) {
       alert('Your credentials are required')
     }
     else {
-      this.dataStorageService.setid_user_creator(this.currentUser[0].id);
+      // this.dataStorageService.setid_user_creator(this.currentUser[0].id);
       this.routes.navigate(['/addevent']);
     }
   }

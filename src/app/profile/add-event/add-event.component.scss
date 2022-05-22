@@ -6,7 +6,9 @@ ion-col {
     margin-top: 70px;
     
 }
-
+ion-fab-button{
+    --border-radius: 15px !important;
+  }
 ion-fab {
     position: absolute;
     bottom: 0;

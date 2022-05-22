@@ -3,7 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { format, parse, parseISO } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { PhotoService } from 'src/app/services/photo.service';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, AlertController } from '@ionic/angular';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Geolocation } from '@capacitor/geolocation';
 import { getDownloadURL } from 'firebase/storage';
@@ -17,7 +17,89 @@ import { getDownloadURL } from 'firebase/storage';
   styleUrls: ['add-event.component.scss'],
 })
 export class addEventPage  {
-  categories = [{cat:"art", checked: false},{cat:"artisanat", checked: false},{cat:"games", checked: false},{cat:"sport", checked: false},{cat:"music", checked: false},{cat:"literature", checked: false},{cat:"party", checked: false},{cat:"cinema", checked: false},{cat:"theater", checked: false},{cat:"concert", checked: false},{cat:"festival", checked: false},{cat:"food", checked: false},{cat:"online", checked: false},{cat:"other", checked: false}]
+  categories = [{
+    name: 'art',
+    label: 'Art',
+    value: 'value1',
+    checked: false,
+  },
+
+  {
+    name: 'artisanat',
+    label: 'Artisanat',
+    value: 'artisanat',
+    checked: false,
+  },
+
+  {
+    name: 'sport',
+    label: 'Sport',
+    value: 'sport',
+    checked: false,
+  },
+
+  {
+    name: 'games',
+    label: 'Games',
+    value: 'game',
+    checked: false,
+  },
+
+  {
+    name: 'literature',
+    label: 'Literature',
+    value: 'literarture',
+    checked: false,
+  },
+
+  {
+    name: 'party',
+    label: 'Party ',
+    value: 'party',
+    checked: false,
+  },
+  {
+    name: 'cinema',
+    label: 'Cinema ',
+    value: 'cinema',
+    checked: false,
+  },
+  {
+    name: 'theater',
+    label: 'Theater',
+    value: 'theater',
+    checked: false,
+  },
+  {
+    name: 'concert',
+    label: 'Concert',
+    value: 'concert',
+    checked: false,
+  },
+  {
+    name: 'festival',
+    label: 'Festival',
+    value: 'festival',
+    checked: false,
+  },
+  {
+    name: 'food',
+    label: 'Food',
+    value: 'food',
+    checked: false,
+  },
+  {
+    name: 'online',
+    label: 'Online',
+    value: 'online',
+    checked: false,
+  },
+  {
+    name: 'other',
+    label: 'Other',
+    value: 'other',
+    checked: false,
+  }]
   user: any
   submitted: boolean;
   isAddingMode = false;
@@ -28,6 +110,7 @@ export class addEventPage  {
   event: any = {
     name: '',
     description: '',
+    location: '',
     street: '',
     number: '',
     postal: '',
@@ -52,18 +135,24 @@ export class addEventPage  {
 
   photoUrl: string;
   photoLoaded: boolean;
-  nativeGeocoder: any;
-  categoriesSelected: any;
+categoriesSelected = [];
+filter: boolean;
+  options: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+  };
+  lng: any;
+  lat: any;
 
-  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute) { }
+  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute,private  nativeGeocoder:NativeGeocoder, public alertController: AlertController) { }
 
 
   async ngOnInit() {
-    this.idUser = this.route.snapshot.paramMap.get('id')    
+    this.idUser = this.route.snapshot.paramMap.get('id')
   }
 
 
- 
+
 
   validForm() {
     // this.event.date_start = this.formatDate(this.event.date_start)
@@ -130,29 +219,60 @@ export class addEventPage  {
   async showCurrentPosition() {
     Geolocation.requestPermissions().then(async premission => {
       const coordinates = await Geolocation.getCurrentPosition();
-        console.log('Current position:', coordinates)    
-        this.coords=coordinates.coords
-        console.log('latitude position:', this.coords.latitude) 
-        console.log('longitude position:', this.coords.latitude) 
-      
-     }).catch((error) => {
+      console.log('Current position:', coordinates)
+      this.coords = coordinates.coords
+      console.log('latitude position:', this.coords.latitude)
+      console.log('longitude position:', this.coords.longitude)
+      this.lat=this.coords.latitude
+      this.lng=this.coords.longitude
+
+
+    }).catch((error) => {
       console.log('Error getting location', error);
     });
-   }
-  geocoderNative(){
-    let options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-  };
-  
-  this.nativeGeocoder.reverseGeocode(this.coords.latitude, this.coords.latitude, options)
-    .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
-    .catch((error: any) => console.log(error));
-  
-  this.nativeGeocoder.forwardGeocode(this.event.location, options)
-    .then((result: NativeGeocoderResult[]) => console.log('The coordinates are latitude=' + result[0].latitude + ' and longitude=' + result[0].longitude))
-    .catch((error: any) => console.log(error));
   }
+
+  async geocoderNative() {
+    if (this.event.location != "") {
+            //TranslateCoordonneesGps
+    this.nativeGeocoder.forwardGeocode(this.event.location, this.options)
+    .then((result: NativeGeocoderResult[]) => {
+      console.log('lat=' + result[0].latitude + 'long=' + result[0].longitude);
+    })
+    .catch((error: any) => console.log('Geocode',error));
+   
+    }
+    else{
+      this.showCurrentPosition()       
+    //TranslateCoordonneesGps
+     this.nativeGeocoder.reverseGeocode(this.lat, this.lng, this.options)
+     .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
+     .catch((error: any) => console.log('reverseGeocode', error));
+ 
+    }
+
+
+  }
+    //en temps reel jusqu a appelle de la fonction stop
+    // track() {
+    //   console.log('start tracking you')
+    //   this.wait = Geolocation.watchPosition({}, (position, err) => {
+    //     this.ngZone.run(() => {
+    //       this.lat = position.coords.latitude;
+    //       this.lng = position.coords.longitude;
+
+    //     })
+    //     console.log('latitude position from track:', this.lat)
+    //     console.log('longitude position from track: ', this.lng)
+    //   })
+
+    //   //  this.stopTracking()
+    //   //  console.log('stop tracking you')
+    // }
+
+    // stopTracking() {
+    //   Geolocation.clearWatch({ id: this.wait });
+    // }
 
   public async showActionSheet() {
     const actionSheet = await this.actionSheetController.create({
@@ -188,35 +308,58 @@ export class addEventPage  {
     await actionSheet.present();
   }
 
-  public async getPhotoUrl(){  
-    if(this.pic.photoLoaded)
-    {
+  public async getPhotoUrl() {
+    if (this.pic.photoLoaded) {
       getDownloadURL(this.pic.eventImageRef)
       .then((url) => {
         // `url` is the download URL for the user photo
         this.photoUrl = url
-        console.log("url image", this.photoUrl); 
+        console.log("url image", this.photoUrl);
         this.photoLoaded = true
-    
+
       })
       .catch((error) => {
         // Handle any errors
         console.log('erreur image');
-        
+
       });
-    }  
+    }
   }
 
   addCategories(category: any) {
     console.log("test cat");
-    
+
     console.log(category, category.checked, 'categorie');
-    console.log("categories",this.categories);
-    const finalTab = this.categories.filter(el=> el.checked === true)
-    console.log("filter tab",finalTab);
-    
-    
-  }
+    this.categories.forEach(el => {
+      if(el.checked) this.categoriesSelected.push(el.name)})
+    console.log("categories selected",this.categoriesSelected);
+    }
+
+    async filterCategorie() { 
+      this.filter=!this.filter;
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Select your choice',
+        inputs: this.categories,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Ok',
+            handler: () => {
+              console.log('Confirm Ok');
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
+    }
 }
 
 // constructor(private toast: Toast) { }
