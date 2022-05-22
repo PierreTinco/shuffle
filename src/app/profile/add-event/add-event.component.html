@@ -175,11 +175,8 @@
           </div>
         </ion-item>
       </div>
-      
-      <ion-item *ngFor="let category of categories">
-        <ion-label >{{category.cat}}</ion-label>
-        <ion-checkbox [(ngModel)]="category.checked" [ngModelOptions]="{standalone: true}" (click)="addCategories(category)" checked="false"></ion-checkbox>
-      </ion-item>
+     
+      <ion-button (click)="filterCategorie()" >Select categories</ion-button>
 
       <ion-item>
         <ion-label>Private </ion-label>

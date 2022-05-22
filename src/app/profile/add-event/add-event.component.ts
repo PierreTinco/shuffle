@@ -3,7 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { format, parse, parseISO } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { PhotoService } from 'src/app/services/photo.service';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, AlertController } from '@ionic/angular';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Geolocation } from '@capacitor/geolocation';
 import { getDownloadURL } from 'firebase/storage';
@@ -17,7 +17,89 @@ import { getDownloadURL } from 'firebase/storage';
   styleUrls: ['add-event.component.scss'],
 })
 export class addEventPage  {
-  categories = [{cat:"art", checked: false},{cat:"artisanat", checked: false},{cat:"games", checked: false},{cat:"sport", checked: false},{cat:"music", checked: false},{cat:"literature", checked: false},{cat:"party", checked: false},{cat:"cinema", checked: false},{cat:"theater", checked: false},{cat:"concert", checked: false},{cat:"festival", checked: false},{cat:"food", checked: false},{cat:"online", checked: false},{cat:"other", checked: false}]
+  categories = [{
+    name: 'art',
+    label: 'Art',
+    value: 'value1',
+    checked: false,
+  },
+
+  {
+    name: 'artisanat',
+    label: 'Artisanat',
+    value: 'artisanat',
+    checked: false,
+  },
+
+  {
+    name: 'sport',
+    label: 'Sport',
+    value: 'sport',
+    checked: false,
+  },
+
+  {
+    name: 'games',
+    label: 'Games',
+    value: 'game',
+    checked: false,
+  },
+
+  {
+    name: 'literature',
+    label: 'Literature',
+    value: 'literarture',
+    checked: false,
+  },
+
+  {
+    name: 'party',
+    label: 'Party ',
+    value: 'party',
+    checked: false,
+  },
+  {
+    name: 'cinema',
+    label: 'Cinema ',
+    value: 'cinema',
+    checked: false,
+  },
+  {
+    name: 'theater',
+    label: 'Theater',
+    value: 'theater',
+    checked: false,
+  },
+  {
+    name: 'concert',
+    label: 'Concert',
+    value: 'concert',
+    checked: false,
+  },
+  {
+    name: 'festival',
+    label: 'Festival',
+    value: 'festival',
+    checked: false,
+  },
+  {
+    name: 'food',
+    label: 'Food',
+    value: 'food',
+    checked: false,
+  },
+  {
+    name: 'online',
+    label: 'Online',
+    value: 'online',
+    checked: false,
+  },
+  {
+    name: 'other',
+    label: 'Other',
+    value: 'other',
+    checked: false,
+  }]
   user: any
   submitted: boolean;
   isAddingMode = false;
@@ -53,9 +135,10 @@ export class addEventPage  {
   photoUrl: string;
   photoLoaded: boolean;
   nativeGeocoder: any;
-  categoriesSelected: any;
+  categoriesSelected = [];
+  filter: boolean;
 
-  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute) { }
+  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, public alertController: AlertController) { }
 
 
   async ngOnInit() {
@@ -211,9 +294,36 @@ export class addEventPage  {
     console.log("test cat");
     
     console.log(category, category.checked, 'categorie');
-    this.categoriesSelected = this.categories.filter((res) => res.checked == true);
-    console.log(this.categoriesSelected, 'categoriesSelected');
-  }
+    this.categories.forEach(el => {
+      if(el.checked) this.categoriesSelected.push(el.name)})
+    console.log("categories selected",this.categoriesSelected);
+    }
+
+    async filterCategorie() { 
+      this.filter=!this.filter;
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Select your choice',
+        inputs: this.categories,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Ok',
+            handler: () => {
+              console.log('Confirm Ok');
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
+    }
 }
 
 // constructor(private toast: Toast) { }
