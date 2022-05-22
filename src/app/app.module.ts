@@ -12,6 +12,7 @@ import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/f
 import { environment } from 'src/environments/environment';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { NativeGeocoder } from '@awesome-cordova-plugins/native-geocoder/ngx';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [AppComponent],

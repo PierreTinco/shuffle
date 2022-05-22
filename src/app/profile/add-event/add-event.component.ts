@@ -110,6 +110,7 @@ export class addEventPage  {
   event: any = {
     name: '',
     description: '',
+    location: '',
     street: '',
     number: '',
     postal: '',
@@ -134,19 +135,24 @@ export class addEventPage  {
 
   photoUrl: string;
   photoLoaded: boolean;
-  nativeGeocoder: any;
-  categoriesSelected = [];
-  filter: boolean;
+categoriesSelected = [];
+filter: boolean;
+  options: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+  };
+  lng: any;
+  lat: any;
 
-  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute, public alertController: AlertController) { }
+  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute,private  nativeGeocoder:NativeGeocoder, public alertController: AlertController) { }
 
 
   async ngOnInit() {
-    this.idUser = this.route.snapshot.paramMap.get('id')    
+    this.idUser = this.route.snapshot.paramMap.get('id')
   }
 
 
- 
+
 
   validForm() {
     // this.event.date_start = this.formatDate(this.event.date_start)
@@ -213,29 +219,60 @@ export class addEventPage  {
   async showCurrentPosition() {
     Geolocation.requestPermissions().then(async premission => {
       const coordinates = await Geolocation.getCurrentPosition();
-        console.log('Current position:', coordinates)    
-        this.coords=coordinates.coords
-        console.log('latitude position:', this.coords.latitude) 
-        console.log('longitude position:', this.coords.latitude) 
-      
-     }).catch((error) => {
+      console.log('Current position:', coordinates)
+      this.coords = coordinates.coords
+      console.log('latitude position:', this.coords.latitude)
+      console.log('longitude position:', this.coords.longitude)
+      this.lat=this.coords.latitude
+      this.lng=this.coords.longitude
+
+
+    }).catch((error) => {
       console.log('Error getting location', error);
     });
-   }
-  geocoderNative(){
-    let options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-  };
-  
-  this.nativeGeocoder.reverseGeocode(this.coords.latitude, this.coords.latitude, options)
-    .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
-    .catch((error: any) => console.log(error));
-  
-  this.nativeGeocoder.forwardGeocode(this.event.location, options)
-    .then((result: NativeGeocoderResult[]) => console.log('The coordinates are latitude=' + result[0].latitude + ' and longitude=' + result[0].longitude))
-    .catch((error: any) => console.log(error));
   }
+
+  async geocoderNative() {
+    if (this.event.location != "") {
+            //TranslateCoordonneesGps
+    this.nativeGeocoder.forwardGeocode(this.event.location, this.options)
+    .then((result: NativeGeocoderResult[]) => {
+      console.log('lat=' + result[0].latitude + 'long=' + result[0].longitude);
+    })
+    .catch((error: any) => console.log('Geocode',error));
+   
+    }
+    else{
+      this.showCurrentPosition()       
+    //TranslateCoordonneesGps
+     this.nativeGeocoder.reverseGeocode(this.lat, this.lng, this.options)
+     .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
+     .catch((error: any) => console.log('reverseGeocode', error));
+ 
+    }
+
+
+  }
+    //en temps reel jusqu a appelle de la fonction stop
+    // track() {
+    //   console.log('start tracking you')
+    //   this.wait = Geolocation.watchPosition({}, (position, err) => {
+    //     this.ngZone.run(() => {
+    //       this.lat = position.coords.latitude;
+    //       this.lng = position.coords.longitude;
+
+    //     })
+    //     console.log('latitude position from track:', this.lat)
+    //     console.log('longitude position from track: ', this.lng)
+    //   })
+
+    //   //  this.stopTracking()
+    //   //  console.log('stop tracking you')
+    // }
+
+    // stopTracking() {
+    //   Geolocation.clearWatch({ id: this.wait });
+    // }
 
   public async showActionSheet() {
     const actionSheet = await this.actionSheetController.create({
@@ -271,28 +308,27 @@ export class addEventPage  {
     await actionSheet.present();
   }
 
-  public async getPhotoUrl(){  
-    if(this.pic.photoLoaded)
-    {
+  public async getPhotoUrl() {
+    if (this.pic.photoLoaded) {
       getDownloadURL(this.pic.eventImageRef)
       .then((url) => {
         // `url` is the download URL for the user photo
         this.photoUrl = url
-        console.log("url image", this.photoUrl); 
+        console.log("url image", this.photoUrl);
         this.photoLoaded = true
-    
+
       })
       .catch((error) => {
         // Handle any errors
         console.log('erreur image');
-        
+
       });
-    }  
+    }
   }
 
   addCategories(category: any) {
     console.log("test cat");
-    
+
     console.log(category, category.checked, 'categorie');
     this.categories.forEach(el => {
       if(el.checked) this.categoriesSelected.push(el.name)})

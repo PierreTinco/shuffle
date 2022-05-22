@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild ,NgZone} from '@angular/core';
 import { ApiService } from '../services/api.service';
 import Web3 from 'web3';
 import { Event } from './accueil.model';
@@ -9,6 +9,8 @@ import { GoogleMap } from '@capacitor/google-maps';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AlertController } from '@ionic/angular';
+import { PhotoService } from '../services/photo.service';
+import { getDownloadURL, ref } from 'firebase/storage';
 
 declare let window: any;
 
@@ -18,6 +20,8 @@ declare let window: any;
   styleUrls: ['accueil.page.scss'],
 })
 export class accueilPage implements OnInit {
+  infoWindos: any = [];
+  photoUrl: any;
   back = false
   currentUser: any
   details: Event;
@@ -34,13 +38,16 @@ export class accueilPage implements OnInit {
   viewMap = null;
   filter =null;
   totalVal = null;
+  wait: any;
+  public lat: any;
+  public lng: any;
   //maxTicket=this.details[0].max_participant;
 
   @ViewChild('map') mapView: ElementRef<HTMLElement>;
   map: GoogleMap;
   center: any = {
-    lat: 43.12,
-    lng: 5.92,
+    lat:42,
+    lng: 4,
   };
   title:string;
   markerId: string;
@@ -51,12 +58,8 @@ export class accueilPage implements OnInit {
   balance1: any;
   free = false;
 
-  constructor(private api: ApiService,public alertController: AlertController) { }
+  constructor(private api: ApiService,public alertController: AlertController,public ngZone: NgZone,private photos: PhotoService,) { }
 
-  // ionViewDidEnter() {
-  //   console.log('on ViewDidEnter');
-  //   this.initMap();
-  // }
 
   async ngOnInit() {
     this.auth = getAuth();
@@ -84,12 +87,15 @@ export class accueilPage implements OnInit {
 
       });
     }
-    this.showCurrentPosition()
+    
 
   }
   ngAfterViewInit() {
     console.log('on ngAfterViewInit')
     this.createMap()
+    // this.showCurrentPosition()
+    this.track()
+    this.stopTracking()
   }
 
   async participateFree(currentEvent: any) {
@@ -208,7 +214,7 @@ export class accueilPage implements OnInit {
     );
   }
 
-  async filterCategorie() { 
+  async selectFilterCategorie() { 
     this.filter=!this.filter;
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -233,7 +239,7 @@ export class accueilPage implements OnInit {
           handler: () => {
             console.log('Art selected');
           },
-          checked: true
+          // checked: true
         },
 
         {
@@ -395,44 +401,98 @@ export class accueilPage implements OnInit {
 
   async createMap() {
 
-    this.map = await GoogleMap.create(
-
-      {
+    this.map = await GoogleMap.create({
         element: this.mapView.nativeElement,
         id: 'capacitor-google-maps',
         apiKey: environment.mapsKey,
         config: {
           center: this.center,
-          zoom: 8,
+          zoom: 12,
         },
       });
-    this.addMarker(this.center.lat, this.center.lng,);
+    // this.addMarker(this.center.lat, this.center.lng,'Toulon');
+    this.addMarker(this.lat,this.lng,'CurentPosition')
   }
-
+    //Au moment de l appelle
   async showCurrentPosition() {
     Geolocation.requestPermissions().then(async premission => {
       const coordinates = await Geolocation.getCurrentPosition();
       console.log('Current position:', coordinates)
       this.coords = coordinates.coords
-      console.log('latitude position:', this.coords.latitude)
-      console.log('longitude position:', this.coords.longitude)
-
+      console.log('latitude position From current', this.coords.latitude)
+      console.log('longitude position from current:', this.coords.longitude)
+      this.addMarker(this.coords.latitude,this.coords.longitude,'CurentPosition')
     }).catch((error) => {
-      console.log('Error getting location', error);
+      console.log('Error getting location From Current', error);
     });
   }
 
-  async addMarker(lat: any, lng: any) {
+  //en temps reel jusqu a appelle de la fonction stop
+  track() {
+    console.log('start tracking you')
+    this.wait = Geolocation.watchPosition({}, (position, err) => {
+      this.ngZone.run(() => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        
+      })
+      console.log('latitude position from track:', this.lat)
+      console.log('longitude position from track: ', this.lng)
+    })
+    
+    //  this.stopTracking()
+    //  console.log('stop tracking you')
+  }
+
+  stopTracking() {
+    Geolocation.clearWatch({ id: this.wait });
+  }
+
+  public async getPhotoUrl() {
+    getDownloadURL(ref(this.photos.storage, `photos/events/$`))
+      .then((url) => {
+        // `url` is the download URL for the user photo
+        this.photoUrl = url
+        console.log("url image", this.photoUrl);
+      })
+      .catch((error) => {
+        // Handle any errors
+        console.log('erreur image');
+
+      });
+  }
+  async addMarker(lat: any, lng: any,title: string) {
     //add a marker to map
+    const image =this.photoUrl
+    const maps=this.map
     this.markerId = await this.map.addMarker({
+      title: title,
       coordinate: {
         lat: lat,
         lng: lng,
+        
       },
-      //  title: title,
+     
+        
       // draggable:true
     });
 
+  // This example adds a marker to indicate the position of Bondi Beach in Sydney,
+// Australia.
+function initMap(): void {
+  const map = new google.maps.Map(
+    document.getElementById("map") as HTMLElement,
+    {
+      zoom: 4,
+      center: { lat: -33, lng: 151 },
+    }
+  );
+
+
+}
+
+
+  
     // Move the map programmatically to my current position
     await this.map.setCamera({
       coordinate: {
