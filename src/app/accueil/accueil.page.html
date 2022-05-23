@@ -94,7 +94,7 @@
       </div>
 
       <ion-button *ngIf="free" color="secondary" (click)="participateFree(details[0])">Purchase for free</ion-button>
-      <ion-button *ngIf="!free" color="secondary"(click)="sendTr(details[0].wallet)">Purchase</ion-button>
+      <ion-button *ngIf="!free" color="secondary"(click)="sendTr(details[0].wallet, details[0].price)">Purchase</ion-button>
    
     </div>
   </ion-content>

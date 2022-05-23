@@ -16,5 +16,4 @@ export class Event{
     age_min: '';
     note: '';
     wallet: '';
-    categories: [];
 }

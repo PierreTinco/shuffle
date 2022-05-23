@@ -13,6 +13,7 @@ import { ModalController } from '@ionic/angular';
 import { ModalPage } from './modal/modal.page';
 import { PhotoService } from '../services/photo.service';
 import { getDownloadURL, ref } from 'firebase/storage';
+import { DataStorageService } from '../services/datastorage.service';
 
 declare let window: any;
 
@@ -71,15 +72,16 @@ export class accueilPage implements OnInit {
   balance1: any;
   free = false;
   markerEventId: string[];
+  categoriesSelected: any;
+  eventsCategories: Observable<Object>;
   // markerEventId: string;
 
-  constructor(private api: ApiService,public alertController: AlertController,public ngZone: NgZone,private photos: PhotoService,private modalCtrl: ModalController) { }
+  constructor(private api: ApiService,public alertController: AlertController,public ngZone: NgZone,private photos: PhotoService,private modalCtrl: ModalController, private data: DataStorageService) { }
 
 
   async ngOnInit() {
     this.auth = getAuth();
     this.user = this.auth.currentUser;
-
     const chainObservable: any = null
     console.log('on init accueil');
     this.events = await this.api.getAllEvents({}).toPromise();
@@ -117,16 +119,14 @@ export class accueilPage implements OnInit {
     for (let i = 0; i < this.ticket_qty; i++) {
       await this.api.addUserEvent({ id_user: this.currentUser[0].id, id_event: currentEvent.id, statut: "participant" }).subscribe(
         (res) => {
-          alert('ok userEvent')
+          
         }
       )
 
     }
   }
 
-  participate(walletAdress: any) {
-    this.sendTr(walletAdress);
-  }
+
 
   add() {
     if (this.details[0].max_participant != 0) {
@@ -160,7 +160,6 @@ export class accueilPage implements OnInit {
   }
 
   total() {
-
     this.totalVal = (this.details[0].price * this.ticket_qty);
     console.log('Ticket total price: ' + this.totalVal);
 
@@ -191,19 +190,27 @@ export class accueilPage implements OnInit {
     this.clicked = false;
   }
 
-  sendTr(hostAccount: any) {
-    console.log(this.curentAccount);
-    console.log(hostAccount);
-
+  sendTr(hostAccount: any, price: any) {
+    console.log("hostaccount",hostAccount);
+    console.log("current account", this.currentUser);
+    console.log("price", price);
+    console.log("price in wei", this.web3.utils.toWei(price));
+    const weiPrice = this.web3.utils.toWei(price)
+    const hexWeiPrice = this.web3.utils.toHex(weiPrice);
+    console.log("hexWeiPrice",hexWeiPrice);
+    
+    const userWallet = this.currentUser[0].wallet
+    console.log("userWallet",userWallet);
+    
     if (window.ethereum) {
       window.ethereum
         .request({
           method: 'eth_sendTransaction',
           params: [
             {
-              from: this.curentAccount[0],
+              from: userWallet,
               to: hostAccount,
-              value: this.totalVal,
+              value: hexWeiPrice,
             },
           ],
         })
@@ -216,10 +223,27 @@ export class accueilPage implements OnInit {
     console.log(id, 'id de levent que lon veut ouvrir');
     this.clicked = !this.clicked;
     this.details = this.events.filter((event) => event.id == id);
-    console.log(this.details, 'this.details');
-    console.log(this.details[0].categories.split("'[`\`]'"))
+    console.log(this.details[0].price, 'this.details price');
+    console.log(this.details[0].wallet, 'this.details wallet');
+
     if (this.details[0].free == 1) this.free = true;
     else this.free = false;
+  }
+
+  async filterByCat(categories: any)
+  {
+    this.eventsCategories = await this.api
+    .getCategory({
+      where: { name: 'art' },
+      join: {
+        type: 'INNER JOIN',
+        tableJoin: 'event',
+        keyFrom: 'id_event',
+        keyJoin: 'id',
+      },
+    })
+    console.log("category event");
+    
   }
 
   filterEvent(str: any) {
@@ -250,11 +274,7 @@ export class accueilPage implements OnInit {
           name: 'art',
           type: 'checkbox',
           label: 'Art',
-          value: 'value1',
-          handler: () => {
-            console.log('Art selected');
-          },
-          // checked: true
+          value: 'art',
         },
 
         {
@@ -262,9 +282,6 @@ export class accueilPage implements OnInit {
           type: 'checkbox',
           label: 'Artisanat',
           value: 'artisanat',
-          handler: () => {
-            console.log('Artisanat selected');
-          }
         },
 
         {
@@ -272,9 +289,6 @@ export class accueilPage implements OnInit {
           type: 'checkbox',
           label: 'Sport',
           value: 'sport',
-          handler: () => {
-            console.log('Sport selected');
-          }
         },
 
         {
@@ -282,9 +296,6 @@ export class accueilPage implements OnInit {
           type: 'checkbox',
           label: 'Games',
           value: 'game',
-          handler: () => {
-            console.log('Checkbox 4 selected');
-          }
         },
 
         {
@@ -292,9 +303,6 @@ export class accueilPage implements OnInit {
           type: 'checkbox',
           label: 'Literature',
           value: 'literarture',
-          handler: () => {
-            console.log('Literature 5 selected');
-          }
         },
 
         {
@@ -302,72 +310,48 @@ export class accueilPage implements OnInit {
           type: 'checkbox',
           label: 'Party ',
           value: 'party',
-          handler: () => {
-            console.log('Party selected');
-          }
         },
         {
           name: 'cinema',
           type: 'checkbox',
           label: 'Cinema ',
           value: 'cinema',
-          handler: () => {
-            console.log('Cinema selected');
-          }
         },
         {
           name: 'theater',
           type: 'checkbox',
           label: 'Theater',
           value: 'theater',
-          handler: () => {
-            console.log('Theater selected');
-          }
         },
         {
           name: 'concert',
           type: 'checkbox',
           label: 'Concert',
           value: 'concert',
-          handler: () => {
-            console.log('Concert selected');
-          }
         },
         {
           name: 'festival',
           type: 'checkbox',
           label: 'Festival',
           value: 'festival',
-          handler: () => {
-            console.log('Festival selected');
-          }
         },
         {
           name: 'food',
           type: 'checkbox',
           label: 'Food',
           value: 'food',
-          handler: () => {
-            console.log('Food selected');
-          }
         },
         {
           name: 'online',
           type: 'checkbox',
           label: 'Online',
           value: 'online',
-          handler: () => {
-            console.log('Online selected');
-          }
         },
         {
           name: 'other',
           type: 'checkbox',
           label: 'Other',
           value: 'other',
-          handler: () => {
-            console.log('Other selected');
-          }
         }
       ],
       buttons: [
@@ -380,8 +364,9 @@ export class accueilPage implements OnInit {
           }
         }, {
           text: 'Ok',
-          handler: () => {
-            console.log('Confirm Ok');
+          handler: (data) => {
+            this.filterByCat(data)
+            
           }
         }
       ]
@@ -475,7 +460,6 @@ export class accueilPage implements OnInit {
       console.log('marker clicked ',event);
       this.presentModal();
       content:infoWindowContent;
-    
     });
 
   }

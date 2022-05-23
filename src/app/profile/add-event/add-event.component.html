@@ -159,7 +159,7 @@
       <ion-item *ngIf="isPayingMode">
         <div>
           <ion-label>Price:</ion-label>
-          <ion-input placeholder="0 eth"></ion-input>
+          <ion-input [(ngModel)]="event.price" placeholder="0 eth"></ion-input>
           <div class="show-error">
             <div>
               *Your event ticket price is required !
@@ -169,7 +169,7 @@
             </div> -->
           </div>
           <ion-label>Wallet:</ion-label>
-          <ion-input placeholder="00x"></ion-input>
+          <ion-input [(ngModel)]="event.wallet" placeholder="00x"></ion-input>
           <div class="show-error">
             <div >
               *Your wallet address is required !

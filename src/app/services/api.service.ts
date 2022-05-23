@@ -47,6 +47,22 @@ export class ApiService {
   getFriends(data : any){
     return this.http.post(`${environment.apiUrl}/friends`,data)
   }
+
+
+  addCategory(data: any){
+    console.log(data, "category");
+    
+    return this.http.post(`${environment.apiUrl}/category/insert`,data)
+
+
+  }
+
+  getCategory(data: any){
+    console.log(data, "category");
+    return this.http.post(`${environment.apiUrl}/category`,data)
+
+
+  }
   // getPhoto() {
   //   return this.http.get<ApiImage[]>('${this.url}/image')
   // }

@@ -8,6 +8,7 @@ import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@aw
 import { Geolocation } from '@capacitor/geolocation';
 import { getDownloadURL } from 'firebase/storage';
 import { HttpHandler } from '@angular/common/http';
+import { DataStorageService } from 'src/app/services/datastorage.service';
 
 
 
@@ -106,21 +107,18 @@ export class addEventPage  {
   private address: AlertInput[] = [{
     name: 'number',
     type: 'text',
-    value: '',
     label: 'Number',
     placeholder: 'Number',
   },
   {
     name: 'street',
     type: 'text',
-    value: '',
     label: 'Street',
     placeholder: 'Street',
   },
   {
     type: 'text',
     name: 'postalCode',
-    value: '',
     label: 'Postal Code',
     placeholder: 'Postal Code',
     
@@ -128,14 +126,12 @@ export class addEventPage  {
   {
     type: 'text',
     name: 'city',
-    value: '',
     label: 'City',
     placeholder: 'City'
   },
   {
     type: 'text',
     name: 'country',
-    value: '',
     label: 'Country',
     placeholder: 'Country'
   }]
@@ -149,28 +145,20 @@ export class addEventPage  {
   event: any = {
     name: '',
     description: '',
-    location: '',
-    street: '',
-    number: '',
-    postal_code: '',
-    city: '',
-    country: '',
     date_start: '',
     time_start: '',
     date_end: '',
     time_end: '',
-    price: null,
+    price: '',
     max_participant: null,
     age_min: '',
     note: '',
     wallet: '',
-    categories: [],
   };
   public = false;
   free = true;
   photo: any;
   position: any;
-  idUser: any
   coords: any ;
 
   photoUrl: string;
@@ -184,11 +172,13 @@ export class addEventPage  {
   lng: any;
   lat: any;
 
-  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute,private  nativeGeocoder:NativeGeocoder, public alertController: AlertController) { }
+  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute,private  nativeGeocoder:NativeGeocoder, public alertController: AlertController, private data: DataStorageService) { }
 
 
   async ngOnInit() {
-    this.idUser = this.route.snapshot.paramMap.get('id')
+    this.user = this.data.get_user()
+    console.log("id user", this.user);
+    
   }
 
 
@@ -213,15 +203,30 @@ export class addEventPage  {
       ? (this.event['public'] = 1)
       : (this.event['public'] = 0);
     this.event.price == null ? delete this.event.price : null;
-    this.event.categories = this.categoriesSelected;
     await this.api.addEvents(this.event).subscribe(
       (res: any) => {
         alert("Event ajouté à l'application");
-        this.api.addUserEvent({ id_user: this.idUser, id_event: res.insertId, status: 'creator' }).subscribe(
+
+        this.api.addUserEvent({ id_user: this.user.id, id_event: res.insertId, statut: 'creator' }).subscribe(
           (res) => {
+            console.log("event price ",this.event.price);
             alert('ok userEvent')
+            
           }
         )
+        console.log(this.categoriesSelected.length)
+        for(let i = 0; i < this.categoriesSelected.length ; i++)
+        {
+          this.api.addCategory({ name: this.categoriesSelected[i], id_event: res.insertId}).subscribe(
+            (res) => {
+              console.log("categorie ok");
+              
+            }
+          )
+        }
+        
+        
+        window.location.reload();
       },
       (err) => {
         alert('Il y a eu une erreur');
