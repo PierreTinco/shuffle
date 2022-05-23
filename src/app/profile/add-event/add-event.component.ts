@@ -154,6 +154,9 @@ export class addEventPage  {
     age_min: '',
     note: '',
     wallet: '',
+    lat: '',
+    lng: '',
+    timestamp: '',
   };
   public = false;
   free = true;
@@ -208,6 +211,9 @@ export class addEventPage  {
       ? (this.event['public'] = 1)
       : (this.event['public'] = 0);
     this.event.price == null ? delete this.event.price : null;
+    this.event.timestamp = this.pic.createdAt
+    console.log(this.event.timestamp, "event timestamp");
+    
     await this.api.addEvents(this.event).subscribe(
       (res: any) => {
         alert("Event ajouté à l'application");
@@ -288,6 +294,8 @@ export class addEventPage  {
       console.log('TranslateAdresse in lat=' + result[0].latitude + 'long=' + result[0].longitude);
       this.resultLat=result[0].latitude;
       this.resultLng=result[0].longitude;
+      this.event.lat = this.resultLat
+      this.event.lng = this.resultLng
     })
     .catch((error: any) => console.log('Geocode',error));
    
