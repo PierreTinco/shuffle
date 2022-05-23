@@ -246,12 +246,11 @@ export class ProfilePage implements OnInit {
     this.routes.navigate(['/follow']);
   }
   goTocreateEvent() {
-    //ca marche pas gestion erreur 
     if (this.connected = false) {
       alert('Your credentials are required')
     }
     else {
-      this.dataStorageService.setid_user_creator(this.currentUser[0].id);
+      // this.dataStorageService.setid_user_creator(this.currentUser[0].id);
       this.routes.navigate(['/addevent']);
     }
   }
