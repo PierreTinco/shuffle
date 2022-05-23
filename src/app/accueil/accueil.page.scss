@@ -176,14 +176,30 @@ ion-card-title{
     margin-top: 10px;
 }
 
-.ticket-number-select{
-    font-size: 25px; 
-}
+
 .detail.ticket{
     justify-content: center;
-    box-shadow: 0 3px 3px rgba(0,0,0,4);
+    box-shadow: 0 3px 3px rgba(0,0,0,0.15);
     font-size: 55px; 
 }
 
+// .custom-modal {
+//     --backdrop-opacity: 1;
+//     backdrop-filter: blur(3px);
 
+//     &::part(backdrop) {
+//         background:black;
+//     }
+
+//     &::part(handle) {
+//      background: var(--ion-color-primary);
+//         width: 150px;
+//         height: 6px;
+//     }
+
+//     &::part(content) {
+//         border-radius: 0px;
+//         box-shadow: 0 3px 3px rgba(0,0,0,0.15);
+//     }
+// }
 
