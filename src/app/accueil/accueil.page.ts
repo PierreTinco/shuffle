@@ -9,6 +9,8 @@ import { GoogleMap } from '@capacitor/google-maps';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { ModalPage } from './modal/modal.page';
 import { PhotoService } from '../services/photo.service';
 import { getDownloadURL, ref } from 'firebase/storage';
 
@@ -21,6 +23,22 @@ declare let window: any;
 })
 export class accueilPage implements OnInit {
   infoWindos: any = [];
+  public lat: any;
+  public lng: any;
+  
+  markers: any =[
+    {
+      title:"Isen",
+      latitude: 43.1206,
+      longitude: 5.9397,
+    },
+    {
+      title:"Avenue 83",
+      latitude: 43.1361,
+      longitude: 6.0071,
+    },
+
+  ];
   photoUrl: any;
   back = false
   currentUser: any
@@ -39,26 +57,23 @@ export class accueilPage implements OnInit {
   filter =null;
   totalVal = null;
   wait: any;
-  public lat: any;
-  public lng: any;
+
   //maxTicket=this.details[0].max_participant;
 
   @ViewChild('map') mapView: ElementRef<HTMLElement>;
   map: GoogleMap;
-  center: any = {
-    lat:42,
-    lng: 4,
-  };
   title:string;
-  markerId: string;
+  markerId: any;
   coords: any ;
   web3 = new Web3(
     'https://ropsten.infura.io/v3/2d0c4c5065844f828e66b7b2f543a119'
   );
   balance1: any;
   free = false;
+  markerEventId: string[];
+  // markerEventId: string;
 
-  constructor(private api: ApiService,public alertController: AlertController,public ngZone: NgZone,private photos: PhotoService,) { }
+  constructor(private api: ApiService,public alertController: AlertController,public ngZone: NgZone,private photos: PhotoService,private modalCtrl: ModalController) { }
 
 
   async ngOnInit() {
@@ -87,8 +102,6 @@ export class accueilPage implements OnInit {
 
       });
     }
-    
-    
 
   }
   ngAfterViewInit() {
@@ -216,7 +229,7 @@ export class accueilPage implements OnInit {
     );
   }
 
-  async selectFilterCategorie() { 
+  async selectFilterCategorie() {
     this.filter=!this.filter;
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -232,7 +245,7 @@ export class accueilPage implements OnInit {
         //   },
         //   checked: true
         // },
-    
+
         {
           name: 'art',
           type: 'checkbox',
@@ -401,55 +414,6 @@ export class accueilPage implements OnInit {
     this.viewMap = !this.viewMap;
   }
 
-  async createMap() {
-
-    this.map = await GoogleMap.create({
-        element: this.mapView.nativeElement,
-        id: 'capacitor-google-maps',
-        apiKey: environment.mapsKey,
-        config: {
-          center: this.center,
-          zoom: 12,
-        },
-      });
-    // this.addMarker(this.center.lat, this.center.lng,'Toulon');
-    this.addMarker(this.lat,this.lng,'CurentPosition')
-  }
-    //Au moment de l appelle
-  async showCurrentPosition() {
-    Geolocation.requestPermissions().then(async premission => {
-      const coordinates = await Geolocation.getCurrentPosition();
-      console.log('Current position:', coordinates)
-      this.coords = coordinates.coords
-      console.log('latitude position From current', this.coords.latitude)
-      console.log('longitude position from current:', this.coords.longitude)
-      this.addMarker(this.coords.latitude,this.coords.longitude,'CurentPosition')
-    }).catch((error) => {
-      console.log('Error getting location From Current', error);
-    });
-  }
-
-  //en temps reel jusqu a appelle de la fonction stop
-  track() {
-    console.log('start tracking you')
-    this.wait = Geolocation.watchPosition({}, (position, err) => {
-      this.ngZone.run(() => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        
-      })
-      console.log('latitude position from track:', this.lat)
-      console.log('longitude position from track: ', this.lng)
-    })
-    
-    //  this.stopTracking()
-    //  console.log('stop tracking you')
-  }
-
-  stopTracking() {
-    Geolocation.clearWatch({ id: this.wait });
-  }
-
   public async getPhotoUrl() {
     getDownloadURL(ref(this.photos.storage, `photos/events/$`))
       .then((url) => {
@@ -463,38 +427,26 @@ export class accueilPage implements OnInit {
 
       });
   }
-  async addMarker(lat: any, lng: any,title: string) {
+
+  async addMarker(lat: any, lng: any) {
     //add a marker to map
-    const image =this.photoUrl
-    const maps=this.map
+    // const image =this.photoUrl
+    // const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
     this.markerId = await this.map.addMarker({
-      title: title,
+      title: 'My curent Position',
+      snippet:"Custom snippet",
       coordinate: {
         lat: lat,
         lng: lng,
-        
+
       },
-     
-        
+      //  iconUrl:image
+      //  iconUrl:this.photoUrl,
+
       // draggable:true
     });
 
-  // This example adds a marker to indicate the position of Bondi Beach in Sydney,
-// Australia.
-function initMap(): void {
-  const map = new google.maps.Map(
-    document.getElementById("map") as HTMLElement,
-    {
-      zoom: 4,
-      center: { lat: -33, lng: 151 },
-    }
-  );
-
-
-}
-
-
-  
+    
     // Move the map programmatically to my current position
     await this.map.setCamera({
       coordinate: {
@@ -503,19 +455,106 @@ function initMap(): void {
       }
     });
 
-
+    this.addMarkerListeners()
+    
   }
+
   async removeMarker(id?) {
     //add a marker to map
     await this.map.removeMarker(id ? id : this.markerId);
+    // await this.map.removeMarker(id ? id :  this.markerEventId);
   }
 
-  async addListeners() {
+  async addMarkerListeners() {
+    const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+    let infoWindowContent='<div id="content">'+
+    '<h2 id="firstHeading" class="firstHeading">'+ this.markerId.title +'</h2>'+
+    '<div>'+ image +'<div>'+
+   '</div>'
     await this.map.setOnMarkerClickListener((event) => {
-      console.log('envent markerSetOnclickList ',event);
+      console.log('marker clicked ',event);
+      this.presentModal();
+      content:infoWindowContent;
+    
     });
 
   }
+  
+  async presentModal() {
+    const modalPage = await this.modalCtrl.create({
+      component: ModalPage,
+     
+    });
+    return await modalPage.present();
+  }
+
+  async restrictArea(){
+    await this.map.enableAccessibilityElements
+      
+  }
+  async createMap() {
+    const center: any = {
+      lat:this.lat ,
+      lng: this.lng,
+    };
+    this.map = await GoogleMap.create({
+        element: this.mapView.nativeElement,
+        id: 'capacitor-google-maps',
+        apiKey: environment.mapsKey,
+        config: {
+          center: center,
+          zoom: 12,
+        },
+      });
+    // this.addMarker(this.center.lat, this.center.lng,'Toulon');
+     this.addMarker(this.lat,this.lng)
+     this.addMarker(43.1361,6.0071)
+
+    //  this.addMarker(this.markers.latitude,this.markers.lng)
+  }
+    //Au moment de l appelle
+  async showCurrentPosition() {
+    Geolocation.requestPermissions().then(async premission => {
+      const coordinates = await Geolocation.getCurrentPosition();
+      console.log('Current position:', coordinates)
+      this.coords = coordinates.coords
+      // this.lat = this.coords.coords.latitude;
+      // this.lng = this.coords.coords.longitude;
+      console.log('latitude position From current', this.coords.latitude)
+      console.log('longitude position from current:', this.coords.longitude)
+      this.addMarker(this.coords.latitude,this.coords.longitude)
+    }).catch((error) => {
+      console.log('Error getting location From Current', error);
+    });
+  }
+
+  //en temps reel jusqu a appelle de la fonction stop
+  track() {
+    console.log('start tracking you')
+    this.wait = Geolocation.watchPosition({}, (position, err) => {
+      this.ngZone.run(() => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+
+      })
+      console.log('latitude position from track:', this.lat)
+      console.log('longitude position from track: ', this.lng)
+    })
+
+    //  this.stopTracking()
+    //  console.log('stop tracking you')
+  }
+
+  stopTracking() {
+    Geolocation.clearWatch({ id: this.wait });
+  }
+
+  selectDirection(){
+
+  }
+
+
+
 
   draw() {
     //     const points: LatLng[] = [

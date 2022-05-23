@@ -88,13 +88,13 @@ ion-card-title{
 
 }
 .info{
-    font-weight: 100;
+    font-weight: 100px;
     border-radius: 15px;
     position: absolute;
     padding: 5px 10px;
     width: auto;
     height: auto;
-    background-color: rgb(60, 114, 253);
+    background: linear-gradient(101.18deg, #d158f3 -8.51%, #25cae4 103.04%);
     box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     color:white;
     margin-left: 5px;
@@ -103,7 +103,7 @@ ion-card-title{
 
 .box{
     text-align: center;
-    font-weight: 100;
+    font-weight: 80;
     border-radius: 5px;
     margin-top: -6%;
     z-index: 2; 
@@ -147,12 +147,12 @@ ion-card-content{
 capacitor-google-maps{
     display: inline-block;
     width:100%;
-    height: 750px;
+    height: 93vh;
     // height: 50vh;
     // margin-right: 20px;
     // margin: 30px;
     // padding: 0;
-    border: 1px solid black;
+    // border: 1px solid black;
 }
 
 .card-text{
@@ -166,9 +166,24 @@ capacitor-google-maps{
 
 .card-header{
     margin-top: 20px;
+    font-weight:750;
+    font-size: 30px;
+    margin-bottom: 20px;
+
 }
 
 ion-card-title{
     margin-top: 10px;
 }
+
+.ticket-number-select{
+    font-size: 25px; 
+}
+.detail.ticket{
+    justify-content: center;
+    box-shadow: 0 3px 3px rgba(0,0,0,4);
+    font-size: 55px; 
+}
+
+
 
