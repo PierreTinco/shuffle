@@ -1,14 +1,20 @@
 export class Event{
-    id: "";
-    nom: "";
-    description : "";
-    date_debut :"";
-    heure_debut: "";
-    prix : null;
-    date_fin:"";
-    max_participant	:null;
-    age_min : "";
-    note : "";
-    public: false;
-    payant: false
+    name: '';
+    description: '';
+    location: '';
+    street: '';
+    number: '';
+    postal_code: '';
+    city: '';
+    country: '';
+    date_start: '';
+    time_start: '';
+    date_end: '';
+    time_end: '';
+    price: null;
+    max_participant: null;
+    age_min: '';
+    note: '';
+    wallet: '';
+    categories: [];
 }
