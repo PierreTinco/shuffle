@@ -49,7 +49,7 @@
           </div>
         </ion-item>
 
-        <div>Addresse
+        <div>
           <ion-item>
          <ion-label position="floating">Event Location:</ion-label>
            <div style="display: flex;flex-direction: row;">
@@ -58,55 +58,8 @@
             <ion-icon name="chevron-forward-outline" (click)="geocoderNative()"></ion-icon>
           </div>
           </ion-item>
+          <ion-button (click)="selectAddress()" >Select adress</ion-button>
         </div>
-
-        <ion-item>
-          <ion-label position="floating">Number</ion-label>
-          <ion-input [(ngModel)]="event.number" type="text "></ion-input>
-        
-          
-          <div class="show-error">
-            <div>
-              *Number is required !
-            </div>
-          </div>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Street</ion-label>
-          <ion-input [(ngModel)]="event.street" type="text "></ion-input>
-          <div class="show-error">
-            <div>
-              *Street is required !
-            </div>
-          </div>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Postal code</ion-label>
-          <ion-input [(ngModel)]="event.postal" type="text "></ion-input>
-          <div class="show-error">
-            <div>
-              *Postal is required !
-            </div>
-          </div>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">City</ion-label>
-          <ion-input [(ngModel)]="event.city" type="text"></ion-input>
-          <div class="show-error">
-            <div>
-              *City is required !
-            </div>
-          </div>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Country</ion-label>
-          <ion-input [(ngModel)]="event.country" type="text " placeholder="666 chemin du Rorota"></ion-input>
-          <div class="show-error">
-            <div>
-              *Country is required !
-            </div>
-          </div>
-        </ion-item>
 
         <ion-item>
           <ion-label position="floating">Description</ion-label>

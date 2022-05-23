@@ -3,10 +3,11 @@ import { ApiService } from '../../services/api.service';
 import { format, parse, parseISO } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { PhotoService } from 'src/app/services/photo.service';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import { ActionSheetController, AlertController, AlertInput } from '@ionic/angular';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Geolocation } from '@capacitor/geolocation';
 import { getDownloadURL } from 'firebase/storage';
+import { HttpHandler } from '@angular/common/http';
 
 
 
@@ -17,88 +18,126 @@ import { getDownloadURL } from 'firebase/storage';
   styleUrls: ['add-event.component.scss'],
 })
 export class addEventPage  {
-  categories = [{
-    name: 'art',
+ private categories: AlertInput[] = [{
+    name: 'Art',
+    type: 'checkbox',
     label: 'Art',
-    value: 'value1',
+    value: 'art',
     checked: false,
-  },
-
-  {
-    name: 'artisanat',
+  },{
+    name: 'Artisanat',
+    type: 'checkbox',
     label: 'Artisanat',
     value: 'artisanat',
     checked: false,
-  },
-
-  {
+  },{
+    type: 'checkbox',
     name: 'sport',
     label: 'Sport',
     value: 'sport',
     checked: false,
-  },
-
-  {
-    name: 'games',
+  },{
+    type: 'checkbox',
+    name: 'Games',
     label: 'Games',
     value: 'game',
     checked: false,
-  },
-
-  {
+  },{
+    type: 'checkbox',
     name: 'literature',
     label: 'Literature',
     value: 'literarture',
     checked: false,
-  },
-
-  {
+  },{
+    type: 'checkbox',
     name: 'party',
     label: 'Party ',
     value: 'party',
     checked: false,
-  },
-  {
+  },{
+    type: 'checkbox',
     name: 'cinema',
     label: 'Cinema ',
     value: 'cinema',
     checked: false,
-  },
-  {
+  },{
+    type: 'checkbox',
     name: 'theater',
     label: 'Theater',
     value: 'theater',
     checked: false,
   },
   {
+    type: 'checkbox',
     name: 'concert',
     label: 'Concert',
     value: 'concert',
     checked: false,
   },
   {
+    type: 'checkbox',
     name: 'festival',
     label: 'Festival',
     value: 'festival',
     checked: false,
   },
   {
+    type: 'checkbox',
     name: 'food',
     label: 'Food',
     value: 'food',
     checked: false,
   },
   {
+    type: 'checkbox',
     name: 'online',
     label: 'Online',
     value: 'online',
     checked: false,
   },
   {
+    type: 'checkbox',
     name: 'other',
     label: 'Other',
     value: 'other',
     checked: false,
+  }]
+
+  private address: AlertInput[] = [{
+    name: 'number',
+    type: 'text',
+    value: '',
+    label: 'Number',
+    placeholder: 'Number',
+  },
+  {
+    name: 'street',
+    type: 'text',
+    value: '',
+    label: 'Street',
+    placeholder: 'Street',
+  },
+  {
+    type: 'text',
+    name: 'postalCode',
+    value: '',
+    label: 'Postal Code',
+    placeholder: 'Postal Code',
+    
+  },
+  {
+    type: 'text',
+    name: 'city',
+    value: '',
+    label: 'City',
+    placeholder: 'City'
+  },
+  {
+    type: 'text',
+    name: 'country',
+    value: '',
+    label: 'Country',
+    placeholder: 'Country'
   }]
   user: any
   submitted: boolean;
@@ -113,7 +152,7 @@ export class addEventPage  {
     location: '',
     street: '',
     number: '',
-    postal: '',
+    postal_code: '',
     city: '',
     country: '',
     date_start: '',
@@ -125,6 +164,7 @@ export class addEventPage  {
     age_min: '',
     note: '',
     wallet: '',
+    categories: [],
   };
   public = false;
   free = true;
@@ -135,8 +175,8 @@ export class addEventPage  {
 
   photoUrl: string;
   photoLoaded: boolean;
-categoriesSelected = [];
-filter: boolean;
+  categoriesSelected = [];
+  filter: boolean;
   options: NativeGeocoderOptions = {
     useLocale: true,
     maxResults: 5
@@ -155,25 +195,25 @@ filter: boolean;
 
 
   validForm() {
-    // this.event.date_start = this.formatDate(this.event.date_start)
-    // this.event.date_end = this.formatDate(this.event.date_end)
+    this.event.date_start = this.formatDate(this.event.date_start)
+    this.event.date_end = this.formatDate(this.event.date_end)
     this.free == true ? (this.event['free'] = 1) : (this.event['free'] = 0);
     this.public == false
       ? (this.event['public'] = 1)
       : (this.event['public'] = 0);
     this.event.price == null ? delete this.event.price : null;
     console.log(this.event);
+   this.addEvent()
 
   }
 
   async addEvent() {
-    // this.event.date_start = this.formatDate(this.event.date_start)
-    // this.event.date_end = this.formatDate(this.event.date_end)
     this.free == true ? (this.event['free'] = 1) : (this.event['free'] = 0);
     this.public == false
       ? (this.event['public'] = 1)
       : (this.event['public'] = 0);
     this.event.price == null ? delete this.event.price : null;
+    this.event.categories = this.categoriesSelected;
     await this.api.addEvents(this.event).subscribe(
       (res: any) => {
         alert("Event ajouté à l'application");
@@ -225,8 +265,6 @@ filter: boolean;
       console.log('longitude position:', this.coords.longitude)
       this.lat=this.coords.latitude
       this.lng=this.coords.longitude
-
-
     }).catch((error) => {
       console.log('Error getting location', error);
     });
@@ -326,14 +364,6 @@ filter: boolean;
     }
   }
 
-  addCategories(category: any) {
-    console.log("test cat");
-
-    console.log(category, category.checked, 'categorie');
-    this.categories.forEach(el => {
-      if(el.checked) this.categoriesSelected.push(el.name)})
-    console.log("categories selected",this.categoriesSelected);
-    }
 
     async filterCategorie() { 
       this.filter=!this.filter;
@@ -351,13 +381,47 @@ filter: boolean;
             }
           }, {
             text: 'Ok',
-            handler: () => {
-              console.log('Confirm Ok');
+            handler: (data) => {
+            this.categoriesSelected = data;
+            console.log("categories selected",this.categoriesSelected);
+            
             }
           }
         ]
       });
-  
+      await alert.present();
+    }
+
+    async selectAddress() { 
+      this.filter=!this.filter;
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Enter you address',
+        inputs: this.address,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Ok',
+            handler: (data) => {
+              console.log(data);
+              
+            this.event.number = data.nnumber;
+            this.event.street = data.street;
+            this.event.postal_code = data.postalCode;
+            this.event.city = data.city;
+            this.event.country = data.country;
+            console.log("adress",this.event);
+            
+            }
+          }
+        ]
+      });
       await alert.present();
     }
 }

@@ -88,6 +88,7 @@ export class accueilPage implements OnInit {
       });
     }
     
+    
 
   }
   ngAfterViewInit() {
@@ -203,6 +204,7 @@ export class accueilPage implements OnInit {
     this.clicked = !this.clicked;
     this.details = this.events.filter((event) => event.id == id);
     console.log(this.details, 'this.details');
+    console.log(this.details[0].categories.split("'[`\`]'"))
     if (this.details[0].free == 1) this.free = true;
     else this.free = false;
   }
