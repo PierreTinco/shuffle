@@ -53,13 +53,14 @@
           <ion-item>
          <ion-label position="floating">Event Location:</ion-label>
            <div style="display: flex;flex-direction: row;">
-            <ion-input [(ngModel)]="event.location" type="text " placeholder="666 chemin du Rorota">{{lat}}{{lng}}</ion-input>
-            <ion-icon  name="locate-outline"  (click)="showCurrentPosition()"></ion-icon>
-            <ion-icon name="chevron-forward-outline" (click)="geocoderNative()"></ion-icon>
+            <!-- <ion-input [(ngModel)]="event.location" type="text ">{{result[0]}}</ion-input> -->
+            <ion-input [(ngModel)]="event.location" type="text ">{{resultAdress
+             }}{{resultAdressNum}}</ion-input>
+            <ion-icon  name="locate-outline"  (click)="geocoderNative()"></ion-icon>
           </div>
           </ion-item>
-          <ion-button (click)="selectAddress()" >Select adress</ion-button>
         </div>
+
 
         <ion-item>
           <ion-label position="floating">Description</ion-label>
@@ -134,7 +135,7 @@
         </ion-item>
       </div>
      
-      <ion-button (click)="filterCategorie()" >Select categories</ion-button>
+      <ion-button expand="block" (click)="filterCategorie()" >Select categories</ion-button>
 
       <ion-item>
         <ion-label>Private </ion-label>

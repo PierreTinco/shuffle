@@ -1,28 +1,32 @@
-
 ion-icon {
     font-size: 180%;
     margin-top: 5px;
     margin-left: 5px;
 }
 
-ion-card .event-details .event-img{
+ion-card .event-details .event-img {
     width: max-content;
     height: max-content;
 }
-
-.event-details{
+.event-details {
     --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) 0 0/100% 100% no-repeat;
 }
 
 
+ion-content {
+    --background: none !important;
+}
 
+ion-content.map {
+    --background: none !important
+}
 
 .card-details {
     border-top-left-radius: 25px;
-    border-top-right-radius: 25px;    
+    border-top-right-radius: 25px;
     height: 69%;
     text-transform: uppercase;
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     background-color: white;
@@ -31,20 +35,20 @@ ion-card .event-details .event-img{
 
 }
 
-.background{
+.background {
     --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) 0 0/100% 100% no-repeat;
 }
 
 
 
-.events{
+.events {
     height: 229px;
     border-radius: 31.5025px;
     display: flex;
     flex-direction: row;
 }
 
-::ng-deep .event-img:last-of-type{
+::ng-deep .event-img:last-of-type {
     background: url(..\..\event.jpg) 0 0/100% 100% no-repeat;
     margin-top: 25px;
     margin-left: 20px;
@@ -54,10 +58,10 @@ ion-card .event-details .event-img{
 }
 
 
-.event-details-img{
+.event-details-img {
     background: url(..\..\event.jpg) 0 0/100% 100% no-repeat;
     width: 420px;
-    height: 300px;  
+    height: 300px;
 }
 
 
@@ -66,28 +70,29 @@ ion-card .event-details .event-img{
 // }
 
 
-::ng-deep ion-list:last-of-type{
+::ng-deep ion-list:last-of-type {
     background: none !important;
 }
 
-::ng-deep ion-card:last-of-type{
+::ng-deep ion-card:last-of-type {
     margin-bottom: 0px;
 }
 
-ion-label{
+ion-label {
     // margin-left: 5px;
     white-space: nowrap;
     font-family: 'Courier New', Courier, monospace;
 }
 
-ion-card-title{
+ion-card-title {
     font-family: Garamond;
     font-size: 18px;
     text-transform: uppercase;
     text-align: center;
 
 }
-.info{
+
+.info {
     font-weight: 100px;
     border-radius: 15px;
     position: absolute;
@@ -95,38 +100,39 @@ ion-card-title{
     width: auto;
     height: auto;
     background: linear-gradient(101.18deg, #d158f3 -8.51%, #25cae4 103.04%);
-    box-shadow: 0 3px 3px rgba(0,0,0,0.5);
-    color:white;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
+    color: white;
     margin-left: 5px;
     margin-bottom: auto;
 }
 
-.box{
+.box {
     text-align: center;
     font-weight: 80;
     border-radius: 5px;
     margin-top: -6%;
-    z-index: 2; 
+    z-index: 2;
     padding: 5px 10px;
     width: 300px;
     height: 80px;
     background: linear-gradient(101.18deg, #d158f3 -8.51%, #25cae4 103.04%);
     border-radius: 31.5025px;
-    box-shadow: 0 3px 3px rgba(0,0,0,0.15);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
     text-align: center;
     font-size: 30px;
     font-family: Garamond;
-    color:white;
-    display:flex;
+    color: white;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: white;
-  
+
 
 }
-ion-card-subtitle{
-    display:flex;
+
+ion-card-subtitle {
+    display: flex;
     flex-direction: column;
     margin-top: 80px;
     margin-left: 15px;
@@ -139,15 +145,19 @@ ion-card-subtitle{
 }
 
 
-ion-card-content{
+ion-card-content {
     width: 150px;
 }
 
+div.map {
+    width: 100%;
+    height: 100%;
+}
 
-capacitor-google-maps{
+capacitor-google-maps {
     display: inline-block;
-    width:100%;
-    height: 93vh;
+    width: 100%;
+    height: 100%;
     // height: 50vh;
     // margin-right: 20px;
     // margin: 30px;
@@ -155,7 +165,7 @@ capacitor-google-maps{
     // border: 1px solid black;
 }
 
-.card-text{
+.card-text {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -164,26 +174,41 @@ capacitor-google-maps{
 
 
 
-.card-header{
+.card-header {
     margin-top: 20px;
-    font-weight:750;
+    font-weight: 750;
     font-size: 30px;
     margin-bottom: 20px;
 
 }
 
-ion-card-title{
+ion-card-title {
     margin-top: 10px;
 }
 
-.ticket-number-select{
-    font-size: 25px; 
-}
-.detail.ticket{
+
+.detail.ticket {
     justify-content: center;
-    box-shadow: 0 3px 3px rgba(0,0,0,4);
-    font-size: 55px; 
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
+    font-size: 55px;
 }
 
+// .custom-modal {
+//     --backdrop-opacity: 1;
+//     backdrop-filter: blur(3px);
 
+//     &::part(backdrop) {
+//         background:black;
+//     }
 
+//     &::part(handle) {
+//      background: var(--ion-color-primary);
+//         width: 150px;
+//         height: 6px;
+//     }
+
+//     &::part(content) {
+//         border-radius: 0px;
+//         box-shadow: 0 3px 3px rgba(0,0,0,0.15);
+//     }
+// }

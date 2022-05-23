@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild ,NgZone} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, NgZone } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import Web3 from 'web3';
 import { Event } from './accueil.model';
@@ -26,15 +26,15 @@ export class accueilPage implements OnInit {
   infoWindos: any = [];
   public lat: any;
   public lng: any;
-  
-  markers: any =[
+
+  markers: any = [
     {
-      title:"Isen",
+      title: "Isen",
       latitude: 43.1206,
       longitude: 5.9397,
     },
     {
-      title:"Avenue 83",
+      title: "Avenue 83",
       latitude: 43.1361,
       longitude: 6.0071,
     },
@@ -55,7 +55,7 @@ export class accueilPage implements OnInit {
   date: string;
   ticket_qty = 1;
   viewMap = null;
-  filter =null;
+  filter = null;
   totalVal = null;
   wait: any;
 
@@ -63,9 +63,9 @@ export class accueilPage implements OnInit {
 
   @ViewChild('map') mapView: ElementRef<HTMLElement>;
   map: GoogleMap;
-  title:string;
+  title: string;
   markerId: any;
-  coords: any ;
+  coords: any;
   web3 = new Web3(
     'https://ropsten.infura.io/v3/2d0c4c5065844f828e66b7b2f543a119'
   );
@@ -105,11 +105,11 @@ export class accueilPage implements OnInit {
       });
     }
 
+
   }
   ngAfterViewInit() {
     console.log('on ngAfterViewInit')
     this.createMap()
-    // this.showCurrentPosition()
     this.track()
     this.stopTracking()
   }
@@ -254,7 +254,7 @@ export class accueilPage implements OnInit {
   }
 
   async selectFilterCategorie() {
-    this.filter=!this.filter;
+    this.filter = !this.filter;
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Select your choice',
@@ -415,33 +415,35 @@ export class accueilPage implements OnInit {
 
   async addMarker(lat: any, lng: any) {
     //add a marker to map
-    // const image =this.photoUrl
+     const image =this.photoUrl
     // const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
     this.markerId = await this.map.addMarker({
+      // title: this.details[0].name,
       title: 'My curent Position',
-      snippet:"Custom snippet",
+      snippet: "Come and find me !",
+      // snippet: this.details[0].description,
       coordinate: {
         lat: lat,
         lng: lng,
 
       },
-      //  iconUrl:image
+       iconUrl:image
       //  iconUrl:this.photoUrl,
 
       // draggable:true
     });
 
-    
     // Move the map programmatically to my current position
     await this.map.setCamera({
       coordinate: {
         lat: lat,
         lng: lng,
-      }
+      },
+      animate: true
     });
 
-    this.addMarkerListeners()
-    
+
+
   }
 
   async removeMarker(id?) {
@@ -450,53 +452,69 @@ export class accueilPage implements OnInit {
     // await this.map.removeMarker(id ? id :  this.markerEventId);
   }
 
-  async addMarkerListeners() {
-    const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
-    let infoWindowContent='<div id="content">'+
-    '<h2 id="firstHeading" class="firstHeading">'+ this.markerId.title +'</h2>'+
-    '<div>'+ image +'<div>'+
-   '</div>'
+  async addListeners() {
+    //   const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+    //   let infoWindowContent='<div id="content">'+
+    //   '<h2 id="firstHeading" class="firstHeading">'+ this.markerId.title +'</h2>'+
+    //   '<div>'+ image +'<div>'+
+    //  '</div>'
     await this.map.setOnMarkerClickListener((event) => {
-      console.log('marker clicked ',event);
+      console.log('setOnMarkerClickListener ', event);
       this.presentModal();
-      content:infoWindowContent;
+      // content:infoWindowContent;
+
+    });
+    await this.map.setOnMapClickListener((event) => {
+      console.log('setOnMapClickListener ', event);
+      // this.addMarker(event.latitude,event.longitude);
     });
 
+
   }
-  
+
   async presentModal() {
     const modalPage = await this.modalCtrl.create({
       component: ModalPage,
-     
+      //  breakpoints: [0, 0.3, 0.5, 0.8],
+      // initialBreakpoint: 0.5
+      // cssClass: 'custom-modal'
     });
     return await modalPage.present();
   }
 
-  async restrictArea(){
+  async restrictArea() {
     await this.map.enableAccessibilityElements
-      
+
   }
   async createMap() {
-    const center: any = {
-      lat:this.lat ,
-      lng: this.lng,
-    };
-    this.map = await GoogleMap.create({
+    try {
+      const center: any = {
+        lat: this.lat,
+        lng: this.lng,
+      };
+      this.map = await GoogleMap.create({
         element: this.mapView.nativeElement,
         id: 'capacitor-google-maps',
         apiKey: environment.mapsKey,
         config: {
           center: center,
-          zoom: 12,
+          zoom: 7,
         },
       });
-    // this.addMarker(this.center.lat, this.center.lng,'Toulon');
-     this.addMarker(this.lat,this.lng)
-     this.addMarker(43.1361,6.0071)
+      // this.addMarker(this.center.lat, this.center.lng,'Toulon');
+      await this.map.enableClustering();
+      this.addMarker(43.1361, 6.0071);
+      this.addMarker(this.lat, this.lng);
+      this.addListeners();
+      //  this.addMarker(this.markers.latitude,this.markers.lng);
+      //  this.showCurrentPosition();
 
-    //  this.addMarker(this.markers.latitude,this.markers.lng)
+
+    } catch (e) {
+
+    }
   }
-    //Au moment de l appelle
+  //Au moment de l appelle
   async showCurrentPosition() {
     Geolocation.requestPermissions().then(async premission => {
       const coordinates = await Geolocation.getCurrentPosition();
@@ -506,9 +524,29 @@ export class accueilPage implements OnInit {
       // this.lng = this.coords.coords.longitude;
       console.log('latitude position From current', this.coords.latitude)
       console.log('longitude position from current:', this.coords.longitude)
-      this.addMarker(this.coords.latitude,this.coords.longitude)
+
+      this.markerId = await this.map.addMarker({
+        title: 'My curent Position',
+        snippet: "Come and find me !",
+        coordinate: {
+          lat: this.coords.latitude,
+          lng: this.coords.longitude,
+
+        },
+      });
+
+      await this.map.setCamera({
+        coordinate: {
+          lat: this.coords.latitude,
+          lng: this.coords.longitude
+        },
+        animate: true
+      });
+
+
     }).catch((error) => {
       console.log('Error getting location From Current', error);
+      // console.log('Error getting location from Event location', error);
     });
   }
 
@@ -533,10 +571,13 @@ export class accueilPage implements OnInit {
     Geolocation.clearWatch({ id: this.wait });
   }
 
-  selectDirection(){
 
+  // selectDirection(){
+
+  // }
+  async locate() {
+    await this.map.enableCurrentLocation(true)
   }
-
 
 
 
@@ -559,8 +600,8 @@ export class accueilPage implements OnInit {
     //     });
   }
 
- public customFormatter(value: number) {
-  return `${value}%`
+  public customFormatter(value: number) {
+    return `${value}%`
   }
 
 }
