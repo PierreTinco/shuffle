@@ -6,7 +6,11 @@ const routes: Routes = [
   {
     path: '',
     component: accueilPage,
+  },  {
+    path: 'modal',
+    loadChildren: () => import('./modal/modal.module').then( m => m.ModalPageModule)
   },
+
 ];
 
 @NgModule({

@@ -8,6 +8,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { accueilPageRoutingModule } from './accueil-routing.module';
 import { NativeGeocoder } from '@awesome-cordova-plugins/native-geocoder/ngx';
+import { ModalPage } from './modal/modal.page';
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -15,9 +16,11 @@ import { NativeGeocoder } from '@awesome-cordova-plugins/native-geocoder/ngx';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    accueilPageRoutingModule,Ng2SearchPipeModule
+    accueilPageRoutingModule,Ng2SearchPipeModule,
   ],
-  declarations: [accueilPage],
-  
+  declarations: [   ModalPage ,accueilPage],
+  exports: [
+    ModalPage 
+]
 })
 export class accueilPageModule {}
