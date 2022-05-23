@@ -212,6 +212,7 @@ export class addEventPage  {
       : (this.event['public'] = 0);
     this.event.price == null ? delete this.event.price : null;
     this.event.timestamp = this.pic.createdAt
+    
     console.log(this.event.timestamp, "event timestamp");
     
     await this.api.addEvents(this.event).subscribe(
