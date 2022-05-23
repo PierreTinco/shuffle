@@ -1,26 +1,26 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Event</ion-title>
-    <ion-button  [routerLink]="['/accueil']" ><ion-icon name="chevron-back-outline"></ion-icon>Back</ion-button>
+    <ion-button (click)="dismissModal()" ><ion-icon name="chevron-back-outline"></ion-icon>Back</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- <div class="event-details-img"></div>
+  <div class="event-details-img"></div>
   <div class="card-details">
     <div class="card-header">
-      <div>{{details[0].name}}</div>
+      <div>{{details.name}}</div>
     </div>
     <div>
       <div  style="display: flex;
       flex-direction: column;">
-        <ion-label>{{details[0].description}}</ion-label><br>
-        <ion-label> {{details[0].date_start}} </ion-label><br>
+        <ion-label>{{details.description}}</ion-label><br>
+        <ion-label> {{details.date_start}} </ion-label><br>
 
         <div style="justify-content: center;">
-          <ion-label>Nombre de places restantes: {{details[0].max_participant}}</ion-label><br>
-          <ion-label>minimum age: {{details[0].age_min}}</ion-label><br>
-          <ion-label *ngIf="details[0].price > 0"> {{details[0].price}} eth</ion-label><br>
+          <ion-label>Nombre de places restantes: {{details.max_participant}}</ion-label><br>
+          <ion-label>minimum age: {{details.age_min}}</ion-label><br>
+          <ion-label *ngIf="details[0].price > 0"> {{details.price}} eth</ion-label><br>
           <ion-label *ngIf="details[0].price == 0">gratuit</ion-label><br>
         </div>
       </div>
@@ -39,5 +39,5 @@
    
     <ion-button *ngIf="free" color="primary" (click)="participateFree(details[0])">Purchase for free</ion-button>
     <ion-button  *ngIf="!free" (click)="sendTr(details[0].wallet)">Purchase</ion-button>
-  </div> -->
+  </div>
 </ion-content>

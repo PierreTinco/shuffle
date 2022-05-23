@@ -14,6 +14,7 @@ import { ModalPage } from './modal/modal.page';
 import { PhotoService } from '../services/photo.service';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { threadId } from 'worker_threads';
+import { DataStorageService } from '../services/datastorage.service';
 
 declare let window: any;
 
@@ -74,7 +75,7 @@ export class accueilPage implements OnInit {
   markerEventId: string[];
   // markerEventId: string;
 
-  constructor(private api: ApiService, public alertController: AlertController, public ngZone: NgZone, private photos: PhotoService, private modalCtrl: ModalController) { }
+  constructor(private api: ApiService, public alertController: AlertController, public ngZone: NgZone, private photos: PhotoService, private modalCtrl: ModalController,private data: DataStorageService) { }
 
 
   async ngOnInit() {
@@ -217,6 +218,7 @@ export class accueilPage implements OnInit {
     console.log(id, 'id de levent que lon veut ouvrir');
     this.clicked = !this.clicked;
     this.details = this.events.filter((event) => event.id == id);
+    this.data.set_event(this.details);
     console.log(this.details, 'this.details');
     if (this.details[0].free == 1) this.free = true;
     else this.free = false;
@@ -228,6 +230,7 @@ export class accueilPage implements OnInit {
       event.nom.includes(str.target.value)
     );
   }
+
 
   async selectFilterCategorie() {
     this.filter = !this.filter;
@@ -475,12 +478,15 @@ export class accueilPage implements OnInit {
     //  '</div>'
     await this.map.setOnMarkerClickListener((event) => {
       console.log('setOnMarkerClickListener ', event);
-      this.presentModal();
       // content:infoWindowContent;
-
+      this.presentModal();
     });
     await this.map.setOnMapClickListener((event) => {
       console.log('setOnMapClickListener ', event);
+      // this.addMarker(event.latitude,event.longitude);
+    });
+    await this.map.setOnCameraMoveStartedListener((event) => {
+      console.log('setOnCameraMoveStartedListener ', event);
       // this.addMarker(event.latitude,event.longitude);
     });
 
@@ -490,11 +496,18 @@ export class accueilPage implements OnInit {
   async presentModal() {
     const modalPage = await this.modalCtrl.create({
       component: ModalPage,
-      //  breakpoints: [0, 0.3, 0.5, 0.8],
+      // breakpoints: [0, 0.3, 0.5, 0.8],
       // initialBreakpoint: 0.5
       // cssClass: 'custom-modal'
     });
-    return await modalPage.present();
+    await modalPage.present();
+   
+    this.data.set_modal(modalPage);
+
+    // Optional: Hide the modal after a duration!
+    // setTimeout(() => {
+    //   modalPage.dismiss();
+    // }, 5000);
   }
 
   async restrictArea() {
@@ -566,7 +579,7 @@ export class accueilPage implements OnInit {
   }
 
   //en temps reel jusqu a appelle de la fonction stop
-  track() {
+  async track() {
     console.log('start tracking you')
     this.wait = Geolocation.watchPosition({}, (position, err) => {
       this.ngZone.run(() => {
@@ -577,6 +590,24 @@ export class accueilPage implements OnInit {
       console.log('latitude position from track:', this.lat)
       console.log('longitude position from track: ', this.lng)
     })
+    
+    this.markerId = await this.map.addMarker({
+      title: 'My curent Position',
+      snippet: "Come and find me !",
+      coordinate: {
+        lat: this.coords.latitude,
+        lng: this.coords.longitude,
+
+      },
+    });
+
+    await this.map.setCamera({
+      coordinate: {
+        lat: this.coords.latitude,
+        lng: this.coords.longitude
+      },
+      animate: true
+    });
 
     //  this.stopTracking()
     //  console.log('stop tracking you')
