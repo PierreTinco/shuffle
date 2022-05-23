@@ -1,5 +1,6 @@
 package io.shuffle;
 import android.os.Bundle;
+
 import com.capacitorjs.plugins.googlemaps.CapacitorGoogleMapsPlugin;
 import com.getcapacitor.BridgeActivity;
 

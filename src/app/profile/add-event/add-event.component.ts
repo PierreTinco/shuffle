@@ -183,6 +183,11 @@ export class addEventPage  {
   };
   lng: any;
   lat: any;
+  resultLat: string;
+  resultLng: string;
+  resultAdress: string[];
+  resultAdressNum: string;
+
 
   constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute,private  nativeGeocoder:NativeGeocoder, public alertController: AlertController) { }
 
@@ -272,10 +277,12 @@ export class addEventPage  {
 
   async geocoderNative() {
     if (this.event.location != "") {
-            //TranslateCoordonneesGps
+            //TranslateAdresse
     this.nativeGeocoder.forwardGeocode(this.event.location, this.options)
     .then((result: NativeGeocoderResult[]) => {
-      console.log('lat=' + result[0].latitude + 'long=' + result[0].longitude);
+      console.log('TranslateAdresse in lat=' + result[0].latitude + 'long=' + result[0].longitude);
+      this.resultLat=result[0].latitude;
+      this.resultLng=result[0].longitude;
     })
     .catch((error: any) => console.log('Geocode',error));
    
@@ -284,33 +291,22 @@ export class addEventPage  {
       this.showCurrentPosition()       
     //TranslateCoordonneesGps
      this.nativeGeocoder.reverseGeocode(this.lat, this.lng, this.options)
-     .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
+     .then((result: NativeGeocoderResult[]) =>{ 
+      console.log("TranslateCoordonneesGps",JSON.stringify(result[0]));
+     console.log('Adresse in lat=' + result[0].latitude + 'long=' + result[0].longitude);
+     this.resultLat=result[0].latitude;
+     this.resultLng=result[0].longitude;
+     this.resultAdress=result[0].areasOfInterest;
+     this.resultAdressNum=result[0].subThoroughfare;
+
+    })
      .catch((error: any) => console.log('reverseGeocode', error));
  
     }
 
 
   }
-    //en temps reel jusqu a appelle de la fonction stop
-    // track() {
-    //   console.log('start tracking you')
-    //   this.wait = Geolocation.watchPosition({}, (position, err) => {
-    //     this.ngZone.run(() => {
-    //       this.lat = position.coords.latitude;
-    //       this.lng = position.coords.longitude;
 
-    //     })
-    //     console.log('latitude position from track:', this.lat)
-    //     console.log('longitude position from track: ', this.lng)
-    //   })
-
-    //   //  this.stopTracking()
-    //   //  console.log('stop tracking you')
-    // }
-
-    // stopTracking() {
-    //   Geolocation.clearWatch({ id: this.wait });
-    // }
 
   public async showActionSheet() {
     const actionSheet = await this.actionSheetController.create({
@@ -392,38 +388,7 @@ export class addEventPage  {
       await alert.present();
     }
 
-    async selectAddress() { 
-      this.filter=!this.filter;
-      const alert = await this.alertController.create({
-        cssClass: 'my-custom-class',
-        header: 'Enter you address',
-        inputs: this.address,
-        buttons: [
-          {
-            text: 'Cancel',
-            role: 'cancel',
-            cssClass: 'secondary',
-            handler: () => {
-              console.log('Confirm Cancel');
-            }
-          }, {
-            text: 'Ok',
-            handler: (data) => {
-              console.log(data);
-              
-            this.event.number = data.nnumber;
-            this.event.street = data.street;
-            this.event.postal_code = data.postalCode;
-            this.event.city = data.city;
-            this.event.country = data.country;
-            console.log("adress",this.event);
-            
-            }
-          }
-        ]
-      });
-      await alert.present();
-    }
+    
 }
 
 // constructor(private toast: Toast) { }
