@@ -14,6 +14,7 @@ import { ModalPage } from './modal/modal.page';
 import { PhotoService } from '../services/photo.service';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { DataStorageService } from '../services/datastorage.service';
+import { Capacitor } from '@capacitor/core';
 
 declare let window: any;
 
@@ -64,7 +65,7 @@ export class accueilPage implements OnInit {
 
   @ViewChild('map') mapView: ElementRef<HTMLElement>;
   map: GoogleMap;
-  title: string;
+  // title: string;
   markerId: any;
   coords: any;
   web3 = new Web3(
@@ -443,14 +444,14 @@ this.events = newArrEvent.slice()
     
   }
 
-  async addMarker(lat: any, lng: any) {
+  async addMarker(lat: any, lng: any, title: string, snippet: string) {
     //add a marker to map
      const image =this.photoUrl
     // const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
     this.markerId = await this.map.addMarker({
       // title: this.details[0].name,
-      title: 'My curent Position',
-      snippet: "Come and find me !",
+      title: title,
+      snippet: snippet,
       // snippet: this.details[0].description,
       coordinate: {
         lat: lat,
@@ -485,7 +486,9 @@ this.events = newArrEvent.slice()
     await this.map.setOnMarkerClickListener((event) => {
       console.log('setOnMarkerClickListener ', event);
       // content:infoWindowContent;
+     // if(this.details){
       this.presentModal();
+     // }
     });
     await this.map.setOnMapClickListener((event) => {
       console.log('setOnMapClickListener ', event);
@@ -493,7 +496,15 @@ this.events = newArrEvent.slice()
     });
     await this.map.setOnCameraMoveStartedListener((event) => {
       console.log('setOnCameraMoveStartedListener ', event);
-      // this.addMarker(event.latitude,event.longitude);
+
+    });
+    await this.map.setOnClusterInfoWindowClickListener((event) => {
+      console.log('setOnClusterInfoWindowClickListener ', event);
+
+    });
+    await this.map.setOnInfoWindowClickListener((event) => {
+      console.log('setOnInfoWindowClickListener ', event);
+
     });
 
 
@@ -502,12 +513,14 @@ this.events = newArrEvent.slice()
   async presentModal() {
     const modalPage = await this.modalCtrl.create({
       component: ModalPage,
-      // breakpoints: [0, 0.3, 0.5, 0.8],
-      // initialBreakpoint: 0.5
+      componentProps:{
+       breakpoints: [0, 0.3, 0.5, 0.8],
+       initialBreakpoint: 0.5
+      }
       // cssClass: 'custom-modal'
     });
     await modalPage.present();
-   
+
     this.data.set_modal(modalPage);
 
     // Optional: Hide the modal after a duration!
@@ -535,13 +548,23 @@ this.events = newArrEvent.slice()
           zoom: 7,
         },
       });
+
+      if(Capacitor.getPlatform()!= 'web'){
+        await this.map.enableIndoorMaps(true);
+      }
+      
       // this.addMarker(this.center.lat, this.center.lng,'Toulon');
-      await this.map.enableClustering();
-      this.addMarker(43.1361, 6.0071);
-      this.addMarker(this.lat, this.lng);
-      this.addListeners();
-      //  this.addMarker(this.markers.latitude,this.markers.lng);
+      this.addMarker(43.1361, 6.0071,"la Garde","Come enjoy");
+      this.addMarker(43.2965,  5.3698,"Marseille","Come enjoy");
+      this.addMarker(48.8566, 2.3522, "Paris","Come enjoy");
+      this.addMarker(this.lat, this.lng,"My current Position","Come on find me");
+         //FILTER??????????
+      // this.addMarker(this.details.latitude,this.details.longitude,this.details.name,"Come enjoy");
       //  this.showCurrentPosition();
+      await this.map.enableClustering();
+     
+      this.addListeners();
+
 
 
     } catch (e) {
@@ -585,7 +608,7 @@ this.events = newArrEvent.slice()
   }
 
   //en temps reel jusqu a appelle de la fonction stop
-  async track() {
+  track() {
     console.log('start tracking you')
     this.wait = Geolocation.watchPosition({}, (position, err) => {
       this.ngZone.run(() => {
@@ -596,24 +619,6 @@ this.events = newArrEvent.slice()
       console.log('latitude position from track:', this.lat)
       console.log('longitude position from track: ', this.lng)
     })
-    
-    this.markerId = await this.map.addMarker({
-      title: 'My curent Position',
-      snippet: "Come and find me !",
-      coordinate: {
-        lat: this.coords.latitude,
-        lng: this.coords.longitude,
-
-      },
-    });
-
-    await this.map.setCamera({
-      coordinate: {
-        lat: this.coords.latitude,
-        lng: this.coords.longitude
-      },
-      animate: true
-    });
 
     //  this.stopTracking()
     //  console.log('stop tracking you')
@@ -624,9 +629,7 @@ this.events = newArrEvent.slice()
   }
 
 
-  // selectDirection(){
 
-  // }
   async locate() {
     await this.map.enableCurrentLocation(true)
   }
