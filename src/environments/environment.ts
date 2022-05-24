@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  apiUrl: 'http://localhost:3000/api/shuffle',
-  //'http://localhost:3000/api/shuffle''http://ec2-54-83-83-253.compute-1.amazonaws.com/api/shuffle'
+  apiUrl: 'http://http://localhost:3000/api/shuffle',
+  //'http://localhost:3000/api/shuffle''http://ec2-54-91-0-196.compute-1.amazonaws.com/api/shuffle'
   production: false,
   firebaseConfig: {
     apiKey: "AIzaSyAo6XIb8NRSkOmnkTs6eWUH4kEBAe8jHT0",

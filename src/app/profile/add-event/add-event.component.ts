@@ -7,7 +7,6 @@ import { ActionSheetController, AlertController, AlertInput } from '@ionic/angul
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Geolocation } from '@capacitor/geolocation';
 import { getDownloadURL } from 'firebase/storage';
-import { HttpHandler } from '@angular/common/http';
 import { DataStorageService } from 'src/app/services/datastorage.service';
 
 
