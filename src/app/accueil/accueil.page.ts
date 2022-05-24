@@ -381,7 +381,7 @@ this.events = newArrEvent.slice()
           text: 'Ok',
           handler: (data) => {
             console.log("categories select",data);
-            if(!data)
+            if(!!data)
               this.filterByCat(data)
             
           }
