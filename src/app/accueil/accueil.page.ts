@@ -462,14 +462,10 @@ this.events = newArrEvent.slice()
       // draggable:true
     });
     // Move the map programmatically to my current position
-    await this.map.setCamera({
-      coordinate: {
-        lat: lat,
-        lng: lng,
-      },
-      animate: true
-    });
   }
+ 
+
+  
 
   async removeMarker(id?) {
     //add a marker to map
@@ -487,6 +483,7 @@ this.events = newArrEvent.slice()
       console.log('setOnMarkerClickListener ', event);
       // content:infoWindowContent;
      // if(this.details){
+       
       this.presentModal();
      // }
     });
@@ -536,8 +533,8 @@ this.events = newArrEvent.slice()
   async createMap() {
     try {
       const center: any = {
-        lat: this.lat,
-        lng: this.lng,
+        lat: 43.5297,
+        lng: 5.4474,
       };
       this.map = await GoogleMap.create({
         element: this.mapView.nativeElement,
@@ -545,23 +542,28 @@ this.events = newArrEvent.slice()
         apiKey: environment.mapsKey,
         config: {
           center: center,
-          zoom: 7,
+          zoom: 9,
         },
       });
 
-      if(Capacitor.getPlatform()!= 'web'){
-        await this.map.enableIndoorMaps(true);
-      }
+      // if(Capacitor.getPlatform()!= 'web'){
+        // await this.map.enableIndoorMaps(true);
+      // }
       
       // this.addMarker(this.center.lat, this.center.lng,'Toulon');
       this.addMarker(43.1361, 6.0071,"la Garde","Come enjoy");
+      this.addMarker(43.147, 6.0731,"la Crau ","Come enjoy");
       this.addMarker(43.2965,  5.3698,"Marseille","Come enjoy");
       this.addMarker(48.8566, 2.3522, "Paris","Come enjoy");
-      this.addMarker(this.lat, this.lng,"My current Position","Come on find me");
+      await this.map.enableClustering();
+
+    
+     
+   
          //FILTER??????????
       // this.addMarker(this.details.latitude,this.details.longitude,this.details.name,"Come enjoy");
       //  this.showCurrentPosition();
-      await this.map.enableClustering();
+     
      
       this.addListeners();
 
@@ -572,40 +574,41 @@ this.events = newArrEvent.slice()
     }
   }
   //Au moment de l appelle
-  async showCurrentPosition() {
-    Geolocation.requestPermissions().then(async premission => {
-      const coordinates = await Geolocation.getCurrentPosition();
-      console.log('Current position:', coordinates)
-      this.coords = coordinates.coords
-      // this.lat = this.coords.coords.latitude;
-      // this.lng = this.coords.coords.longitude;
-      console.log('latitude position From current', this.coords.latitude)
-      console.log('longitude position from current:', this.coords.longitude)
+  // async showCurrentPosition() {
+  //   Geolocation.requestPermissions().then(async premission => {
+  //     const coordinates = await Geolocation.getCurrentPosition();
+  //     console.log('Current position:', coordinates)
+  //     this.coords = coordinates.coords
+  //     // this.lat = this.coords.coords.latitude;
+  //     // this.lng = this.coords.coords.longitude;
+  //     console.log('latitude position From current', this.coords.latitude)
+  //     console.log('longitude position from current:', this.coords.longitude)
 
-      this.markerId = await this.map.addMarker({
-        title: 'My curent Position',
-        snippet: "Come and find me !",
-        coordinate: {
-          lat: this.coords.latitude,
-          lng: this.coords.longitude,
+  //     this.markerId = await this.map.addMarker({
+  //       title: 'My curent Position',
+  //       snippet: "Come and find me !",
+  //       coordinate: {
+  //         lat: this.coords.latitude,
+  //         lng: this.coords.longitude,
 
-        },
-      });
+  //       },
+  //     });
 
-      await this.map.setCamera({
-        coordinate: {
-          lat: this.coords.latitude,
-          lng: this.coords.longitude
-        },
-        animate: true
-      });
+  //     await this.map.setCamera({
+  //       coordinate: {
+  //         lat: this.coords.latitude,
+  //         lng: this.coords.longitude
+  //       },
+  //       animate: true
+  //     });
 
 
-    }).catch((error) => {
-      console.log('Error getting location From Current', error);
-      // console.log('Error getting location from Event location', error);
-    });
-  }
+  //   }).catch((error) => {
+  //     console.log('Error getting location From Current', error);
+  //     // console.log('Error getting location from Event location', error);
+  //   });
+  // }
+  
 
   //en temps reel jusqu a appelle de la fonction stop
   track() {
@@ -631,7 +634,14 @@ this.events = newArrEvent.slice()
 
 
   async locate() {
-    await this.map.enableCurrentLocation(true)
+    await this.map.setCamera({
+      coordinate: {
+        lat: this.lat,
+        lng: this.lng,
+      },
+      animate: true
+    });
+    this.addMarker(this.lat, this.lng,"My current Position","Come on find me");
   }
 
 

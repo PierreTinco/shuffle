@@ -7,53 +7,53 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="container">
-    <div class="outer" >
-        <div style="width: 100px; height: 100px;">
-            <ion-avatar>
-            <ion-img *ngIf="photoLoaded" [src]="photoUrl"></ion-img>
-          </ion-avatar>
+  <ion-card class="cadre">
+    <div class="container">
+      <div class="outer">
+        <ion-avatar>
+          <ion-img *ngIf="photoLoaded" [src]="photoUrl"></ion-img>
+        </ion-avatar>
+
+        <div>
+          <ion-fab (click)="showActionSheet()" vertical="bottom">
+            <ion-fab-button>
+              <ion-icon name="pencil" class="icon"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
         </div>
-      <div >
-        <ion-fab  (click)="showActionSheet()"vertical="bottom"  >
-          <ion-fab-button>
-            <ion-icon name="pencil" class="icon" ></ion-icon>
-          </ion-fab-button> 
-        </ion-fab>   
-      </div> 
+      </div>
     </div>
-  </div>
+  </ion-card>
+  <ion-card class="details">
+    <div class="model">
+      <ion-item>
+        <ion-label position="floating">First name</ion-label>
+        <ion-input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>
 
-  <form>
-    <ion-item >
-      <ion-label position="floating">First name</ion-label>
-      <ion-input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" required></ion-input>
-    </ion-item>
-    
-   <ion-item >
-      <ion-label position="floating">Last name</ion-label>
-      <ion-input type="text" [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
-    </ion-item>
-    <ion-item >
-      <ion-label position="floating">Birthdate</ion-label>
-      <ion-input type="date" [(ngModel)]="user.birth_date" [ngModelOptions]="{standalone: true}" placeholder="04/21/2000 "  required></ion-input>
-    </ion-item>
-    <ion-item >
-      <ion-label position="floating">Phone number</ion-label>
-      <ion-input type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}" required></ion-input>
-    </ion-item>
-    <ion-item >
-      <ion-label position="floating">Wallet</ion-label>
-      <ion-input type="text" [(ngModel)]="user.wallet" [ngModelOptions]="{standalone: true}" required></ion-input>
-    </ion-item>
-    <ion-row>
-      <ion-col>
-        <ion-button type="submit" color="primary" expand="block" (click)="editProfil()">Edit</ion-button>
-      </ion-col>
-    </ion-row>
-  </form> 
-  
+      <ion-item>
+        <ion-label position="floating">Last name</ion-label>
+        <ion-input type="text" [(ngModel)]="user.surname" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Birthdate</ion-label>
+        <ion-input type="date" [(ngModel)]="user.birth_date" [ngModelOptions]="{standalone: true}"
+          placeholder="04/21/2000 " required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Phone number</ion-label>
+        <ion-input type="phone_number" [(ngModel)]="user.phone_number" [ngModelOptions]="{standalone: true}" required>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Wallet</ion-label>
+        <ion-input type="text" [(ngModel)]="user.wallet" [ngModelOptions]="{standalone: true}" required></ion-input>
+      </ion-item>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="primary" expand="block" (click)="editProfil()">Edit</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-card>
 </ion-content>
-
-
-
