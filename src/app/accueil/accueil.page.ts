@@ -28,20 +28,6 @@ export class accueilPage implements OnInit {
   infoWindos: any = [];
   public lat: any;
   public lng: any;
-
-  markers: any = [
-    {
-      title: "Isen",
-      latitude: 43.1206,
-      longitude: 5.9397,
-    },
-    {
-      title: "Avenue 83",
-      latitude: 43.1361,
-      longitude: 6.0071,
-    },
-
-  ];
   photoUrl: any;
   back = false
   currentUser: any
@@ -555,13 +541,15 @@ this.events = newArrEvent.slice()
       this.addMarker(43.147, 6.0731,"la Crau ","Come enjoy");
       this.addMarker(43.2965,  5.3698,"Marseille","Come enjoy");
       this.addMarker(48.8566, 2.3522, "Paris","Come enjoy");
+    
+      await this.addMarker(this.details[0].lat,this.details[0].lng,this.details[0].name,"Come enjoy");
       await this.map.enableClustering();
 
     
      
    
          //FILTER??????????
-      // this.addMarker(this.details.latitude,this.details.longitude,this.details.name,"Come enjoy");
+    
       //  this.showCurrentPosition();
      
      
@@ -573,42 +561,6 @@ this.events = newArrEvent.slice()
 
     }
   }
-  //Au moment de l appelle
-  // async showCurrentPosition() {
-  //   Geolocation.requestPermissions().then(async premission => {
-  //     const coordinates = await Geolocation.getCurrentPosition();
-  //     console.log('Current position:', coordinates)
-  //     this.coords = coordinates.coords
-  //     // this.lat = this.coords.coords.latitude;
-  //     // this.lng = this.coords.coords.longitude;
-  //     console.log('latitude position From current', this.coords.latitude)
-  //     console.log('longitude position from current:', this.coords.longitude)
-
-  //     this.markerId = await this.map.addMarker({
-  //       title: 'My curent Position',
-  //       snippet: "Come and find me !",
-  //       coordinate: {
-  //         lat: this.coords.latitude,
-  //         lng: this.coords.longitude,
-
-  //       },
-  //     });
-
-  //     await this.map.setCamera({
-  //       coordinate: {
-  //         lat: this.coords.latitude,
-  //         lng: this.coords.longitude
-  //       },
-  //       animate: true
-  //     });
-
-
-  //   }).catch((error) => {
-  //     console.log('Error getting location From Current', error);
-  //     // console.log('Error getting location from Event location', error);
-  //   });
-  // }
-  
 
   //en temps reel jusqu a appelle de la fonction stop
   track() {
@@ -645,25 +597,6 @@ this.events = newArrEvent.slice()
   }
 
 
-
-  draw() {
-    //     const points: LatLng[] = [
-    //       {
-    //         latitude: 51.88,
-    //         longitude: 7.60,
-    //       },
-    //       {
-    //         latitude: 55,
-    //         longitude: 10,
-    //       }
-    //     ];
-
-    //     CapacitorGoogleMaps.addPolyline({
-    //       points,
-    //       color: '#ff00ff',
-    //       width: 2
-    //     });
-  }
 
   public customFormatter(value: number) {
     return `${value}%`

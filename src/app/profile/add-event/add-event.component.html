@@ -16,50 +16,51 @@
 </ion-header>
 
 <ion-content>
-  <div class="container">
-    <div class="outer">
-      <ion-grid>
-        <ion-row>
-            <ion-img *ngIf="pic.photoLoaded" [src]="pic.photos[0]"></ion-img>
-        </ion-row>
-      </ion-grid>
-      <ion-fab (click)="showActionSheet() " class="ion-text-center">
-        <ion-fab-button>
-          <ion-icon name="camera" class="icon"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-    </div>
-  </div>
+  <ion-card class="cadre">
+    <div class="container">
+      <div class="outer">
+        <ion-avatar>
+          <ion-img *ngIf="pic.photoLoaded" [src]="pic.photos[0]"></ion-img>
+        </ion-avatar>
 
+        <ion-fab (click)="showActionSheet() " class="ion-text-center">
+          <ion-fab-button>
+            <ion-icon name="camera" class="icon"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </div>
+    </div>
+  </ion-card>
+  <ion-button (click)="filterCategorie()">Select categories</ion-button>
+  <ion-card class="details">
     <div>
-      <div>
         <ion-item>
           <ion-label position="floating">Event Name:</ion-label>
           <ion-input [(ngModel)]="event.name" type="text" placeholder="Projet Shuffle"></ion-input>
-          <div class="show-error">
-            <div>
-              *Event name is required !
-            </div>
-            <div>
-              *Event name must be compose at least 3 characters !
-            </div>
-            <div>
-              *Event name must be compose at maximum 25 characters !
-            </div>
+          <!-- <div class="show-error">
+          <div >
+            *Event name is required !
           </div>
+           <div>
+            *Event name must be compose at least 3 characters !
+          </div>
+          <div>
+            *Event name must be compose at maximum 25 characters !
+          </div> 
+        </div> -->
         </ion-item>
 
-        
+
         <ion-item style="display: flex;flex-direction: row;">
-         <ion-label position="floating">Event Location:</ion-label>
-           <div >
+          <ion-label position="floating">Event Location:</ion-label>
+          <div>
             <!-- <ion-input [(ngModel)]="event.location" type="text ">{{result[0]}}</ion-input> -->
             <ion-input [(ngModel)]="event.location" type="text ">{{resultAdress}}{{resultAdressNum}}</ion-input>
-           
+
           </div>
-          <ion-icon  name="locate-outline"  (click)="geocoderNative()" slot="end"></ion-icon>
-          </ion-item>
-        
+          <ion-icon name="locate-outline" (click)="geocoderNative()" slot="end"></ion-icon>
+        </ion-item>
+
 
 
         <ion-item>
@@ -69,80 +70,78 @@
 
         <ion-item>
           <ion-label position="floating">Start Date</ion-label>
-          <ion-input [(ngModel)]="event.date_start" type="date"  placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">
+          <ion-input [(ngModel)]="event.date_start" type="date" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">
           </ion-input>
-          <div class="show-error">
-            <div>
-              *Event start date is required !
-            </div>
+          <!-- <div class="show-error">
+          <div>
+            *Event start date is required !
           </div>
+        </div> -->
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Start Time</ion-label>
           <ion-input [(ngModel)]="event.time_start" type="time" placeholder="04:20 AM" displayFormat="HH:mm"
             pickerFormat="HH:mm"></ion-input>
-          <div class="show-error">
-            <div>
-              *Event start time is required !
-            </div>
+          <!-- <div class="show-error">
+          <div>
+            *Event start time is required !
           </div>
+        </div> -->
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">End Date</ion-label>
           <ion-input [(ngModel)]="event.date_end" type="date" placeholder="04/21/2000 " pickerFormat="YYYY-MM-DD">
           </ion-input>
-          <div class="show-error">
-            <div>
-              *Event end date is required !
-            </div>
+          <!-- <div class="show-error">
+          <div>
+            *Event end date is required !
           </div>
+        </div> -->
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">End at</ion-label>
           <ion-input [(ngModel)]="event.time_end" type="time" placeholder="04:20 AM" displayFormat="HH:mm"
             pickerFormat="HH:mm"></ion-input>
-          <div class="show-error">
-            <div>
-              *Event end time is required !
-            </div>
+          <!-- <div class="show-error">
+          <div>
+            *Event end time is required !
           </div>
+        </div> -->
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Expected number of participants</ion-label>
           <ion-input [(ngModel)]="event.max_participant" type="number" placeholder="Expected participant"></ion-input>
-          <div class="show-error">
-            <div>
-              *Event expected number of participants is required !
-            </div>
+          <!-- <div class="show-error">
+          <div>
+            *Event expected number of participants is required !
           </div>
+        </div> -->
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Age minimum</ion-label>
           <ion-input [(ngModel)]="event.age_min" type="number" placeholder="18"></ion-input>
-          <div class="show-error">
-            <div>
-              *Age minimum to join the event is required !
-            </div>
-            <div>
-              *Valid pattern is riquired!
-            </div>
+          <!-- <div class="show-error">
+          <div>
+            *Age minimum to join the event is required !
           </div>
+          <div>
+            *Valid pattern is riquired!
+          </div>
+        </div> -->
         </ion-item>
-      </div>
-     
-      <ion-button expand="block" (click)="filterCategorie()" >Select categories</ion-button>
+      
 
       <ion-item>
         <ion-label>Private </ion-label>
-        <div class="show-error">
-          <!-- <div         *Privacy of your event is required 
-          </div> -->
-        </div>
+        <!-- <div class="show-error">
+       <div >        *Privacy of your event is required 
+          </div>
+      </div> -->
         <ion-checkbox checked="false" [(ngModel)]="public">Private </ion-checkbox>
       </ion-item>
 
@@ -161,29 +160,29 @@
         <div>
           <ion-label>Price:</ion-label>
           <ion-input [(ngModel)]="event.price" placeholder="0 eth"></ion-input>
-          <div class="show-error">
-            <div>
-              *Your event ticket price is required !
-            </div>
-            <!-- <div *ngIf="myForm.get('event.price').hasError('pattern') && submitted ">
-              *Your wallet address required valid patterns !
-            </div> -->
+          <!-- <div class="show-error">
+          <div>
+            *Your event ticket price is required !
           </div>
+           <div *ngIf="myForm.get('event.price').hasError('pattern') && submitted ">
+              *Your wallet address required valid patterns !
+            </div>
+        </div> -->
           <ion-label>Wallet:</ion-label>
           <ion-input [(ngModel)]="event.wallet" placeholder="00x"></ion-input>
-          <div class="show-error">
-            <div >
-              *Your wallet address is required !
-            </div>
-            <!-- <div 
-              *Your wallet address required valid patterns !
-            </div> -->
+          <!-- <div class="show-error">
+          <div>
+            *Your wallet address is required !
           </div>
+           <div >
+              *Your wallet address required valid patterns !
+            </div>
+        </div> -->
         </div>
       </ion-item>
       <ion-button color="primary" expand="block" (click)="validForm()">Confirm</ion-button>
     </div>
 
-
+  </ion-card>
 
 </ion-content>
