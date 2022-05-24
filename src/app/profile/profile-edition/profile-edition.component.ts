@@ -80,9 +80,10 @@ export class ProfileEditionComponent implements OnInit {
   }
  
   async editProfil(){
-    await this.api.updateUser({update : this.user[0], where :{id: this.user[0].id}}).subscribe(
+    await this.api.updateUser({update : this.user, where :{id: this.user.id}}).subscribe(
       (res) => {
         alert("Profile updated")
+        window.location.reload();
       },
       (err) => {
         alert("error update profile")

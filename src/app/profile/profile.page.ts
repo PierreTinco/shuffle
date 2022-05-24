@@ -178,6 +178,7 @@ export class ProfilePage implements OnInit {
         // Sign-out successful.
         this.connected = false;
         alert('deconnexion');
+        window.location.reload();
       })
       .catch((error) => {
         // An error happened.

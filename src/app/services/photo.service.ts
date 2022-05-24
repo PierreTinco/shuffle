@@ -55,6 +55,7 @@ export class PhotoService {
     const blob = await response.blob();
     uploadBytes(this.profileImageRef, blob).then((snapshot) => {
       console.log('Uploaded a blob or file!',snapshot);
+      window.location.reload();
     });
 
      // Cache all photo data for future retrieval
