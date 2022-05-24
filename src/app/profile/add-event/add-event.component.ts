@@ -103,42 +103,7 @@ export class addEventPage  {
     checked: false,
   }]
 
-  private address: AlertInput[] = [{
-    name: 'number',
-    type: 'text',
-    value: '',
-    label: 'Number',
-    placeholder: 'Number',
-  },
-  {
-    name: 'street',
-    type: 'text',
-    value: '',
-    label: 'Street',
-    placeholder: 'Street',
-  },
-  {
-    type: 'text',
-    name: 'postalCode',
-    value: '',
-    label: 'Postal Code',
-    placeholder: 'Postal Code',
-    
-  },
-  {
-    type: 'text',
-    name: 'city',
-    value: '',
-    label: 'City',
-    placeholder: 'City'
-  },
-  {
-    type: 'text',
-    name: 'country',
-    value: '',
-    label: 'Country',
-    placeholder: 'Country'
-  }]
+  
   user: any
   submitted: boolean;
   isAddingMode = false;
