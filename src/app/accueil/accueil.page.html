@@ -14,7 +14,7 @@
 
 
 
-<ion-content class="background">
+<ion-content class="background" fullscreen="true">
 
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
   <app-explore-container name="accueil"></app-explore-container>
@@ -22,7 +22,7 @@
     <ion-button (click)="selectFilterCategorie()">Filter<ion-icon name="filter-outline"></ion-icon></ion-button>
     <div *ngIf="filter">
       <ion-item>
-       <ion-range  [pinFormatter]="customFormateur" [pin]="true" min="2" max="150" color="secondary">
+       <ion-range  [pin]="true" min="2" max="150" color="secondary">
           <ion-label slot="end">150</ion-label>
         </ion-range>
 
@@ -39,14 +39,16 @@
   <ion-list class="eventList" *ngIf="!clicked && !viewMap" class="bg-transparent">
     <ion-item-sliding *ngFor="let item of events | filter : searchText">
       <ion-card (click)="viewMore(item.id)" class="events" style="display: flex;flex-direction: row;">
-        <div class="event-img"></div>
+        <ion-avatar>
+          <ion-img *ngIf="photoLoaded" [src]="item.url" ></ion-img>
+        </ion-avatar>
         <ion-card-content class="card-text">
           <ion-card-title class="info">{{item.name}}</ion-card-title>
           <ion-card-subtitle>
             <ion-label >{{item.date_start}}</ion-label>
             <ion-label>{{item.location}}</ion-label>
             <ion-label  *ngIf="item.free == 0"> {{item.price}} eth</ion-label>
-            <ion-label *ngIf="item.free == 1 ">gratuit</ion-label>
+            <ion-label *ngIf="item.free == 1">gratuit</ion-label>
           </ion-card-subtitle>
         </ion-card-content>
       </ion-card>
@@ -82,10 +84,10 @@
   
         </div>
       </div>
-     
-     
-      <ion-button *ngIf="free" color="primary" (click)="participateFree(details[0])">Purchase for free</ion-button>
-      <ion-button  *ngIf="!free" (click)="sendTr(details[0].wallet)">Purchase</ion-button>
+
+      <ion-button *ngIf="free" color="secondary" (click)="participateFree(details[0])">Purchase for free</ion-button>
+      <ion-button *ngIf="!free" color="secondary"(click)="sendTr(details[0].wallet, details[0].price)">Purchase</ion-button>
+   
     </div>
   </ion-content>
   <ion-content class="map">

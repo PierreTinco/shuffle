@@ -7,7 +7,7 @@ import { ActionSheetController, AlertController, AlertInput } from '@ionic/angul
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@awesome-cordova-plugins/native-geocoder/ngx';
 import { Geolocation } from '@capacitor/geolocation';
 import { getDownloadURL } from 'firebase/storage';
-import { HttpHandler } from '@angular/common/http';
+import { DataStorageService } from 'src/app/services/datastorage.service';
 
 
 
@@ -114,28 +114,23 @@ export class addEventPage  {
   event: any = {
     name: '',
     description: '',
-    location: '',
-    street: '',
-    number: '',
-    postal_code: '',
-    city: '',
-    country: '',
     date_start: '',
     time_start: '',
     date_end: '',
     time_end: '',
-    price: null,
+    price: '',
     max_participant: null,
     age_min: '',
     note: '',
     wallet: '',
-    categories: [],
+    lat: '',
+    lng: '',
+    location: '',
   };
   public = false;
   free = true;
   photo: any;
   position: any;
-  idUser: any
   coords: any ;
 
   photoUrl: string;
@@ -154,11 +149,13 @@ export class addEventPage  {
   resultAdressNum: string;
 
 
-  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute,private  nativeGeocoder:NativeGeocoder, public alertController: AlertController) { }
+  constructor(private api: ApiService, public pic: PhotoService, public actionSheetController: ActionSheetController, private route: ActivatedRoute,private  nativeGeocoder:NativeGeocoder, public alertController: AlertController, private data: DataStorageService) { }
 
 
   async ngOnInit() {
-    this.idUser = this.route.snapshot.paramMap.get('id')
+    this.user = this.data.get_user()
+    console.log("id user", this.user);
+    
   }
 
 
@@ -183,15 +180,31 @@ export class addEventPage  {
       ? (this.event['public'] = 1)
       : (this.event['public'] = 0);
     this.event.price == null ? delete this.event.price : null;
-    this.event.categories = this.categoriesSelected;
+    this.event.firebaseId = this.pic.getfirebaseid()
     await this.api.addEvents(this.event).subscribe(
       (res: any) => {
         alert("Event ajouté à l'application");
-        this.api.addUserEvent({ id_user: this.idUser, id_event: res.insertId, status: 'creator' }).subscribe(
+
+        this.api.addUserEvent({ id_user: this.user.id, id_event: res.insertId, statut: 'creator' }).subscribe(
           (res) => {
+            console.log("event price ",this.event.price);
             alert('ok userEvent')
+            
           }
         )
+        console.log(this.categoriesSelected.length)
+        for(let i = 0; i < this.categoriesSelected.length ; i++)
+        {
+          this.api.addCategory({ name: this.categoriesSelected[i], id_event: res.insertId}).subscribe(
+            (res) => {
+              console.log("categorie ok");
+              
+            }
+          )
+        }
+        
+        
+        window.location.reload();
       },
       (err) => {
         alert('Il y a eu une erreur');
@@ -248,6 +261,8 @@ export class addEventPage  {
       console.log('TranslateAdresse in lat=' + result[0].latitude + 'long=' + result[0].longitude);
       this.resultLat=result[0].latitude;
       this.resultLng=result[0].longitude;
+      this.event.lat = this.resultLat
+      this.event.lng = this.resultLng
     })
     .catch((error: any) => console.log('Geocode',error));
    
