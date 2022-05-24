@@ -444,9 +444,8 @@ this.events = newArrEvent.slice()
     
   }
 
-  async addMarker(lat: any, lng: any, title: string, snippet: string) {
+  async addMarker(lat: any, lng: any, title: string, snippet: string, image: any) {
     //add a marker to map
-     const image =this.photoUrl
     // const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
     this.markerId = await this.map.addMarker({
       // title: this.details[0].name,
@@ -551,10 +550,17 @@ this.events = newArrEvent.slice()
       // }
       
       // this.addMarker(this.center.lat, this.center.lng,'Toulon');
-      this.addMarker(43.1361, 6.0071,"la Garde","Come enjoy");
-      this.addMarker(43.147, 6.0731,"la Crau ","Come enjoy");
-      this.addMarker(43.2965,  5.3698,"Marseille","Come enjoy");
-      this.addMarker(48.8566, 2.3522, "Paris","Come enjoy");
+      console.log(this.events, "events map");
+      
+      this.events.forEach(event => {
+        console.log(event,"event map");
+        
+         this.addMarker(event.lat, event.lgt, event.name, event.description, event.url)
+      })
+       this.addMarker(43.2965,  5.3698,"la Garde","Come enjoy", 'test');
+      // this.addMarker(43.147, 6.0731,"la Crau ","Come enjoy");
+      // this.addMarker(43.2965,  5.3698,"Marseille","Come enjoy");
+      // this.addMarker(48.8566, 2.3522, "Paris","Come enjoy");
       await this.map.enableClustering();
 
     
@@ -641,7 +647,7 @@ this.events = newArrEvent.slice()
       },
       animate: true
     });
-    this.addMarker(this.lat, this.lng,"My current Position","Come on find me");
+    // this.addMarker(this.lat, this.lng,"My current Position","Come on find me");
   }
 
 
