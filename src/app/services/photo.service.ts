@@ -23,12 +23,15 @@ export class PhotoService {
   public storage = getStorage(this.firebaseApp, "gs://shuffle-de86f.appspot.com");
   createdAt: any;
   photoLoaded: boolean;
+  firebaseId: any
 
   constructor(platform: Platform, private data: DataStorageService) {
 
-    
-  this.platform = platform; }
 
+  this.platform = platform; }
+  getfirebaseid(){
+    return this.firebaseId
+  }
   public async chooseProfilePicture() {
     const image = await Camera.getPhoto({
       quality: 100,
@@ -74,13 +77,15 @@ export class PhotoService {
     // Save the picture and add it to photo collection
     const savedImageFile = await this.savePicture(image);
     console.log("image saved:",savedImageFile);
-    this.photos.unshift(savedImageFile);
+    //this.photos.unshift(savedImageFile);
     this.user = this.data.get_user()
     this.createdAt = new Date().getTime()
     console.log("timestamp",this.createdAt);
     console.log(this.user.id);
     this.photoLoaded = true
-    this.eventImageRef = ref(this.storage, `photos/events/${this.user.id}${this.createdAt}`)
+    let id = Math.random().toString(36).slice(2, 7);
+    this.firebaseId = id
+    this.eventImageRef = ref(this.storage, `photos/events/${id}`)
     console.log("ref Image:", this.eventImageRef);
     const response = await fetch(savedImageFile.webviewPath);
     const blob = await response.blob();

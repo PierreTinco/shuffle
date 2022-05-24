@@ -155,7 +155,7 @@ export class addEventPage  {
     wallet: '',
     lat: '',
     lng: '',
-    timestamp: '',
+    location: '',
   };
   public = false;
   free = true;
@@ -210,10 +210,7 @@ export class addEventPage  {
       ? (this.event['public'] = 1)
       : (this.event['public'] = 0);
     this.event.price == null ? delete this.event.price : null;
-    this.event.timestamp = this.pic.createdAt
-    
-    console.log(this.event.timestamp, "event timestamp");
-    
+    this.event.firebaseId = this.pic.getfirebaseid()
     await this.api.addEvents(this.event).subscribe(
       (res: any) => {
         alert("Event ajouté à l'application");

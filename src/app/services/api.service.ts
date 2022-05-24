@@ -12,7 +12,7 @@ export class ApiService {
   constructor(private http : HttpClient) { }
 
   getAllEvents(data : any){
-    return this.http.post(`${environment.apiUrl}/event`,data)
+    return this.http.post(`${environment.apiUrl}/preview/getEventAndCategory`,data)
   }
 
   addEvents(data :any){

@@ -23,6 +23,7 @@ declare let window: any;
   styleUrls: ['accueil.page.scss'],
 })
 export class accueilPage implements OnInit {
+  photosUrl = [];
   infoWindos: any = [];
   public lat: any;
   public lng: any;
@@ -74,7 +75,10 @@ export class accueilPage implements OnInit {
   markerEventId: string[];
   categoriesSelected: any;
   eventsCategories: Observable<Object>;
+  copyEvent : any = []
+  photoLoaded: boolean = false;
   // markerEventId: string;
+
 
   constructor(private api: ApiService, public alertController: AlertController, public ngZone: NgZone, private photos: PhotoService, private modalCtrl: ModalController,private data: DataStorageService) { }
 
@@ -85,6 +89,7 @@ export class accueilPage implements OnInit {
     const chainObservable: any = null
     console.log('on init accueil');
     this.events = await this.api.getAllEvents({}).toPromise();
+    this.copyEvent = this.events.slice()
     this.currentUser = await this.api.getUser({ where: { token: this.user.uid } }).toPromise()
     console.log(this.currentUser);
     if (window.ethereum) {
@@ -98,7 +103,21 @@ export class accueilPage implements OnInit {
         console.log(chainId);
       });
     }
-
+    // for(let i = 0 ; i < this.events.length ; i++)
+    // {
+    //   console.log("test for");
+    //   await this.getPhotoUrl(this.events[i]).then((url)=>{
+    //     // console.log("url",url)
+    //     // this.photosUrl.push(url)
+    //     console.log("this.photoUrl",this.photoUrl)
+    //     this.events[i].url = this.photoUrl
+    //     console.log("this.events",this.events)
+    //     // console.log("this.photoUrl",this.photoUrl)
+    //   })
+      
+    // }
+    console.log("photosUrl", this.photosUrl);
+   await this.getPhotoUrl()
 
   }
   ngAfterViewInit() {
@@ -192,7 +211,6 @@ export class accueilPage implements OnInit {
     const weiPrice = this.web3.utils.toWei(price)
     const hexWeiPrice = this.web3.utils.toHex(weiPrice);
     console.log("hexWeiPrice",hexWeiPrice);
-    
     const userWallet = this.currentUser[0].wallet
     console.log("userWallet",userWallet);
     
@@ -228,17 +246,16 @@ export class accueilPage implements OnInit {
 
   async filterByCat(categories: any)
   {
-    this.eventsCategories = await this.api
-    .getCategory({
-      where: { name: 'art' },
-      join: {
-        type: 'INNER JOIN',
-        tableJoin: 'event',
-        keyFrom: 'id_event',
-        keyJoin: 'id',
-      },
-    })
-    console.log("category event");
+    let newArrEvent = []
+    this.events = this.copyEvent.slice()
+    this.events.forEach((event:any) => {
+        categories.forEach(cat => {
+          event.categories.find((el:any)=>el.name==cat) != undefined ? newArrEvent.push(event) : null
+        });
+});
+
+this.events = newArrEvent.slice()
+// this.events.push(...newArrEvent)
     
   }
 
@@ -362,7 +379,9 @@ export class accueilPage implements OnInit {
         }, {
           text: 'Ok',
           handler: (data) => {
-            this.filterByCat(data)
+            console.log("categories select",data);
+            if(!data)
+              this.filterByCat(data)
             
           }
         }
@@ -397,17 +416,31 @@ export class accueilPage implements OnInit {
   }
 
   public async getPhotoUrl() {
-    getDownloadURL(ref(this.photos.storage, `photos/events/$`))
-      .then((url) => {
-        // `url` is the download URL for the user photo
-        this.photoUrl = url
-        console.log("url image", this.photoUrl);
-      })
-      .catch((error) => {
-        // Handle any errors
-        console.log('erreur image');
+    console.log("test url fct");
+    console.log("event",event);
+    console.log(this.events.length),"this.events.length";
+    for(let i = 0 ; i < this.events.length ; i++)
+    {
+      if(this.events[i].firebaseId != null)
+      {
+        getDownloadURL(ref(this.photos.storage, `photos/events/${this.events[i].firebaseId}`))
+        .then((url) => {
+          // `url` is the download URL for the user photo
+          // this.photoUrl = url
+          console.log("url image",  url);
+          this.events[i].url = url
+          this.photoLoaded = true
+          
+        })
+        .catch((error) => {
+          // Handle any errors
+          console.log('erreur image');
 
-      });
+        });
+    }
+  }
+    console.log("photos url ", this.photosUrl);
+    
   }
 
   async addMarker(lat: any, lng: any) {
@@ -422,14 +455,11 @@ export class accueilPage implements OnInit {
       coordinate: {
         lat: lat,
         lng: lng,
-
       },
        iconUrl:image
       //  iconUrl:this.photoUrl,
-
       // draggable:true
     });
-
     // Move the map programmatically to my current position
     await this.map.setCamera({
       coordinate: {
@@ -438,9 +468,6 @@ export class accueilPage implements OnInit {
       },
       animate: true
     });
-
-
-
   }
 
   async removeMarker(id?) {
@@ -627,6 +654,10 @@ export class accueilPage implements OnInit {
 
   public customFormatter(value: number) {
     return `${value}%`
+  }
+
+  returnUrl(){
+    return '..\..\event.jpg'
   }
 
 }

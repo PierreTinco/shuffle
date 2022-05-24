@@ -39,6 +39,13 @@ ion-content.map {
     --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) 0 0/100% 100% no-repeat;
 }
 
+ion-avatar {
+    --border-radius: 15px !important;
+    width:150px !important;  
+    height : 150px !important;  
+    margin-left: 11%;
+  
+  }
 
 
 .events {
@@ -46,6 +53,7 @@ ion-content.map {
     border-radius: 31.5025px;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 ::ng-deep .event-img:last-of-type {
