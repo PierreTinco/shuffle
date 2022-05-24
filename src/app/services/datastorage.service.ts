@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DataStorageService {
+  event: Event;
+  modal: any;
 
   constructor() { }
   user: any
@@ -17,6 +19,22 @@ export class DataStorageService {
   set_user(user: any) {
     this.user = user
   }
+
+  get_event() {
+   return  this.event
+  }
+
+  set_event(event: any) {
+    this.event = event
+  }
+
+  get_modal() {
+    return  this.modal
+   }
+ 
+   set_modal(modal: any) {
+     this.modal = modal
+   }
 
   getid_user_creator(){
     return this.id_user_creator
