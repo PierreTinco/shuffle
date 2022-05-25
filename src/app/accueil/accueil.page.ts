@@ -62,12 +62,12 @@ export class accueilPage implements OnInit {
   markerEventId: string[];
   categoriesSelected: any;
   eventsCategories: Observable<Object>;
-  copyEvent : any = []
+  copyEvent: any = []
   photoLoaded: boolean = false;
   // markerEventId: string;
 
 
-  constructor(private api: ApiService, public alertController: AlertController, public ngZone: NgZone, private photos: PhotoService, private modalCtrl: ModalController,private data: DataStorageService) { }
+  constructor(private api: ApiService, public alertController: AlertController, public ngZone: NgZone, private photos: PhotoService, private modalCtrl: ModalController, private data: DataStorageService) { }
 
 
   async ngOnInit() {
@@ -76,8 +76,8 @@ export class accueilPage implements OnInit {
     const chainObservable: any = null
     console.log('on init accueil');
     this.events = await this.api.getAllEvents({}).toPromise();
-    console.log(this.events,"test events query");
-    
+    console.log(this.events, "test events query");
+
     this.copyEvent = this.events.slice()
     this.currentUser = await this.api.getUser({ where: { token: this.user.uid } }).toPromise()
     console.log(this.currentUser);
@@ -93,8 +93,8 @@ export class accueilPage implements OnInit {
       });
     }
     console.log("photosUrl", this.photosUrl);
-   await this.getPhotoUrl()
-   this.createMap()
+    await this.getPhotoUrl()
+    this.createMap()
   }
   ngAfterViewInit() {
     this.track()
@@ -106,7 +106,7 @@ export class accueilPage implements OnInit {
     for (let i = 0; i < this.ticket_qty; i++) {
       await this.api.addUserEvent({ id_user: this.currentUser[0].id, id_event: currentEvent.id, statut: "participant" }).subscribe(
         (res) => {
-          
+
         }
       )
 
@@ -178,16 +178,16 @@ export class accueilPage implements OnInit {
   }
 
   sendTr(hostAccount: any, price: any) {
-    console.log("hostaccount",hostAccount);
+    console.log("hostaccount", hostAccount);
     console.log("current account", this.currentUser);
     console.log("price", price);
     console.log("price in wei", this.web3.utils.toWei(price));
     const weiPrice = this.web3.utils.toWei(price)
     const hexWeiPrice = this.web3.utils.toHex(weiPrice);
-    console.log("hexWeiPrice",hexWeiPrice);
+    console.log("hexWeiPrice", hexWeiPrice);
     const userWallet = this.currentUser[0].wallet
-    console.log("userWallet",userWallet);
-    
+    console.log("userWallet", userWallet);
+
     if (window.ethereum) {
       window.ethereum
         .request({
@@ -218,19 +218,18 @@ export class accueilPage implements OnInit {
     else this.free = false;
   }
 
-  async filterByCat(categories: any)
-  {
+  async filterByCat(categories: any) {
     let newArrEvent = []
     this.events = this.copyEvent.slice()
-    this.events.forEach((event:any) => {
-        categories.forEach(cat => {
-          event.categories.find((el:any)=>el.name==cat) != undefined ? newArrEvent.push(event) : null
-        });
-});
+    this.events.forEach((event: any) => {
+      categories.forEach(cat => {
+        event.categories.find((el: any) => el.name == cat) != undefined ? newArrEvent.push(event) : null
+      });
+    });
 
-this.events = newArrEvent.slice()
-// this.events.push(...newArrEvent)
-    
+    this.events = newArrEvent.slice()
+    // this.events.push(...newArrEvent)
+
   }
 
   filterEvent(str: any) {
@@ -353,10 +352,10 @@ this.events = newArrEvent.slice()
         }, {
           text: 'Ok',
           handler: (data) => {
-            console.log("categories select",data);
-            if(!!data)
+            console.log("categories select", data);
+            if (!!data)
               this.filterByCat(data)
-            
+
           }
         }
       ]
@@ -391,36 +390,34 @@ this.events = newArrEvent.slice()
 
   public async getPhotoUrl() {
     console.log("test url fct");
-    console.log("event",event);
-    console.log(this.events.length),"this.events.length";
-    for(let i = 0 ; i < this.events.length ; i++)
-    {
-      if(this.events[i].firebaseId != null)
-      {
+    console.log("event", event);
+    console.log(this.events.length), "this.events.length";
+    for (let i = 0; i < this.events.length; i++) {
+      if (this.events[i].firebaseId != null) {
         getDownloadURL(ref(this.photos.storage, `photos/events/${this.events[i].firebaseId}`))
-        .then((url) => {
-          // `url` is the download URL for the user photo
-          // this.photoUrl = url
-          console.log("url image",  url);
-          this.events[i].url = url
-          this.photoLoaded = true
-          
-        })
-        .catch((error) => {
-          // Handle any errors
-          console.log('erreur image');
+          .then((url) => {
+            // `url` is the download URL for the user photo
+            // this.photoUrl = url
+            console.log("url image", url);
+            this.events[i].url = url
+            this.photoLoaded = true
 
-        });
+          })
+          .catch((error) => {
+            // Handle any errors
+            console.log('erreur image');
+
+          });
+      }
     }
-  }
     console.log("photos url ", this.photosUrl);
-    
+
   }
 
   async addMarker(lat: any, lng: any, title: string) {
     //add a marker to map
     console.log("test marker");
-    
+
     this.markerId = await this.map.addMarker({
       // title: this.details[0].name,
       title: title,
@@ -431,9 +428,9 @@ this.events = newArrEvent.slice()
     });
     // Move the map programmatically to my current position
   }
- 
 
-  
+
+
 
   async removeMarker(id?) {
     //add a marker to map
@@ -449,16 +446,15 @@ this.events = newArrEvent.slice()
     //  '</div>'
     await this.map.setOnMarkerClickListener((event) => {
       console.log('setOnMarkerClickListener event', event);
-      if(event.title != null)
-      {
+      if (event.title != null) {
         let currentEvent = this.events.filter(el => el.name == event.title)
         console.log("current event map", currentEvent);
         this.data.set_event(currentEvent[0])
         this.presentModal();
       }
-       
-      
-     // }
+
+
+      // }
     });
     await this.map.setOnMapClickListener((event) => {
       console.log('setOnMapClickListener ', event);
@@ -482,12 +478,12 @@ this.events = newArrEvent.slice()
 
   async presentModal() {
     console.log(event, "event present modal");
-    
+
     const modalPage = await this.modalCtrl.create({
       component: ModalPage,
-      componentProps:{
-       breakpoints: [0, 0.3, 0.5, 0.8],
-       initialBreakpoint: 0.5
+      componentProps: {
+        breakpoints: [0, 0.3, 0.5, 0.8],
+        initialBreakpoint: 0.5
       }
       // cssClass: 'custom-modal'
     });
@@ -522,24 +518,24 @@ this.events = newArrEvent.slice()
       });
 
       // if(Capacitor.getPlatform()!= 'web'){
-        // await this.map.enableIndoorMaps(true);
+      // await this.map.enableIndoorMaps(true);
       // }
-      
+
       console.log(this.events, "events map");
       this.events.forEach(event => {
-        console.log(event,"event map");
+        console.log(event, "event map");
         const lat: number = parseFloat(event.lat);
         const lng: number = parseFloat(event.lng);
-        console.log(lat,"event map lat");
-        console.log(lng,"event map lgt");
-        console.log(event.name,"event map name");
-        console.log(event.description,"event map description");
+        console.log(lat, "event map lat");
+        console.log(lng, "event map lgt");
+        console.log(event.name, "event map name");
+        console.log(event.description, "event map description");
         this.addMarker(lat, lng, event.name)
       })
-      await this.map.enableClustering(); 
+      await this.map.enableClustering();
       //  this.showCurrentPosition();
-     
-     
+
+
       this.addListeners();
 
 
@@ -580,7 +576,7 @@ this.events = newArrEvent.slice()
       },
       animate: true
     });
-    // this.addMarker(this.lat, this.lng,"My current Position","Come on find me");
+    this.addMarker(this.lat, this.lng, "My current Position");
   }
 
 
@@ -589,7 +585,7 @@ this.events = newArrEvent.slice()
     return `${value}%`
   }
 
-  returnUrl(){
+  returnUrl() {
     return '..\..\event.jpg'
   }
 

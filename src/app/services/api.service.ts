@@ -8,58 +8,58 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 
 export class ApiService {
- 
-  constructor(private http : HttpClient) { }
 
-  getAllEvents(data : any){
-    return this.http.post(`${environment.apiUrl}/preview/getEventAndCategory`,data)
+  constructor(private http: HttpClient) { }
+
+  getAllEvents(data: any) {
+    return this.http.post(`${environment.apiUrl}/preview/getEventAndCategory`, data)
   }
 
-  addEvents(data :any){
-    return this.http.post(`${environment.apiUrl}/event/insert`,data)
+  addEvents(data: any) {
+    return this.http.post(`${environment.apiUrl}/event/insert`, data)
   }
 
-  deleteEvents(data :any){
-    return this.http.delete(`${environment.apiUrl}/event/delete`,data)
+  deleteEvents(data: any) {
+    return this.http.delete(`${environment.apiUrl}/event/delete`, data)
   }
-  getUserEvent(data :any){
-    return this.http.post(`${environment.apiUrl}/user_event`,data)
+  getUserEvent(data: any) {
+    return this.http.post(`${environment.apiUrl}/user_event`, data)
 
   }
-  addUserEvent(data: any){
-    return this.http.post(`${environment.apiUrl}/user_event/insert`,data)
+  addUserEvent(data: any) {
+    return this.http.post(`${environment.apiUrl}/user_event/insert`, data)
   }
 
   addUser(data: any) {
-    return this.http.post(`${environment.apiUrl}/user/insert`,data)
+    return this.http.post(`${environment.apiUrl}/user/insert`, data)
   }
 
-  updateUser(data: any){
-    return this.http.post(`${environment.apiUrl}/user/update`,data)
-  }
-
-
-  getUser(data : any) {
-    console.log("data",data)
-    return this.http.post(`${environment.apiUrl}/user`,data)
-  }
-
-  getFriends(data : any){
-    return this.http.post(`${environment.apiUrl}/friends`,data)
+  updateUser(data: any) {
+    return this.http.post(`${environment.apiUrl}/user/update`, data)
   }
 
 
-  addCategory(data: any){
+  getUser(data: any) {
+    console.log("data", data)
+    return this.http.post(`${environment.apiUrl}/user`, data)
+  }
+
+  getFriends(data: any) {
+    return this.http.post(`${environment.apiUrl}/friends`, data)
+  }
+
+
+  addCategory(data: any) {
     console.log(data, "category");
-    
-    return this.http.post(`${environment.apiUrl}/category/insert`,data)
+
+    return this.http.post(`${environment.apiUrl}/category/insert`, data)
 
 
   }
 
-  getCategory(data: any){
+  getCategory(data: any) {
     console.log(data, "category");
-    return this.http.post(`${environment.apiUrl}/category`,data)
+    return this.http.post(`${environment.apiUrl}/category`, data)
 
 
   }
@@ -67,8 +67,8 @@ export class ApiService {
   //   return this.http.get<ApiImage[]>('${this.url}/image')
   // }
 
-  
- 
+
+
 
 }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import{ Router } from '@angular/router'
+import { Router } from '@angular/router'
 import { getAuth } from "firebase/auth";
 
 @Component({
@@ -11,16 +11,16 @@ export class LoadingPage implements OnInit {
   logo: any
   auth: any;
   user: any;
-  constructor(private routes:Router) { }
+  constructor(private routes: Router) { }
 
   ngOnInit() {
     this.auth = getAuth()
     this.user = this.auth.currentUser
     console.log(this.user);
-    
+
     this.logo = '..\..\logo.png'
     setTimeout(() => {
-      if(this.user == null)
+      if (this.user == null)
         this.routes.navigateByUrl('welcome');
       else
         this.routes.navigateByUrl('accueil');

@@ -37,6 +37,7 @@ export class ProfilePage implements OnInit {
   segmentModel = 'creator';
   friends: any;
   viewFriends = null;
+  photoLoaded: boolean = false;
   photo = 'https://i.pravatar.cc/150';
   sliderConfig = {
     spaceBetween: 5,
@@ -265,7 +266,31 @@ export class ProfilePage implements OnInit {
   viewMore() {
     this.clicked = !this.clicked;
   }
+  // public async getPhotoUrlEvent() {
+  //   console.log("test url fct");
+  //   console.log("event", event);
+  //   console.log(this.events.length), "this.events.length";
+  //   for (let i = 0; i < this.events.length; i++) {
+  //     if (this.events[i].firebaseId != null) {
+  //       getDownloadURL(ref(this.photos.storage, `photos/events/${this.events[i].firebaseId}`))
+  //         .then((url) => {
+  //           // `url` is the download URL for the user photo
+  //           // this.photoUrl = url
+  //           console.log("url image", url);
+  //           this.events[i].url = url
+  //           this.photoLoaded = true
 
+  //         })
+  //         .catch((error) => {
+  //           // Handle any errors
+  //           console.log('erreur image');
+
+  //         });
+  //     }
+  //   }
+  //   console.log("photos url ", this.photosUrl);
+
+  //}
   public async getPhotoUrl() {
     this.currentUser[0] = this.dataStorageService.get_user()
     getDownloadURL(ref(this.photos.storage, `photos/users/${this.currentUser[0].id}`))

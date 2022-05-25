@@ -1,8 +1,8 @@
-ion-slides{
+ion-slides {
     max-width: max-content;
 }
 
-ion-slide ion-card{
+ion-slide ion-card {
     width: 155px;
     display: flex;
     flex-direction: column;
@@ -10,10 +10,8 @@ ion-slide ion-card{
 }
 
 
-.eventImg{
+.eventImg {
     background: url(..\..\event.jpg) 0 0/100% 100% no-repeat;
     width: 50xp;
     height: 200px;
 }
-
-

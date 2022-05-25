@@ -1,12 +1,12 @@
-.logo{
+.logo {
     margin-top: 250px;
     background: url(..\..\logo.png) no-repeat;
     width: 300px;
     height: 300px;
 }
 
-ion-content{
-    --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) no-repeat center center /cover ;  
+ion-content {
+    --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) no-repeat center center /cover;
 }
 
 div {
@@ -14,11 +14,10 @@ div {
     flex-direction: column !important;
     align-items: center !important;
     height: fit-content;
-    
+
 }
 
-.title{
+.title {
     margin-top: 150px;
     font-size: 38px;
 }
-

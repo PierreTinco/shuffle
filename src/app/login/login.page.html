@@ -12,7 +12,7 @@
       <ion-label position="floating">
         <ion-icon name="mail-outline"></ion-icon> Email
       </ion-label>
-      <ion-input placeholder="Email" formControlName="email" type="text" ></ion-input>
+      <ion-input placeholder="Email" formControlName="email" type="text"></ion-input>
       <div class="show-error">
         <div *ngIf="myForm.get('email').hasError('required') && submitted ">
           *Email is required!
@@ -47,7 +47,7 @@
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="primary" expand="block" >Sign In</ion-button>
+        <ion-button type="submit" color="primary" expand="block">Sign In</ion-button>
         <a [routerLink]="['/forgot-password']" class="small-text">Forgot Password?</a>
       </ion-col>
     </ion-row>

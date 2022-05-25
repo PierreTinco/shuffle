@@ -23,21 +23,6 @@
   <div *ngIf="!clicked && !viewMap">
     <ion-button (click)="selectFilterCategorie()">Filter<ion-icon name="filter-outline"></ion-icon>
     </ion-button>
-    <div *ngIf="filter">
-      <ion-item>
-        <ion-range [pin]="true" min="2" max="150" color="secondary">
-          <ion-label slot="end">150</ion-label>
-        </ion-range>
-
-        <!-- <ion-select [interfaceOptions]="customAlertOptions" interface="alert" placeholder="Select One">
-          <ion-select-option value="brown">Brown</ion-select-option>
-          <ion-select-option value="blonde">Blonde</ion-select-option>
-          <ion-select-option value="black">Black</ion-select-option>
-          <ion-select-option value="red">Red</ion-select-option>
-        </ion-select> -->
-
-      </ion-item>
-    </div>
   </div>
   <ion-list class="eventList" *ngIf="!clicked && !viewMap" class="bg-transparent">
     <ion-item-sliding *ngFor="let item of events | filter : searchText">

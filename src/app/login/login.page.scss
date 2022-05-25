@@ -1,20 +1,21 @@
-ion-content{
-    --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) no-repeat center center /cover ;
+ion-content {
+    --background: url(..\..\253357-iphone-wallpaper-blue-purple-violet-aqua-turquoise-green.jpg) no-repeat center center /cover;
 }
 
-::ng-deep .input .item-interactive .item-input .item .ios .ion-focusable .hydrated .item-label .item-label-floating ion-item:last-of-type{
+::ng-deep .input .item-interactive .item-input .item .ios .ion-focusable .hydrated .item-label .item-label-floating ion-item:last-of-type {
     --background: rgba(255, 255, 255, 0.493) !important;
     background-color: aqua;
 }
 
-form{
-    position: absolute;  
+form {
+    position: absolute;
     top: 45%;
     left: 2px;
     right: 2px;
     color: whitesmoke;
-    
+
 }
+
 ion-item {
     --background: rgba(255, 255, 255, 0.6);
     margin-bottom: 5px;
@@ -23,10 +24,11 @@ ion-item {
     border-radius: 10px;
 }
 
-ion-list{
+ion-list {
     background: transparent;
 }
-.show-error{
+
+.show-error {
     padding-top: 0.2rem;
     color: red;
     font-size: 12px;

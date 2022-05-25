@@ -9,8 +9,8 @@ export class DataStorageService {
 
   constructor() { }
   user: any
-  id_user_creator : any
-  followerClickString : string
+  id_user_creator: any
+  followerClickString: string
 
   get_user() {
     return this.user
@@ -21,7 +21,7 @@ export class DataStorageService {
   }
 
   get_event() {
-   return  this.event
+    return this.event
   }
 
   set_event(event: any) {
@@ -29,27 +29,27 @@ export class DataStorageService {
   }
 
   get_modal() {
-    return  this.modal
-   }
- 
-   set_modal(modal: any) {
-     this.modal = modal
-   }
+    return this.modal
+  }
 
-  getid_user_creator(){
+  set_modal(modal: any) {
+    this.modal = modal
+  }
+
+  getid_user_creator() {
     return this.id_user_creator
   }
 
-  setid_user_creator(nb : any){
+  setid_user_creator(nb: any) {
     this.id_user_creator = nb
   }
 
 
-  getfollowerClickString(){
+  getfollowerClickString() {
     return this.followerClickString
   }
 
-  setfollowerClickString(str : string){
+  setfollowerClickString(str: string) {
     this.followerClickString = str
   }
 }

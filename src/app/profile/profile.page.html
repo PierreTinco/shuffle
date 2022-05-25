@@ -117,7 +117,10 @@
             <ion-card-title>{{event.name}}</ion-card-title>
           </ion-card-header>
 
-          <ion-card-content class="eventImg">
+           <ion-card-content class="eventImg">
+            <!-- <ion-avatar>
+              <ion-img *ngIf="photoLoaded" [src]="event.url"></ion-img>
+            </ion-avatar> -->
           </ion-card-content>
         </ion-card>
       </ion-grid>
@@ -131,7 +134,7 @@
           </ion-card-content>
         </ion-card>
 
-     
+
       </ion-grid>
 
     </ion-row>

@@ -3,19 +3,19 @@
     <ion-buttons slot="start">
       <ion-back-button [routerLink]="['/profile']">Back</ion-back-button>
     </ion-buttons><br>
-    <ion-row >
-      <ion-segment scrollable="true"  mode="md"  [(ngModel)]="segmentModel"  (ionChange)="buttonsChanged($event)" >
+    <ion-row>
+      <ion-segment scrollable="true" mode="md" [(ngModel)]="segmentModel" (ionChange)="buttonsChanged($event)">
         <ion-segment-button value="followers">
           <ion-label>Followers</ion-label>
         </ion-segment-button>
-      
+
         <ion-segment-button value="follow">
           <ion-label>Follow</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-row>
-  
-    
+
+
   </ion-toolbar>
 </ion-header>
 
@@ -23,30 +23,30 @@
   <ion-searchbar *ngIf="!clicked && !viewMap" [(ngModel)]="searchText"></ion-searchbar>
   <ion-row>
     <ion-grid *ngIf="segmentModel === 'follow'">
-      <ion-card >
+      <ion-card>
         <ion-card-header>
           <ion-card-subtitle>Segment Content</ion-card-subtitle>
           <ion-card-title>Follow</ion-card-title>
         </ion-card-header>
-      
+
         <ion-card-content>
           You will see who you following...
         </ion-card-content>
       </ion-card>
     </ion-grid>
     <ion-grid *ngIf="segmentModel === 'followers'">
-      <ion-card >
+      <ion-card>
         <ion-card-header>
           <ion-card-subtitle>Segment Content</ion-card-subtitle>
           <ion-card-title>Followers</ion-card-title>
         </ion-card-header>
-      
+
         <ion-card-content>
           You will see your followers...
         </ion-card-content>
       </ion-card>
-    </ion-grid> 
-    
+    </ion-grid>
+
   </ion-row>
- 
+
 </ion-content>
