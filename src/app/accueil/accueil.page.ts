@@ -444,19 +444,21 @@ this.events = newArrEvent.slice()
     
   }
 
-  async addMarker(lat: any, lng: any, title: string, snippet: string, image: any) {
+  async addMarker(lat: any, lng: any, title: string) {
     //add a marker to map
     // const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+    console.log("test marker");
+    
     this.markerId = await this.map.addMarker({
       // title: this.details[0].name,
       title: title,
-      snippet: snippet,
+     // snippet: snippet,
       // snippet: this.details[0].description,
       coordinate: {
         lat: lat,
         lng: lng,
       },
-       iconUrl:image
+       iconUrl: this.photoUrl
       //  iconUrl:this.photoUrl,
       // draggable:true
     });
@@ -479,11 +481,16 @@ this.events = newArrEvent.slice()
     //   '<div>'+ image +'<div>'+
     //  '</div>'
     await this.map.setOnMarkerClickListener((event) => {
-      console.log('setOnMarkerClickListener ', event);
-      // content:infoWindowContent;
-     // if(this.details){
+      console.log('setOnMarkerClickListener event', event);
+      if(event.title != null)
+      {
+        let currentEvent = this.events.filter(el => el.name == event.title)
+        console.log("current event map", currentEvent);
+        this.data.set_event(currentEvent[0])
+        this.presentModal();
+      }
        
-      this.presentModal();
+      
      // }
     });
     await this.map.setOnMapClickListener((event) => {
@@ -507,6 +514,8 @@ this.events = newArrEvent.slice()
   }
 
   async presentModal() {
+    console.log(event, "event present modal");
+    
     const modalPage = await this.modalCtrl.create({
       component: ModalPage,
       componentProps:{
@@ -554,10 +563,14 @@ this.events = newArrEvent.slice()
       
       this.events.forEach(event => {
         console.log(event,"event map");
-        
-         this.addMarker(event.lat, event.lgt, event.name, event.description, event.url)
+        const lat: number = parseFloat(event.lat)
+        const lng: number = parseFloat(event.lng)
+        console.log(lat,"event map lat");
+        console.log(lng,"event map lgt");
+        console.log(event.name,"event map name");
+        console.log(event.description,"event map description");
+        this.addMarker(lat, lng, event.name)
       })
-       this.addMarker(43.2965,  5.3698,"la Garde","Come enjoy", 'test');
       // this.addMarker(43.147, 6.0731,"la Crau ","Come enjoy");
       // this.addMarker(43.2965,  5.3698,"Marseille","Come enjoy");
       // this.addMarker(48.8566, 2.3522, "Paris","Come enjoy");
