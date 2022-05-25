@@ -162,6 +162,7 @@ export class addEventPage  {
 
 
   validForm() {
+    
     this.event.date_start = this.formatDate(this.event.date_start)
     this.event.date_end = this.formatDate(this.event.date_end)
     this.free == true ? (this.event['free'] = 1) : (this.event['free'] = 0);

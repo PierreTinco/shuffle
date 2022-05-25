@@ -1,12 +1,10 @@
 export class Event{
+ 
     name: '';
     description: '';
     location: '';
-    street: '';
-    number: '';
-    postal_code: '';
-    city: '';
-    country: '';
+    lat:'';
+    lng:'';
     date_start: '';
     time_start: '';
     date_end: '';
@@ -16,4 +14,7 @@ export class Event{
     age_min: '';
     note: '';
     wallet: '';
+    firebaseId:'';
+    participants:null;
+  
 }

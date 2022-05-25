@@ -114,7 +114,7 @@ export class RegistrationPage implements OnInit {
 
     await this.api.addUser(this.myForm.value.user).subscribe(
       (res) => {
-        alert("vos avez bien créé votre compte");
+        alert("Vous avez bien créé votre compte");
       },
       (err) => {
         alert('Il y a eu une erreur');
