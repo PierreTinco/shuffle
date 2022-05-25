@@ -26,8 +26,8 @@ declare let window: any;
 export class accueilPage implements OnInit {
   photosUrl = [];
   infoWindos: any = [];
-  public lat: any;
-  public lng: any;
+  public lat: number;
+  public lng: number;
   photoUrl: any;
   back = false
   currentUser: any
@@ -76,6 +76,8 @@ export class accueilPage implements OnInit {
     const chainObservable: any = null
     console.log('on init accueil');
     this.events = await this.api.getAllEvents({}).toPromise();
+    console.log(this.events,"test events query");
+    
     this.copyEvent = this.events.slice()
     this.currentUser = await this.api.getUser({ where: { token: this.user.uid } }).toPromise()
     console.log(this.currentUser);
@@ -90,26 +92,11 @@ export class accueilPage implements OnInit {
         console.log(chainId);
       });
     }
-    // for(let i = 0 ; i < this.events.length ; i++)
-    // {
-    //   console.log("test for");
-    //   await this.getPhotoUrl(this.events[i]).then((url)=>{
-    //     // console.log("url",url)
-    //     // this.photosUrl.push(url)
-    //     console.log("this.photoUrl",this.photoUrl)
-    //     this.events[i].url = this.photoUrl
-    //     console.log("this.events",this.events)
-    //     // console.log("this.photoUrl",this.photoUrl)
-    //   })
-      
-    // }
     console.log("photosUrl", this.photosUrl);
    await this.getPhotoUrl()
-
+   this.createMap()
   }
   ngAfterViewInit() {
-    console.log('on ngAfterViewInit')
-    this.createMap()
     this.track()
     this.stopTracking()
   }
@@ -432,21 +419,15 @@ this.events = newArrEvent.slice()
 
   async addMarker(lat: any, lng: any, title: string) {
     //add a marker to map
-    // const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
     console.log("test marker");
     
     this.markerId = await this.map.addMarker({
       // title: this.details[0].name,
       title: title,
-     // snippet: snippet,
-      // snippet: this.details[0].description,
       coordinate: {
         lat: lat,
         lng: lng,
       },
-       iconUrl: this.photoUrl
-      //  iconUrl:this.photoUrl,
-      // draggable:true
     });
     // Move the map programmatically to my current position
   }
@@ -544,29 +525,18 @@ this.events = newArrEvent.slice()
         // await this.map.enableIndoorMaps(true);
       // }
       
-      // this.addMarker(this.center.lat, this.center.lng,'Toulon');
       console.log(this.events, "events map");
-      
       this.events.forEach(event => {
         console.log(event,"event map");
-        const lat: number = parseFloat(event.lat)
-        const lng: number = parseFloat(event.lng)
+        const lat: number = parseFloat(event.lat);
+        const lng: number = parseFloat(event.lng);
         console.log(lat,"event map lat");
         console.log(lng,"event map lgt");
         console.log(event.name,"event map name");
         console.log(event.description,"event map description");
         this.addMarker(lat, lng, event.name)
       })
-      // this.addMarker(43.147, 6.0731,"la Crau ","Come enjoy");
-      // this.addMarker(43.2965,  5.3698,"Marseille","Come enjoy");
-      // this.addMarker(48.8566, 2.3522, "Paris","Come enjoy");
-      await this.map.enableClustering();
-
-    
-     
-   
-         //FILTER??????????
-    
+      await this.map.enableClustering(); 
       //  this.showCurrentPosition();
      
      
