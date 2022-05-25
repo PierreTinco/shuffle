@@ -6,7 +6,9 @@
 </ion-header>
 
 <ion-content>
-  <div class="event-details-img"></div>
+  <div >
+    <ion-img *ngIf="photoLoaded" [src]="details.url"></ion-img>
+  </div>
   <div class="card-details">
     <div class="card-header">
       <div>{{details.name}}</div>
@@ -20,8 +22,8 @@
         <div style="justify-content: center;">
           <ion-label>Nombre de places restantes: {{details.max_participant}}</ion-label><br>
           <ion-label>minimum age: {{details.age_min}}</ion-label><br>
-          <ion-label *ngIf="details[0].price > 0"> {{details.price}} eth</ion-label><br>
-          <ion-label *ngIf="details[0].price == 0">gratuit</ion-label><br>
+          <ion-label *ngIf="details.price > 0"> {{details.price}} eth</ion-label><br>
+          <ion-label *ngIf="details.price == 0">gratuit</ion-label><br>
         </div>
       </div>
       <div >
@@ -37,7 +39,7 @@
     </div>
    
    
-    <ion-button *ngIf="free" color="primary" (click)="participateFree(details[0])">Purchase for free</ion-button>
-    <ion-button  *ngIf="!free" (click)="sendTr(details[0].wallet)">Purchase</ion-button>
+    <ion-button *ngIf="free" color="primary" (click)="participateFree(details)">Purchase for free</ion-button>
+    <ion-button  *ngIf="!free" (click)="sendTr(details.wallet)">Purchase</ion-button>
   </div>
 </ion-content>
