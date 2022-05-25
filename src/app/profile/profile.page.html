@@ -1,20 +1,22 @@
 <ion-header>
   <ion-toolbar *ngIf="viewAll">
-    <ion-title *ngIf="connected" ><ion-icon name="lock-closed-outline"></ion-icon>
-      <ion-label> {{currentUser[0].name}}  </ion-label>
+    <ion-title *ngIf="connected">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      <ion-label> {{currentUser[0].name}} </ion-label>
       <ion-label>{{currentUser[0].surname}}</ion-label>
     </ion-title>
-    <ion-title *ngIf="!connected" ><ion-icon name="lock-open-outline"></ion-icon>Guest
+    <ion-title *ngIf="!connected">
+      <ion-icon name="lock-open-outline"></ion-icon>Guest
     </ion-title>
     <ion-buttons slot="start">
       <ion-back-button [routerLink]="['/accueil']">Back</ion-back-button>
     </ion-buttons>
-  
-    <ion-buttons slot="end" >
+
+    <ion-buttons slot="end">
       <ion-button fill="clear" color="dark">
         <ion-icon name="notifications-outline"></ion-icon>
-      </ion-button> 
-      
+      </ion-button>
+
       <ion-button fill="clear" color="dark" (click)="openPopover($event)">
         <ion-icon name="add-circle-outline"></ion-icon>
       </ion-button>
@@ -41,16 +43,16 @@
           </p>
         </ion-label>
       </ion-col>
-      <ion-col size="3" class="ion-text"(click)="goToFollowPage('followers')">
-        <ion-label >
+      <ion-col size="3" class="ion-text" (click)="goToFollowPage('followers')">
+        <ion-label>
           <strong>1000</strong>
           <p>
             <ion-text color="medium">Followers</ion-text>
           </p>
-        </ion-label >
+        </ion-label>
       </ion-col>
       <ion-col size="3" class="ion-text" (click)="goToFollowPage('follow')">
-        <ion-label >
+        <ion-label>
           <strong>120</strong>
           <p>
             <ion-text color="medium">Follow</ion-text>
@@ -65,8 +67,8 @@
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button  *ngIf="!connected" (click)="viewFriendF()" >
-          <ion-icon  name="person-add-outline"></ion-icon>
+        <ion-button *ngIf="!connected" (click)="viewFriendF()">
+          <ion-icon name="person-add-outline"></ion-icon>
         </ion-button>
 
       </ion-col>
@@ -78,59 +80,87 @@
 
       <ion-slides *ngIf="viewFriends" [options]="sliderConfig">
         <ion-slide *ngFor="let slide of bddUsers">
-        <ion-card>
-          <ion-icon  name="close-outline"></ion-icon>
-          <ion-card-header>
-            <ion-card-title>{{slide.name}}</ion-card-title>
-          </ion-card-header>
-        
-          <ion-card-content>
-            <ion-avatar name="person-circle-outline">
-              <img src="https://i.pravatar.cc/150">
-            </ion-avatar><br>
-            <ion-button >add</ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
+          <ion-card>
+            <ion-icon name="close-outline"></ion-icon>
+            <ion-card-header>
+              <ion-card-title>{{slide.name}}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-avatar name="person-circle-outline">
+                <img src="https://i.pravatar.cc/150">
+              </ion-avatar><br>
+              <ion-button>add</ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-slide>
       </ion-slides>
     </ion-row>
-    
-    <ion-row >
-      
-      <ion-segment size="big" expand="block" mode="md"  [(ngModel)]="segmentModel"  (ionChange)="buttonsChanged($event)" >
+
+    <ion-row>
+
+      <ion-segment size="big" expand="block" mode="md" [(ngModel)]="segmentModel" (ionChange)="buttonsChanged($event)">
         <ion-segment-button value="creator">
           <ion-icon name="grid-outline"></ion-icon>
         </ion-segment-button>
-  
+
         <ion-segment-button value="participant">
           <ion-icon name="shuffle"></ion-icon>
         </ion-segment-button>
       </ion-segment>
     </ion-row>
 
-  <ion-row *ngFor="let event of returnGoodrray(eventsUser)">
+    <ion-row *ngFor="let event of returnGoodrray(eventsUser)">
       <ion-grid *ngIf="segmentModel === 'creator'">
-        <ion-card >
+        <ion-card *ngIf="!clicked" (click)="viewMore(event.id)">
           <ion-card-header>
             <ion-card-title>{{event.name}}</ion-card-title>
           </ion-card-header>
-        
+
           <ion-card-content class="eventImg">
           </ion-card-content>
         </ion-card>
       </ion-grid>
       <ion-grid *ngIf="segmentModel === 'participant'">
-        <ion-card >
+        <ion-card *ngIf="!clicked" (click)="viewMore()">
           <ion-card-header>
             <ion-card-title>{{event.name}}</ion-card-title>
           </ion-card-header>
-        
+
           <ion-card-content class="eventImg">
           </ion-card-content>
         </ion-card>
-      </ion-grid> 
-      
+
+     
+      </ion-grid>
+
     </ion-row>
   </ion-grid>
-</ion-content>
+  <!-- <ion-content *ngIf="clicked" class="event-details">
+    <div>
+      <ion-img *ngIf="photoLoaded" [src]="event.url"></ion-img>
+    </div>
+    <ion-card class="card-details">
+      <div>
+        <ion-card-header class="card-header">
+          <div>{{event.name}}</div>
+        </ion-card-header>
+        <div>
+          <div class="detail-ticket" style="display: flex; flex-direction: column;">
+            <ion-label style="margin:0 auto">{{event.description}}</ion-label><br>
+            <ion-label style="margin:0 auto"> {{event.date_start}}-{{event.date_end}}</ion-label><br>
+            <ion-label style="margin:0 auto" *ngIf="!free"> {{event.price}} eth</ion-label><br>
+            <ion-label style="margin:0 auto" *ngIf="free">free</ion-label><br>
 
+          </div>
+          <div>
+      
+            <ion-label *ngIf="!free" class="box">Total: {{totalVal}} eth</ion-label><br>
+            <ion-label *ngIf="free" class="box">Total: {{totalVal}} eth</ion-label><br>
+
+          </div>
+        </div>
+      </div>
+    </ion-card>
+  </ion-content> -->
+</ion-content>

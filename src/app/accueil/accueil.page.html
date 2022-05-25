@@ -59,44 +59,44 @@
   </ion-list>
 
   <ion-content *ngIf="clicked" class="event-details">
-    <div >
+    <div>
       <ion-img *ngIf="photoLoaded" [src]="details[0].url"></ion-img>
     </div>
     <ion-card class="card-details">
-    <div >
-      <ion-card-header class="card-header">
-        <div>{{details[0].name}}</div>
-      </ion-card-header>
       <div>
-        <div class="detail-ticket" style="display: flex; flex-direction: column;">
-          <ion-label style="margin:0 auto"  >{{details[0].description}}</ion-label><br>
-          <ion-label style="margin:0 auto" > {{details[0].date_start}} </ion-label><br>
-          <ion-label style="margin:0 auto" >Rest Ticket Number: {{details[0].max_participant}}</ion-label><br>
-          <ion-label style="margin:0 auto" >Minimum age: {{details[0].age_min}}</ion-label><br>
-          <ion-label style="margin:0 auto"  *ngIf="!free"> {{details[0].price}} eth</ion-label><br>
-          <ion-label style="margin:0 auto" *ngIf="free">free</ion-label><br>
-
-        </div>
+        <ion-card-header class="card-header">
+          <div>{{details[0].name}}</div>
+        </ion-card-header>
         <div>
-          <ion-buttons style="display: flex;justify-content: center;margin-bottom: 5%;font-size: 35px;">
-            <ion-button style="font-size: 18px" (click)="remove()">
-              <ion-icon name="remove-circle"></ion-icon>
-            </ion-button>
-            <span>{{ticket_qty}}</span>
-            <ion-button style="font-size: 18px" (click)="add()">
-              <ion-icon name="add-circle"></ion-icon>
-            </ion-button>
-          </ion-buttons><br>
-          <ion-label *ngIf="!free" class="box">Total: {{totalVal}} eth</ion-label><br>
-          <ion-label *ngIf="free" class="box">Total: {{totalVal}} eth</ion-label><br>
+          <div class="detail-ticket" style="display: flex; flex-direction: column;">
+            <ion-label style="margin:0 auto">{{details[0].description}}</ion-label><br>
+            <ion-label style="margin:0 auto"> {{details[0].date_start}} </ion-label><br>
+            <ion-label style="margin:0 auto">Rest Ticket Number: {{details[0].max_participant}}</ion-label><br>
+            <ion-label style="margin:0 auto">Minimum age: {{details[0].age_min}}</ion-label><br>
+            <ion-label style="margin:0 auto" *ngIf="!free"> {{details[0].price}} eth</ion-label><br>
+            <ion-label style="margin:0 auto" *ngIf="free">free</ion-label><br>
 
+          </div>
+          <div>
+            <ion-buttons style="display: flex;justify-content: center;margin-bottom: 5%;font-size: 35px;">
+              <ion-button style="font-size: 18px" (click)="remove()">
+                <ion-icon name="remove-circle"></ion-icon>
+              </ion-button>
+              <span>{{ticket_qty}}</span>
+              <ion-button style="font-size: 18px" (click)="add()">
+                <ion-icon name="add-circle"></ion-icon>
+              </ion-button>
+            </ion-buttons><br>
+            <ion-label *ngIf="!free" class="box">Total: {{totalVal}} eth</ion-label><br>
+            <ion-label *ngIf="free" class="box">Total: {{totalVal}} eth</ion-label><br>
+
+          </div>
         </div>
       </div>
-    </div>
-    <ion-button *ngIf="free" color="secondary" (click)="participateFree(details[0])">Purchase for free</ion-button>
-    <ion-button *ngIf="!free" color="secondary" (click)="sendTr(details[0].wallet, details[0].price)">Purchase
-    </ion-button>
-  </ion-card>
+      <ion-button *ngIf="free" color="secondary" (click)="participateFree(details[0])">Purchase for free</ion-button>
+      <ion-button *ngIf="!free" color="secondary" (click)="sendTr(details[0].wallet, details[0].price)">Purchase
+      </ion-button>
+    </ion-card>
   </ion-content>
   <ion-content class="map">
     <div class="map" [hidden]="!viewMap">

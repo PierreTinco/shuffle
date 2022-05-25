@@ -262,6 +262,9 @@ export class ProfilePage implements OnInit {
   viewFriendF() {
     this.viewFriends = !this.viewFriends;
   }
+  viewMore() {
+    this.clicked = !this.clicked;
+  }
 
   public async getPhotoUrl() {
     this.currentUser[0] = this.dataStorageService.get_user()
