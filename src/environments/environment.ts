@@ -4,7 +4,7 @@
 
 export const environment = {
   apiUrl: 'http://ec2-54-91-0-196.compute-1.amazonaws.com/api/shuffle',
-  // 'http://localhost:3000/api/shuffle',
+
   
   production: false,
   firebaseConfig: {
