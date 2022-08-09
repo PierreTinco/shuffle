@@ -296,10 +296,10 @@ export class addEventPage  {
         text: 'New event photo',
         role: 'changement',
         icon: 'camera',
-        handler: () => {
+        handler: async () => {
           this.pic.chooseEventPicture();
-          this.pic.loadSaved();
-          this.getPhotoUrl()
+          await this.pic.loadSaved();
+          this.getPhotoUrl();
           console.log('Confirm Changement');
         }
       }, {

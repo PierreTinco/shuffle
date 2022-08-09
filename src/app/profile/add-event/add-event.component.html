@@ -20,7 +20,7 @@
     <div class="container">
       <div class="outer">
         <ion-avatar>
-          <ion-img *ngIf="pic.photoLoaded" [src]="pic.photos[0]"></ion-img>
+          <ion-img *ngIf="photoLoaded" [src]=photoUrl></ion-img>
         </ion-avatar>
 
         <ion-fab (click)="showActionSheet() " class="ion-text-center">
